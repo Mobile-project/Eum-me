@@ -12,25 +12,11 @@ import android.widget.Toast;
  */
 
 public class RecordActivity extends AppCompatActivity{
-    ImageButton btn_book_mark;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_main);
-
-        btn_book_mark=(ImageButton)findViewById(R.id.btn_book_mark);
-        btn_book_mark.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(getApplicationContext(),"book", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
     }
-
-
-
 }
