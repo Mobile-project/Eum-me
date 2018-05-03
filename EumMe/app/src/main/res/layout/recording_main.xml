@@ -4,6 +4,58 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:id="@+id/parent_layout" >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    android:id="@+id/layout_record_fragment">
+
+    <fragment
+        android:name="org.androidtown.eum_me.recordFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="120"
+        android:orientation="vertical"
+        android:id="@+id/layout_memo_fragment">
+
+        <fragment
+            android:name="org.androidtown.eum_me.memoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout style="@android:style/ButtonBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight="1"
+        android:background="@android:color/transparent">
+
+        <ImageButton
+            android:id="@+id/btn_pause"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:scaleType="fitXY"
+            android:src="@drawable/pause_button"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/btn_book_mark"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/black_gallon"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
 
 </LinearLayout>

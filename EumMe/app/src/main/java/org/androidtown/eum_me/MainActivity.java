@@ -12,43 +12,21 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton btn_record;
-    ImageButton btn_book_mark;
-    ImageButton btn_pause;
-    recordFragment recordFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recordFragment=new recordFragment();
         btn_record=findViewById(R.id.btn_record);
         btn_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.record_fragment_containter,recordFragment).commit();
+                Intent intent =new Intent(getApplicationContext(),RecordActivity.class);
+                startActivity(intent);
             }
         });
-        btn_book_mark=(ImageButton)findViewById(R.id.btn_book_mark);
-        btn_book_mark.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(getApplicationContext(),"book", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-        btn_pause=findViewById(R.id.btn_pause);
-        btn_pause.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(getApplicationContext(),"pause", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
