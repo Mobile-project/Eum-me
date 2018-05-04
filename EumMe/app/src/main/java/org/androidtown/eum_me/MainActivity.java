@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.androidtown.eum_me.R;
+import org.androidtown.eum_me.RecordActivity;
+
 public class MainActivity extends AppCompatActivity {
     ImageButton btn_record; // 녹음 버튼
 

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/parent_layout" >
 
+    <!--파형 생기는 레이아웃 -->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,12 +14,14 @@
     android:layout_weight="1"
     android:id="@+id/layout_record_fragment">
 
-    <fragment
-        android:name="org.androidtown.eum_me.fragment.memoFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+<fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/fragment_wave"/>
+
 </LinearLayout>
 
+    <!--메모 레이아웃 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,11 +30,13 @@
         android:id="@+id/layout_memo_fragment">
 
         <fragment
-            android:name="org.androidtown.eum_me.fragment.memoFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:name="org.androidtown.eum_me.fragment.memoFragment"/>
+
     </LinearLayout>
 
+    <!--버튼 레이아웃 -->
     <LinearLayout style="@android:style/ButtonBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,14 +60,11 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/black_gallon"
             android:background="@android:color/transparent"/>
-
         <TextView
             android:id="@+id/textTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="initial"/>
-
     </LinearLayout>
-
 
 </LinearLayout>

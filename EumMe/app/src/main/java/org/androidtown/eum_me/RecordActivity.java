@@ -13,15 +13,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,9 +31,8 @@ import java.util.Locale;
 
 public class RecordActivity extends AppCompatActivity{
 
-    ImageButton btn_stop;
-    ImageButton btn_book_mark;
-    LinearLayout memoFragment;
+    private ImageButton btn_stop;
+    private ImageButton btn_book_mark;
 
     private String folderName = "/ZEum_me";
     private String initialFileName="/audio";
@@ -53,6 +51,11 @@ public class RecordActivity extends AppCompatActivity{
     boolean isRecording = false; //녹음중인지 아닌지
 
     int fileNameCount=0;
+
+    //파형을 위한 프레그먼트 객체 참조
+    org.androidtown.eum_me.fragment.waveFragment waveFragment;
+    //파형을 위한 번들 참조
+    Bundle bundelForWave;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,43 +88,13 @@ public class RecordActivity extends AppCompatActivity{
 
         ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// /////////
 
-        memoFragment=(LinearLayout)findViewById(R.id.layout_memo_fragment);
-
-        memoFragment.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                float distance=0;
-                float pressedX=0;
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        pressedX=motionEvent.getX();
-                       // Toast.makeText(getApplicationContext(),"x좌표 받기",Toast.LENGTH_LONG).show();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        distance=pressedX-motionEvent.getX();
-                        //Toast.makeText(getApplicationContext(),"거리계산",Toast.LENGTH_LONG).show();
-                        break;
-                }
-
-                if(Math.abs(distance)<100){
-                    return false;
-                }
-
-                if(distance>0){
-                    Intent intent = new Intent(getApplicationContext(), org.androidtown.eum_me.fragment.memoFragment.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slid_out_right);
-                    Toast.makeText(getApplicationContext(),"드래그로 화면 전환 됨",Toast.LENGTH_LONG).show();
-                }
-                finish();
-                return true;
-            }
-        });
-
         ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// /////////
 
 
+
+    }
+
+    public void setMediaRecorder(Bundle mediaRecorder){
 
     }
 
@@ -172,6 +145,11 @@ public class RecordActivity extends AppCompatActivity{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //번들 객체 참조하고 번들에 미디어레코더 객체 넣고 전달하기
+        bundelForWave=new Bundle();
+        bundelForWave.putSerializable("key",(Serializable)mediaRecorder);
+        waveFragment.setArguments(bundelForWave);
+
     }
 
 
@@ -260,6 +238,12 @@ public class RecordActivity extends AppCompatActivity{
                     return;
                 }
             }
+        }
+    }
+
+    private class MyThread extends Thread{
+        public void run(){
+
         }
     }
 
