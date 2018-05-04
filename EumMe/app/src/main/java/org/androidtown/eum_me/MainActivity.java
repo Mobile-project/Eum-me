@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton btn_record;
+    ImageButton btn_record; // 녹음 버튼
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

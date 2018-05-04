@@ -14,7 +14,7 @@
     android:id="@+id/layout_record_fragment">
 
     <fragment
-        android:name="org.androidtown.eum_me.recordFragment"
+        android:name="org.androidtown.eum_me.fragment.memoFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
@@ -27,7 +27,7 @@
         android:id="@+id/layout_memo_fragment">
 
         <fragment
-            android:name="org.androidtown.eum_me.memoFragment"
+            android:name="org.androidtown.eum_me.fragment.memoFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
@@ -40,11 +40,11 @@
         android:background="@android:color/transparent">
 
         <ImageButton
-            android:id="@+id/btn_pause"
+            android:id="@+id/btn_stop"
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:scaleType="fitXY"
-            android:src="@drawable/pause_button"
+            android:src="@drawable/stop_button"
             android:background="@android:color/transparent"/>
 
         <ImageButton
@@ -55,6 +55,13 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/black_gallon"
             android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/textTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="initial"/>
+
     </LinearLayout>
 
 
