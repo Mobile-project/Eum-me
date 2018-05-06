@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
         int curId = item.getItemId();
         switch(curId){
             case R.id.menu_memo:
-                Toast.makeText(this,"memo", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Memo list", Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_record:
-                Toast.makeText(this,"record", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Record list", Toast.LENGTH_LONG).show();
                 break;
             default:break;
 

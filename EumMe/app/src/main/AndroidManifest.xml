@@ -22,6 +22,7 @@
         <activity
             android:name=".RecordActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".waveView"></activity>
     </application>
 
 </manifest>

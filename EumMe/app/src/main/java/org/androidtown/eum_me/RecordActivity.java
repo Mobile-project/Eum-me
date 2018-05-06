@@ -1,6 +1,7 @@
 package org.androidtown.eum_me;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -13,8 +14,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ public class RecordActivity extends AppCompatActivity{
 
     private ImageButton btn_stop;
     private ImageButton btn_book_mark;
+    private LinearLayout container;
 
     private String folderName = "/ZEum_me";
     private String initialFileName="/audio";
@@ -52,10 +56,6 @@ public class RecordActivity extends AppCompatActivity{
 
     int fileNameCount=0;
 
-    //파형을 위한 프레그먼트 객체 참조
-    org.androidtown.eum_me.fragment.waveFragment waveFragment;
-    //파형을 위한 번들 참조
-    Bundle bundelForWave;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class RecordActivity extends AppCompatActivity{
         btn_book_mark.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(getApplicationContext(),"book", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"book", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -84,17 +84,9 @@ public class RecordActivity extends AppCompatActivity{
                stopRecording();
             }
         });
-
-
-        ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// /////////
-
-        ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// ///////// /////////
-
-
-
-    }
-
-    public void setMediaRecorder(Bundle mediaRecorder){
+        container= (LinearLayout)findViewById(R.id.layout_record);
+        LayoutInflater inflater= (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.activity_wave_view,container,true);
 
     }
 
@@ -105,7 +97,7 @@ public class RecordActivity extends AppCompatActivity{
             mediaRecorder = null;
             isRecording=false;
 
-            Toast.makeText(getApplicationContext(), "녹음중지", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "녹음중지", Toast.LENGTH_SHORT).show();
 
         } else{
 //            mediaPlayer.stop();
@@ -141,14 +133,10 @@ public class RecordActivity extends AppCompatActivity{
         try {
             mediaRecorder.prepare(); //녹음을 준비함 : 지금까지의 옵션에서 문제가 발생했는지 검사함
             mediaRecorder.start();
-            Toast.makeText(getApplicationContext(), "녹음시작", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "녹음시작", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //번들 객체 참조하고 번들에 미디어레코더 객체 넣고 전달하기
-        bundelForWave=new Bundle();
-        bundelForWave.putSerializable("key",(Serializable)mediaRecorder);
-        waveFragment.setArguments(bundelForWave);
 
     }
 
@@ -238,12 +226,6 @@ public class RecordActivity extends AppCompatActivity{
                     return;
                 }
             }
-        }
-    }
-
-    private class MyThread extends Thread{
-        public void run(){
-
         }
     }
 
