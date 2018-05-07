@@ -47,7 +47,6 @@ public class waveView extends AppCompatActivity {
         setContentView(mLinearLayout);
 
         setupVisualizerFxAndUI();
-        Toast.makeText(this,"나와라",Toast.LENGTH_SHORT).show();
         mVisualizer.setEnabled(true);
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
