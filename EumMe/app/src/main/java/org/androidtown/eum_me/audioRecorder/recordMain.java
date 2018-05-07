@@ -52,20 +52,22 @@ public class recordMain extends AppCompatActivity {
     private String folderName = "/ZEum_me";
     private String newFileName = null;
     private String initialFileName = "/audio";
-    private String preFileName;
+    private static String preFileName;
+    private String path = "";
 
-     @Override
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-         Log.d("MainActivity","RecordMain activity start");
+        Log.d("MainActivity", "RecordMain activity start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_main);
 
-         container = (LinearLayout) findViewById(R.id.layout_record);
-         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         inflater.inflate(R.layout.activity_wave_view, container, true);
+        container = (LinearLayout) findViewById(R.id.layout_record);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.activity_wave_view, container, true);
 
-         btn_book_mark = (ImageButton) findViewById(R.id.btn_book_mark);
-         btn_stop = findViewById(R.id.btn_stop);
+        btn_book_mark = (ImageButton) findViewById(R.id.btn_book_mark);
+        btn_stop = findViewById(R.id.btn_stop);
         startRecording();
 
         // book mark button
@@ -77,19 +79,20 @@ public class recordMain extends AppCompatActivity {
 
         /// 녹음 중지 버튼
         btn_stop.setOnClickListener(new View.OnClickListener() {
-            String preFileName=null;
+            String preFileName = null;
+
             @Override
             public void onClick(View v) {
-                boolean check=false;
+                boolean check = false;
                 stopRecording();
 
 
             }
         });
 
-        newFileNameTextView=findViewById(R.id.textTest);
+        newFileNameTextView = findViewById(R.id.textTest);
         newFileNameTextView.setText("");
-     }
+    }
 
     public void startRecording() {
         Log.d("MainActivity", "Recodring");
@@ -99,6 +102,7 @@ public class recordMain extends AppCompatActivity {
 
         recordingThread = new Thread(new Runnable() {
             public void run() {
+                Log.d("run", "running");
                 writeAudioDataToFile();
             }
         }, "AudioRecorder Thread");
@@ -122,18 +126,20 @@ public class recordMain extends AppCompatActivity {
         //파일이름 설정
         String currentTime = getCurrentTime();
         initialFileName += currentTime;
-        initialFileName+= ".pcm";
+        initialFileName += ".pcm";
+        Log.d("prefilename", "init : " + initialFileName);
         this.setPreFileName(initialFileName);
-
+        Log.d("prefilename", "pre : " + this.getPreFileName());
         short sData[] = new short[BufferElements2Rec];
 
         //파일 저장 경로 설정
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        path = Environment.getExternalStorageDirectory().getAbsolutePath();
         path += folderName;
         File file = new File(path);
         file.mkdirs();
         path += initialFileName;
         FileOutputStream os = null;
+        Log.d("prefilename", "path : " + path);
 
         try {
             os = new FileOutputStream(path);
@@ -158,7 +164,7 @@ public class recordMain extends AppCompatActivity {
         }
     }
 
-    public void stopRecording()  {
+    public void stopRecording() {
         if (null != audioRecorder) {
             isRecording = false;
             audioRecorder.stop();
@@ -167,9 +173,13 @@ public class recordMain extends AppCompatActivity {
             recordingThread = null;
         }
 
+
+        Log.d("newname" , "stop : " + path);
         FileNameDialog customDialog = new FileNameDialog(recordMain.this);
         customDialog.callFunction(newFileNameTextView);
-        newFileName=newFileNameTextView.getText().toString();
+        newFileName = newFileNameTextView.getText().toString();
+
+        Log.d("newname", "newname after stop : " + getNewFileName());
     }
 
     public String getCurrentTime() {
@@ -179,14 +189,14 @@ public class recordMain extends AppCompatActivity {
     }
 
     public void changeFileName(String preName, String newName) {
+        Log.d("changefilename" , "pre : " + preName+" new : " + newName);
         File filePre = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + folderName, preName);
         File fileNow = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + folderName, "/" + newName + ".pcm");
 
-        if(filePre.renameTo(fileNow)){
+        if (filePre.renameTo(fileNow)) {
+        } else {
         }
-        else{
-            }
-     }
+    }
 
     public void setNewFileName(String name) {
         this.newFileName = name;

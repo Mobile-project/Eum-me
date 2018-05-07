@@ -2,6 +2,7 @@ package org.androidtown.eum_me.audioRecorder;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -57,9 +58,12 @@ public class FileNameDialog{
             public void onClick(View view) {
                 // '확인' 버튼 클릭시 메인 액티비티에서 설정한 main_label에
                 // 커스텀 다이얼로그에서 입력한 메시지를 대입한다.
+                Log.d("newname" , "okButtonclicked : " + record.getPreFileName());
                 main_label.setText(message.getText().toString());
+                Log.d("newname", "atfer settext : " + message.getText().toString());
                 record.setNewFileName(main_label.getText().toString());
                 record.changeFileName(record.getPreFileName(),record.getNewFileName());
+                Log.d("newname", record.getNewFileName());
                 // 커스텀 다이얼로그를 종료한다.
                 dlg.dismiss();
             }
