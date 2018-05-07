@@ -11,12 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.androidtown.eum_me.OnSwipeTouchListener;
 import org.androidtown.eum_me.R;
+import org.androidtown.eum_me.RecordActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +41,15 @@ public class recordMain extends AppCompatActivity {
     private ImageButton btn_book_mark;
     private LinearLayout container;
     private TextView newFileNameTextView;
+
+    private EditText memo_area;
+    private TextView memo_name_text;
+
+    private LinearLayout memo_container;
+
+    private int memoCount=1; // 메모 인덱스
+
+
 
     //Audio record setting
     Thread recordingThread = null;
@@ -62,8 +76,38 @@ public class recordMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_main);
 
-        container = (LinearLayout) findViewById(R.id.layout_record);
+        memo_area = (EditText)findViewById(R.id.memo_area); // 메모하는곳
+        memo_name_text=(TextView)findViewById(R.id.memo_name_text); // 메모제목
+        memo_name_text.setText(memoCount++ + " th");
+
+        memo_name_text.setOnTouchListener(new OnSwipeTouchListener(this){
+            public void onSwipeTop(){
+                Toast.makeText(recordMain.this, "top", Toast.LENGTH_LONG).show();
+            }
+            public void onSwipeRight(){
+                Toast.makeText(recordMain.this, "right", Toast.LENGTH_LONG).show();
+                memo_name_text.setText(--memoCount + " th");
+
+            }
+            public void onSwipeLeft(){
+                Toast.makeText(recordMain.this, "left", Toast.LENGTH_LONG).show();
+                memo_name_text.setText(memoCount++ + " th");
+                makeNewMemo();
+
+            }
+            public void onSwipeBottom(){
+                Toast.makeText(recordMain.this, "bottom", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        memo_container = (LinearLayout)findViewById(R.id.memo_container);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.fragment_memo,memo_container,true);
+
+
+        container = (LinearLayout) findViewById(R.id.layout_record);
+        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.activity_wave_view, container, true);
 
         btn_book_mark = (ImageButton) findViewById(R.id.btn_book_mark);
@@ -212,6 +256,18 @@ public class recordMain extends AppCompatActivity {
 
     public void setPreFileName(String name) {
         this.preFileName = name;
+    }
+
+
+
+    public void makeNewMemo(){
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_slide_out_left);
+        memo_container.startAnimation(anim);
+        Toast.makeText(this, "new memo", Toast.LENGTH_LONG).show();
+        memo_area.setText("");
+
+        // 저장하기
+
     }
 
 
