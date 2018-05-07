@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecordActivity"
+            android:name=".audioRecorder.recordMain"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".waveView"></activity>
     </application>

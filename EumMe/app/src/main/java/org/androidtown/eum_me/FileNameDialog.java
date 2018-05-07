@@ -2,19 +2,13 @@ package org.androidtown.eum_me;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.androidtown.eum_me.R;
-
-import java.io.File;
+import org.androidtown.eum_me.audioRecorder.recordMain;
 
 /**
  * Created by tamama on 2018. 5. 3..
@@ -29,11 +23,11 @@ public class FileNameDialog{
     Button okButton;
     Button cancelButton;
 //    String newName;
-    RecordActivity a;
+    recordMain a;
 
     public FileNameDialog(Context context) {
         this.context = context;
-        a= new RecordActivity();
+        a= new recordMain();
 
     }
     // 호출할 다이얼로그 함수를 정의한다.
@@ -63,15 +57,15 @@ public class FileNameDialog{
                 // '확인' 버튼 클릭시 메인 액티비티에서 설정한 main_label에
                 // 커스텀 다이얼로그에서 입력한 메시지를 대입한다.
                 main_label.setText(message.getText().toString());
-                a.setNewFileName(main_label.getText().toString());
+               // a.setNewFileName(main_label.getText().toString());
 //                FileNameDialog.super.setNewFileName(main_label.getText().toString()); // 파일이름 설정
-                Log.d("newname", "in dialog : " + a.getNewFileName());
+               // Log.d("newname", "in dialog : " + a.getNewFileName());
 
 //                newName=main_label.getText().toString();
 
 //                Toast.makeText(context, "\"" +  message.getText().toString() + "\" 을 입력하였습니다.", Toast.LENGTH_SHORT).show();
 
-                a.changeFileName(a.getPreFileName(), a.getNewFileName());
+              //  a.changeFileName(a.getPreFileName(), a.getNewFileName());
 
                 // 커스텀 다이얼로그를 종료한다.
                 dlg.dismiss();

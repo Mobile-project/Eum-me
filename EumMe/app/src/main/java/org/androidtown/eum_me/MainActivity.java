@@ -3,15 +3,16 @@ package org.androidtown.eum_me;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import org.androidtown.eum_me.R;
-import org.androidtown.eum_me.RecordActivity;
+import org.androidtown.eum_me.audioRecorder.recordMain;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton btn_record; // 녹음 버튼
@@ -21,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_record=findViewById(R.id.btn_record);
+         btn_record=findViewById(R.id.btn_record);
         btn_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getApplicationContext(),RecordActivity.class);
-                startActivity(intent);
+                Intent intent =new Intent(getApplicationContext(),recordMain.class);
+                 startActivity(intent);
+                 Log.d("MainActivity","record start");
             }
         });
     }
