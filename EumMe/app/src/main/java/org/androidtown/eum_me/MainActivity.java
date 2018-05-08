@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent =new Intent(getApplicationContext(),recordMain.class);
                  startActivity(intent);
-                 Log.d("MainActivity","record start");
             }
         });
     }
@@ -44,10 +43,8 @@ public class MainActivity extends AppCompatActivity {
         int curId = item.getItemId();
         switch(curId){
             case R.id.menu_memo:
-                Toast.makeText(this,"Memo list", Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_record:
-                Toast.makeText(this,"Record list", Toast.LENGTH_LONG).show();
                 break;
             default:break;
 
