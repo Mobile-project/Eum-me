@@ -19,9 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.androidtown.eum_me.DBHelper;
 import org.androidtown.eum_me.OnSwipeTouchListener;
 import org.androidtown.eum_me.R;
-import org.androidtown.eum_me.RecordActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,7 +54,7 @@ public class recordMain extends AppCompatActivity {
     //Audio record setting
     Thread recordingThread = null;
     private int audioSource = MediaRecorder.AudioSource.MIC;
-    private int sampleRateInHz = 8000;
+    private int sampleRateInHz = 22050*2;
     private int channelConfig = AudioFormat.CHANNEL_IN_MONO;
     private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
     private int BufferElements2Rec = 1024;
@@ -75,6 +75,9 @@ public class recordMain extends AppCompatActivity {
         Log.d("MainActivity", "RecordMain activity start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_main);
+
+        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
+
 
         memo_area = (EditText)findViewById(R.id.memo_area); // 메모하는곳
         memo_name_text=(TextView)findViewById(R.id.memo_name_text); // 메모제목
@@ -128,9 +131,15 @@ public class recordMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean check = false;
+
                 stopRecording();
+                String prename = getPreFileName();
+                String newname = getNewFileName();
+                int time =123;
+                dbHelper.insert(prename, newname, time);
 
-
+                String result = dbHelper.getResult();
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
             }
         });
 
