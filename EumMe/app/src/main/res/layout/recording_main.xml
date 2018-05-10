@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#172741">
 
     <!--파형 생기는 레이아웃 -->
     <LinearLayout
@@ -11,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:id="@+id/layout_record">
+        android:id="@+id/layout_record"
+        android:background="#172741">
 
     </LinearLayout>
 
@@ -36,9 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="none"
-            android:background="@color/colorPrimary"
-
-            />
+            android:background="@drawable/rounded_edittext"/>
     </LinearLayout>
 
     <!--버튼 레이아웃 -->
@@ -46,14 +46,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@android:color/transparent">
+        android:background="#172741">
 
         <ImageButton
             android:id="@+id/btn_stop"
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:scaleType="fitXY"
-            android:src="@drawable/stop_button"
+            android:src="@drawable/heart_stop_button"
+            android:layout_marginRight="8dp"
             android:background="@android:color/transparent"/>
 
         <ImageButton
@@ -62,9 +63,8 @@
             android:layout_height="40dip"
             android:scaleType="fitXY"
             android:layout_alignParentRight="true"
-            android:src="@drawable/black_gallon"
+            android:src="@drawable/favorite_heart_button"
             android:background="@android:color/transparent"/>
 
     </LinearLayout>
-
 </LinearLayout>
