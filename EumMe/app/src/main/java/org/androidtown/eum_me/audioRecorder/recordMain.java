@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import org.androidtown.eum_me.OnSwipeTouchListener;
 import org.androidtown.eum_me.R;
-import org.androidtown.eum_me.RecordActivity;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -68,6 +66,7 @@ public class recordMain extends AppCompatActivity {
     private String initialFileName = "/audio";
     private static String preFileName;
     private String path = "";
+    File file;
 
 
     @Override
@@ -82,21 +81,17 @@ public class recordMain extends AppCompatActivity {
 
         memo_name_text.setOnTouchListener(new OnSwipeTouchListener(this){
             public void onSwipeTop(){
-                Toast.makeText(recordMain.this, "top", Toast.LENGTH_LONG).show();
             }
             public void onSwipeRight(){
-                Toast.makeText(recordMain.this, "right", Toast.LENGTH_LONG).show();
                 memo_name_text.setText(--memoCount + " th");
 
             }
             public void onSwipeLeft(){
-                Toast.makeText(recordMain.this, "left", Toast.LENGTH_LONG).show();
                 memo_name_text.setText(memoCount++ + " th");
                 makeNewMemo();
 
             }
             public void onSwipeBottom(){
-                Toast.makeText(recordMain.this, "bottom", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -129,24 +124,22 @@ public class recordMain extends AppCompatActivity {
             public void onClick(View v) {
                 boolean check = false;
                 stopRecording();
-
-
             }
         });
 
-        newFileNameTextView = findViewById(R.id.textTest);
-        newFileNameTextView.setText("");
     }
 
+
     public void startRecording() {
-        Log.d("MainActivity", "Recodring");
-        audioRecorder = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat, BufferElements2Rec * BytesPerElement);
+
+        audioRecorder = new AudioRecord(audioSource, Constants.getSampleRateInHz(),
+                Constants.getChannelConfig(), Constants.getAudioFormat(),
+                Constants.getBufferElements2Rec() * Constants.getBytesPerElement());
         audioRecorder.startRecording();
         isRecording = true;
 
         recordingThread = new Thread(new Runnable() {
             public void run() {
-                Log.d("run", "running");
                 writeAudioDataToFile();
             }
         }, "AudioRecorder Thread");
@@ -165,25 +158,23 @@ public class recordMain extends AppCompatActivity {
         return bytes;
     }
 
+
     private void writeAudioDataToFile() {
 
         //파일이름 설정
         String currentTime = getCurrentTime();
         initialFileName += currentTime;
-        initialFileName += ".pcm";
-        Log.d("prefilename", "init : " + initialFileName);
+        initialFileName+= ".pcm";
         this.setPreFileName(initialFileName);
-        Log.d("prefilename", "pre : " + this.getPreFileName());
-        short sData[] = new short[BufferElements2Rec];
+        short sData[] = new short[Constants.getBufferElements2Rec()];
 
         //파일 저장 경로 설정
         path = Environment.getExternalStorageDirectory().getAbsolutePath();
         path += folderName;
-        File file = new File(path);
+        file = new File(path);
         file.mkdirs();
         path += initialFileName;
         FileOutputStream os = null;
-        Log.d("prefilename", "path : " + path);
 
         try {
             os = new FileOutputStream(path);
@@ -192,10 +183,10 @@ public class recordMain extends AppCompatActivity {
         }
 
         while (isRecording) {
-            audioRecorder.read(sData, 0, BufferElements2Rec);
+            audioRecorder.read(sData, 0, Constants.getBufferElements2Rec());
             try {
                 byte bData[] = short2byte(sData);
-                os.write(bData, 0, BufferElements2Rec * BytesPerElement);
+                os.write(bData, 0, Constants.getBufferElements2Rec() * Constants.getBytesPerElement());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -208,7 +199,7 @@ public class recordMain extends AppCompatActivity {
         }
     }
 
-    public void stopRecording() {
+    public void stopRecording()  {
         if (null != audioRecorder) {
             isRecording = false;
             audioRecorder.stop();
@@ -217,13 +208,9 @@ public class recordMain extends AppCompatActivity {
             recordingThread = null;
         }
 
+        FileNameChange customChange = new FileNameChange(recordMain.this);
+        customChange.callFunction(preFileName);
 
-        Log.d("newname" , "stop : " + path);
-        FileNameDialog customDialog = new FileNameDialog(recordMain.this);
-        customDialog.callFunction(newFileNameTextView);
-        newFileName = newFileNameTextView.getText().toString();
-
-        Log.d("newname", "newname after stop : " + getNewFileName());
     }
 
     public String getCurrentTime() {
@@ -232,15 +219,36 @@ public class recordMain extends AppCompatActivity {
         return String.valueOf(sdf.format(day));
     }
 
-    public void changeFileName(String preName, String newName) {
-        Log.d("changefilename" , "pre : " + preName+" new : " + newName);
-        File filePre = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + folderName, preName);
-        File fileNow = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + folderName, "/" + newName + ".pcm");
 
-        if (filePre.renameTo(fileNow)) {
-        } else {
+    public void convert(){
+        File PCMFile;
+        File WAVFile;
+
+        convertWAV convertWAV = new convertWAV();
+        PCMFile= new File(path);
+        WAVFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+folderName);
+        try{
+            convertWAV.rawToWave(PCMFile,WAVFile);
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
+    public void changeFileName(String preName, String newName) {
+        File beforeFileName;
+        File afterFileName;
+
+        beforeFileName=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+folderName,preName);
+        afterFileName = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + folderName, "/" + newName +".pcm");
+
+        if(beforeFileName.renameTo(afterFileName)){
+            Log.d("MainActivity","파일 이름 변경 성공");
+        }else
+        {
+            Log.d("MainActivity","파일 이름 변경 실패 ");
+        }
+
+    }
+
 
     public void setNewFileName(String name) {
         this.newFileName = name;
@@ -259,11 +267,9 @@ public class recordMain extends AppCompatActivity {
     }
 
 
-
     public void makeNewMemo(){
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_slide_out_left);
         memo_container.startAnimation(anim);
-        Toast.makeText(this, "new memo", Toast.LENGTH_LONG).show();
         memo_area.setText("");
 
         // 저장하기
