@@ -122,8 +122,18 @@
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/round_pause_button"
-            android:layout_marginLeft="30dip"/>
+            android:layout_marginLeft="5dip"
+            />
 
+        <ImageButton
+            android:id="@+id/btn_list"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toLeftOf="@id/btn_pause"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/album_cover_soad"
+            />
 
         <!--<ImageView-->
             <!--android:id="@+id/options"-->

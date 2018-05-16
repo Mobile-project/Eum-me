@@ -41,6 +41,7 @@ public class MainActivity extends PlayerActivity {
     private ImageButton btnPlay;
     private ImageButton btnPause;
 
+    private ImageButton btnList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class MainActivity extends PlayerActivity {
         mDurationView = findViewById(R.id.duration);
         mProgressView = findViewById(R.id.progress);
         mFabView = findViewById(R.id.fab);
+
 
         // Set the recycler adapter
        /* RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tracks);
@@ -70,11 +72,13 @@ public class MainActivity extends PlayerActivity {
                startService(new Intent(getApplicationContext(),RecordeService.class));
                title.setText(Constants.getCurrentTime());
                btnPlay.setEnabled(false);
+               btnPause.setEnabled(true);
                Log.d("MainActivity","recordservice class ");
            }
        });
 
        btnPause = findViewById(R.id.btn_pause);
+       btnPause.setEnabled(false);
        btnPause.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View v){
@@ -82,8 +86,21 @@ public class MainActivity extends PlayerActivity {
                stopService(new Intent(getApplicationContext(),RecordeService.class));
                title.setText("음메");
                btnPlay.setEnabled(true);
+               btnPause.setEnabled(false);
            }
        });
+
+       btnList = findViewById(R.id.btn_list);
+       btnList.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(getApplicationContext(), "list", Toast.LENGTH_SHORT).show();
+               Intent intent = new Intent(getApplicationContext(), FileViewerActivity.class);
+               startActivity(intent);
+
+           }
+       });
+
 
     }
 }
