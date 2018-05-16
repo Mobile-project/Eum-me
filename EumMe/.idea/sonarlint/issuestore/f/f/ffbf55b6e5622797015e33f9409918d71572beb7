@@ -1,0 +1,9 @@
+
+usquid:S3923"[Remove this conditional structure or edit its code blocks so that they're not all the same.(ðëÄ×ûÿÿÿÿ
+Dsquid:S00108")Either remove or fill this block of code.(È¶Ú¤ûÿÿÿÿ
+Dsquid:S00108")Either remove or fill this block of code.(Õó³÷úÿÿÿÿ
+psquid:S00116"URename this field "btn_record" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»âÎˆýÿÿÿÿ
+qsquid:UselessImportCheck"ORemove this unused import 'android.support.design.widget.FloatingActionButton'.(„Ÿ¹¼
+Psquid:UselessImportCheck".Remove this unused import 'android.view.Menu'.(£¯Ò…
+dsquid:UselessImportCheck"CRemove this unused import 'android.support.design.widget.Snackbar'.( À®p
+csquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Žƒ¿

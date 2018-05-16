@@ -69,6 +69,7 @@ public class MainActivity extends PlayerActivity {
                Toast.makeText(getApplicationContext(),"녹음 시작",Toast.LENGTH_SHORT).show();
                startService(new Intent(getApplicationContext(),RecordeService.class));
                title.setText(Constants.getCurrentTime());
+               btnPlay.setEnabled(false);
                Log.d("MainActivity","recordservice class ");
            }
        });
@@ -80,6 +81,7 @@ public class MainActivity extends PlayerActivity {
                Toast.makeText(getApplicationContext(),"녹음 중지",Toast.LENGTH_SHORT).show();
                stopService(new Intent(getApplicationContext(),RecordeService.class));
                title.setText("음메");
+               btnPlay.setEnabled(true);
            }
        });
 
