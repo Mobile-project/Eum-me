@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sample.andremion.musicplayer.view.InsetsPercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.andremion.music.MusicCoverView
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/lolcow"
+        android:transitionName="@string/transition_name_cover"
+        app:layout_heightPercent="25%"/>
+
+    <View
+        android:id="@+id/pane"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/pane_anchor"
+        android:layout_alignEnd="@+id/pane_anchor"
+        android:layout_alignStart="@+id/pane_anchor"
+        android:layout_alignTop="@+id/pane_anchor"
+        android:background="@color/colorPane"/>
+
+    <LinearLayout
+        android:id="@+id/pane_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/cover"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/track_title"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:transitionName="@string/transition_name_time"
+                tools:text="진행 시간"/>
+
+            <com.sample.andremion.musicplayer.view.ProgressView
+                android:id="@+id/progress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/inner_padding"
+                android:layout_marginStart="@dimen/inner_padding"
+                android:layout_weight="1"
+                android:transitionName="@string/transition_name_progress"/>
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:transitionName="@string/transition_name_duration"
+                tools:text="전체 시간"/>
+
+            <Space
+                android:id="@+id/fab_placeholder"
+                android:layout_width="@dimen/design_fab_size_mini"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/inner_padding"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/playlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cover"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_vertical_margin"
+        android:transitionGroup="true">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음메 목록"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:text="getItemCount로 받기 "
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <ImageView
+            android:id="@+id/options"
+            android:layout_width="@dimen/design_fab_size_mini"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:src="@drawable/ic_more_vert_white_24dp" />
+    </RelativeLayout>
+
+        <TextView
+            android:id="@+id/memo_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/playlist"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorPrimaryDark"
+            android:text="test" />
+
+        <EditText
+            android:layout_toLeftOf="@+id/memo_name_text"
+            android:id="@+id/memo_area"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/playlist"
+            android:background="@color/colorPrimaryDark"
+            android:inputType="textImeMultiLine|textNoSuggestions" />
+
+    <ImageButton
+        android:id="@+id/btn_play"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btn_pause"
+        android:layout_marginEnd="42dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/play_button" />
+
+    <ImageButton
+        android:id="@+id/btn_pause"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="92dp"
+        android:layout_marginTop="210dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/round_pause_button" />
+
+
+
+
+</com.sample.andremion.musicplayer.view.InsetsPercentRelativeLayout>
