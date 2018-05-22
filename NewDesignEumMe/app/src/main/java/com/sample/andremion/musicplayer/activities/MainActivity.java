@@ -63,25 +63,23 @@ public class MainActivity extends PlayerActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.content_list);
 
-        option = findViewById(R.id.options);
-        option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "list", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), FileViewerActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        //
         mCoverView = findViewById(R.id.cover);
         mTitleView = findViewById(R.id.title);
         mTimeView = findViewById(R.id.time);
         mDurationView = findViewById(R.id.duration);
         mProgressView = findViewById(R.id.progress);
         mFabView = findViewById(R.id.fab);
+        option = findViewById(R.id.options);
 
+
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "list", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ListView.class);
+                startActivity(intent);
+            }
+        });
         // Set the recycler adapter
        /* RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tracks);
         assert recyclerView != null;
