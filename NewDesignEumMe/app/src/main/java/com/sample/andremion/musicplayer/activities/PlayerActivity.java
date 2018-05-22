@@ -31,8 +31,7 @@ import android.text.format.DateUtils;
 import android.widget.TextView;
 
 import com.sample.andremion.musicplayer.R;
-import com.sample.andremion.musicplayer.music.PlayerService;
-import com.sample.andremion.musicplayer.view.ProgressView;
+import com.sample.andremion.musicplayer.audioControl.PlayerService;
 
 public abstract class PlayerActivity extends AppCompatActivity {
 
@@ -40,7 +39,6 @@ public abstract class PlayerActivity extends AppCompatActivity {
     private boolean mBound = false;
     private TextView mTimeView;
     private TextView mDurationView;
-    private ProgressView mProgressView;
     private final Handler mUpdateProgressHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -78,9 +76,6 @@ public abstract class PlayerActivity extends AppCompatActivity {
         if (mDurationView != null) {
             mDurationView.setText(DateUtils.formatElapsedTime(duration));
         }
-        if (mProgressView != null) {
-            mProgressView.setProgress(position);
-        }
     }
 
     @Override
@@ -95,8 +90,6 @@ public abstract class PlayerActivity extends AppCompatActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         mTimeView = (TextView) findViewById(R.id.time);
-        mDurationView = (TextView) findViewById(R.id.duration);
-        mProgressView = (ProgressView) findViewById(R.id.progress);
     }
 
     @Override
