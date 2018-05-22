@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp">
+
+    <ImageButton
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/play_btn"
+        android:layout_margin="5dp"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/file_name_container"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:layout_toRightOf="@id/btn_play">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView1"
+            android:textSize="15dp"
+            android:textColor="#EEEEEE"
+            android:gravity="center_vertical"
+            android:layout_weight="2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView2"
+            android:textSize="16dp"
+            android:textColor="#EEEEEE"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="날짜"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="right"
+        android:layout_toRightOf="@id/file_name_container"
+        />
+
+
+</RelativeLayout>

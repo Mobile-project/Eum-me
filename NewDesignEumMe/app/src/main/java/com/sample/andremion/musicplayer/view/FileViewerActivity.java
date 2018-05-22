@@ -1,7 +1,6 @@
 package com.sample.andremion.musicplayer.view;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -12,11 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.R;
-import com.sample.andremion.musicplayer.activities.MainActivity;
-import com.sample.andremion.musicplayer.audioControl.Constants;
 import com.sample.andremion.musicplayer.audioControl.PlayerService;
 
 import java.io.File;
@@ -57,12 +53,12 @@ public class FileViewerActivity extends ListActivity {
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-
-        Object o = this.getListAdapter().getItem(position);
-        String fileName = o.toString();
-        Intent intent = new Intent(getApplicationContext(),PlayerService.class);
-        intent.putExtra("name",fileName);
-        startActivity(intent);
+//
+//        Object o = this.getListAdapter().getItem(position);
+//        String fileName = o.toString();
+//        Intent intent = new Intent(getApplicationContext(),PlayerService.class);
+//        intent.putExtra("name",fileName);
+//        startActivity(intent);
     }
 
     @Override

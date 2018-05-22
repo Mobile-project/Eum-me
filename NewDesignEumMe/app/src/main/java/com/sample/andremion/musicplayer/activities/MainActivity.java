@@ -40,7 +40,6 @@ import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.audioControl.Constants;
 import com.sample.andremion.musicplayer.audioControl.RecordeService;
 import com.sample.andremion.musicplayer.memoControl.onSwipeTouchListener;
-import com.sample.andremion.musicplayer.view.FileViewerActivity;
 
 import java.io.File;
 
@@ -98,16 +97,19 @@ public class MainActivity extends AppCompatActivity {
         play_list = (RelativeLayout) findViewById(R.id.playlist);
         play_list.setOnTouchListener(new onSwipeTouchListener(this) {
             public void onSwipeTop() {
+                Toast.makeText(getApplicationContext(), "swipetop", Toast.LENGTH_SHORT).show();
             }
 
             public void onSwipeRight() {
+                Toast.makeText(getApplicationContext(), "swipeRight", Toast.LENGTH_SHORT).show();
             }
 
             public void onSwipeLeft() {
+                Toast.makeText(getApplicationContext(), "swipeLeft", Toast.LENGTH_SHORT).show();
                 makeNewMemo();
             }
-
             public void onSwipeBottom() {
+                Toast.makeText(getApplicationContext(), "swipeBottom", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), FileViewerActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ListView.class);
                 startActivity(intent);
             }
         });
@@ -153,6 +155,5 @@ public class MainActivity extends AppCompatActivity {
         memoArea.setText("");
 
         // 저장하기
-
     }
 }
