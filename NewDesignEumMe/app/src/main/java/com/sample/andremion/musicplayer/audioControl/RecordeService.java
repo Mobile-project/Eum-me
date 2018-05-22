@@ -55,7 +55,7 @@ public class RecordeService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public String setPath() {
+    public String setFilePath() {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
         File file = new File(path, Constants.getFolderName());
 
@@ -71,7 +71,7 @@ public class RecordeService extends Service {
         mediaRecorder.setAudioSource(Constants.getAudioSource());
         mediaRecorder.setOutputFormat(Constants.getAudioFormat());
         mediaRecorder.setAudioEncoder(Constants.getAudioEncoder());
-        mediaRecorder.setOutputFile(setPath());
+        mediaRecorder.setOutputFile(setFilePath());
 
     }
 

@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,16 +22,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.Main"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
 
-        <activity android:name=".view.FileViewerActivity"></activity>
+        <activity android:name=".view.FileViewerActivity"
+            android:theme ="@style/FileViewTheme"
+            android:label="저장 목록">
+        </activity>
 
-        <service
-            android:name=".audioControl.PlayerService"
-            android:enabled="true"
-            android:exported="false" />
         <service android:name=".audioControl.RecordeService" />
 
 
