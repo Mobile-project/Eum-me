@@ -30,6 +30,9 @@
             android:enabled="true"
             android:exported="false" />
         <service android:name=".audioControl.RecordeService"></service>
+        <activity
+            android:name=".activities.FileViewerActivity">
+        </activity>
     </application>
 
 

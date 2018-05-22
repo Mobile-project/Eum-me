@@ -18,7 +18,7 @@ package com.sample.andremion.musicplayer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,6 @@ import android.widget.Toast;
 import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.audioControl.Constants;
 import com.sample.andremion.musicplayer.audioControl.RecordeService;
-import com.sample.andremion.musicplayer.memoControl.onSwipeTouchListener;
 
 
 public class MainActivity extends PlayerActivity {
@@ -51,12 +51,27 @@ public class MainActivity extends PlayerActivity {
     private RelativeLayout play_list;
     private EditText memoArea;
     private BackPressCloseHandler backPressCloseHandler;
+    private Chronometer chronometer;
+
+    private ImageView option;
+
+    private boolean check=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.content_list);
+
+        option = findViewById(R.id.options);
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "list", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), FileViewerActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         //
@@ -75,44 +90,27 @@ public class MainActivity extends PlayerActivity {
 
        title=findViewById(R.id.NameText);
 
-       btnPlay=findViewById(R.id.btn_play);
-       btnPlay.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v){
-               Toast.makeText(getApplicationContext(),"녹음 시작",Toast.LENGTH_SHORT).show();
-               startService(new Intent(getApplicationContext(),RecordeService.class));
-               title.setText(Constants.getCurrentTime());
-               Log.d("MainActivity","recordservice class ");
-           }
-       });
-
-       btnPause = findViewById(R.id.btn_pause);
-       btnPause.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v){
-               Toast.makeText(getApplicationContext(),"녹음 중지",Toast.LENGTH_SHORT).show();
-               stopService(new Intent(getApplicationContext(),RecordeService.class));
-               title.setText("음메");
-           }
-       });
-
-       memoArea= findViewById(R.id.memo_area);
-        play_list= (RelativeLayout)findViewById(R.id.playlist);
-         play_list.setOnTouchListener(new onSwipeTouchListener(this) {
-            public void onSwipeTop() {
-            }
-
-            public void onSwipeRight(){
-            }
-
-            public void onSwipeLeft() {
-                makeNewMemo();
-            }
-
-            public void onSwipeBottom() {
+        chronometer=(Chronometer)findViewById(R.id.chronometer);
+        chronometer.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(!check) {
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    chronometer.start();
+                    Toast.makeText(getApplicationContext(),"녹음 시작",Toast.LENGTH_SHORT).show();
+                    startService(new Intent(getApplicationContext(),RecordeService.class));
+                    title.setText(Constants.getCurrentTime());
+                    check=true;
+                }
+                else if(check){
+                    chronometer.stop();
+                    Toast.makeText(getApplicationContext(),"녹음 중지",Toast.LENGTH_SHORT).show();
+                    stopService(new Intent(getApplicationContext(),RecordeService.class));
+                    title.setText("Tab the timer to start recording");
+                    check=false;
+                }
             }
         });
-
         backPressCloseHandler= new BackPressCloseHandler(this);
     }
     @Override
