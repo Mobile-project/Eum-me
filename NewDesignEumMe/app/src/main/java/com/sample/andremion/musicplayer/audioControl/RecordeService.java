@@ -9,8 +9,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Chronometer;
 import android.widget.Toast;
 import android.app.Service;
+
+import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
 import java.io.IOException;

@@ -20,13 +20,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.audioControl.Constants;
 import com.sample.andremion.musicplayer.audioControl.RecordeService;
+import com.sample.andremion.musicplayer.memoControl.onSwipeTouchListener;
+
 
 public class MainActivity extends PlayerActivity {
 
@@ -40,11 +48,16 @@ public class MainActivity extends PlayerActivity {
     private TextView title;
     private ImageButton btnPlay;
     private ImageButton btnPause;
+    private RelativeLayout play_list;
+    private EditText memoArea;
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.content_list);
+
 
         //
         mCoverView = findViewById(R.id.cover);
@@ -82,6 +95,37 @@ public class MainActivity extends PlayerActivity {
                title.setText("음메");
            }
        });
+
+       memoArea= findViewById(R.id.memo_area);
+        play_list= (RelativeLayout)findViewById(R.id.playlist);
+         play_list.setOnTouchListener(new onSwipeTouchListener(this) {
+            public void onSwipeTop() {
+            }
+
+            public void onSwipeRight(){
+            }
+
+            public void onSwipeLeft() {
+                makeNewMemo();
+            }
+
+            public void onSwipeBottom() {
+            }
+        });
+
+        backPressCloseHandler= new BackPressCloseHandler(this);
+    }
+    @Override
+    public void onBackPressed(){
+        backPressCloseHandler.onBackPressed();
+    }
+
+    public void makeNewMemo() {
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_slide_out_left);
+        memoArea.startAnimation(anim);
+        memoArea.setText("");
+
+        // 저장하기
 
     }
 }
