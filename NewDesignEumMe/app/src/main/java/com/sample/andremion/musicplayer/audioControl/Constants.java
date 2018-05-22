@@ -3,7 +3,9 @@ package com.sample.andremion.musicplayer.audioControl;
 import android.media.AudioFormat;
 import android.media.MediaDrmResetException;
 import android.media.MediaRecorder;
+import android.os.Environment;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -14,6 +16,7 @@ public class Constants {
     private static int audioSource = MediaRecorder.AudioSource.MIC;
     private static int audioFormat = MediaRecorder.OutputFormat.THREE_GPP;
     private static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
+    private  static int fileCount = 0;
 
     public static String getFolderName() {
         return folderName;
@@ -22,7 +25,6 @@ public class Constants {
     public static int getAudioSource() {
         return audioSource;
     }
-
 
     public static int getAudioFormat() {
         return audioFormat;
@@ -37,4 +39,15 @@ public class Constants {
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault());
         return String.valueOf(date.format(day));
     }
+
+
+    public static void setFileCount(int count){
+        fileCount=count;
+    }
+    public static int getFilecount(){
+        return fileCount;
+    }
+
+
+
 }

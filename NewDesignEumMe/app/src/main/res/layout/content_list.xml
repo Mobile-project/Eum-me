@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sample.andremion.musicplayer.view.InsetsPercentRelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:fitsSystemWindows="true">
-
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-light"
-        android:textSize="60sp" />
-
-    <View
-        android:id="@+id/pane"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignBottom="@+id/pane_anchor"
-        android:layout_alignEnd="@+id/pane_anchor"
-        android:layout_alignStart="@+id/pane_anchor"
-        android:layout_alignTop="@+id/pane_anchor"
-        android:background="@color/colorPane"/>
 
     <RelativeLayout
         android:id="@+id/playlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/chronometer"
-        android:gravity="center_vertical"
-        android:padding="@dimen/activity_vertical_margin"
-        android:transitionGroup="true">
+        android:layout_height="150dp"
+        android:background="@drawable/the_speaker_grill">
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-light"
+            android:textSize="60sp" />
+
+        <ImageButton
+            android:id="@+id/btn_record"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/chronometer"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/record_button" />
+
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/chronometer"
             android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
             android:text="Tab the button to start recording"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
@@ -56,15 +57,17 @@
             android:id="@+id/options"
             android:layout_width="@dimen/design_fab_size_mini"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="28dp"
+            android:layout_marginStart="-50dp"
+            android:layout_toEndOf="@+id/btn_record"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:paddingRight="10dp"
             android:src="@drawable/ic_more_vert_white_24dp" />
     </RelativeLayout>
 
-        <EditText
-            android:layout_toLeftOf="@+id/memo_name_text"
+    <EditText
             android:id="@+id/memo_area"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,27 +77,4 @@
             android:scrollbarAlwaysDrawVerticalTrack="false"
             android:inputType="textMultiLine|text" />
 
-    <ImageButton
-        android:id="@+id/btn_play"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/btn_pause"
-        android:layout_marginEnd="66dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/play_button" />
-
-    <ImageButton
-        android:id="@+id/btn_pause"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="27dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/round_pause_button" />
-
-</com.sample.andremion.musicplayer.view.InsetsPercentRelativeLayout>
+</LinearLayout>
