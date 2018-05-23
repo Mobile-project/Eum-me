@@ -6,12 +6,12 @@
 
     <ImageButton
         android:id="@+id/btn_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:scaleType="centerInside"
         android:layout_weight="1"
-        android:src="@drawable/play_btn"
+        android:src="@drawable/btn_play"
         android:layout_margin="5dp"
-
         />
 
     <LinearLayout
@@ -20,38 +20,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:layout_toRightOf="@id/btn_play">
+        android:layout_toRightOf="@id/btn_play"
+        >
 
         <TextView
+            android:id="@+id/text_view_file_name"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView1"
             android:textSize="15dp"
             android:textColor="#EEEEEE"
             android:gravity="center_vertical"
             android:layout_weight="2" />
 
         <TextView
+            android:id="@+id/text_view_play_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView2"
             android:textSize="16dp"
             android:textColor="#EEEEEE"
             android:layout_weight="1" />
 
 
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="날짜"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:gravity="right"
-        android:layout_toRightOf="@id/file_name_container"
-        />
+
 
 
 </RelativeLayout>

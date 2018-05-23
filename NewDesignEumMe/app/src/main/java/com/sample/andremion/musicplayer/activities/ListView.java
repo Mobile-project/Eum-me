@@ -22,16 +22,14 @@ public class ListView extends AppCompatActivity{
     private File file;
     private List myList;
 
-    String tag = "ListView";
+    String tag = "myListView";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview);
 
-
         myList = new ArrayList();
-
 
         String rootSD = Environment.getExternalStorageDirectory().toString();
         rootSD+="/ZEum_me";
@@ -59,7 +57,7 @@ public class ListView extends AppCompatActivity{
         listview.setAdapter(adapter);
 
         for(int i=0;i<myList.size();i++){
-            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.play_btn),
+            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),
                     myList.get(i).toString(),String.valueOf((i+1)));
 
         }
@@ -81,11 +79,8 @@ public class ListView extends AppCompatActivity{
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // get item
                 ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
-
+                Log.d(tag, "item click listener");
                 Toast.makeText(getApplicationContext(), "item num : " + position, Toast.LENGTH_SHORT).show();
-//                String titleStr = item.getTitle() ;
-//                String descStr = item.getDesc() ;
-//                Drawable iconDrawable = item.getIcon() ;
 
                 // TODO : use item data.
             }

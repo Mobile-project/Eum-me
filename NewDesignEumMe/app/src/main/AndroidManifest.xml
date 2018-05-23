@@ -32,6 +32,7 @@
 
         <service android:name=".audioControl.RecordeService" />
         <activity android:name=".activities.ListView"/>
+        <activity android:name=".activities.PlayActivity"/>
 
 
     </application>

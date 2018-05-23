@@ -1,25 +1,27 @@
 package com.sample.andremion.musicplayer.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.R;
+import com.sample.andremion.musicplayer.activities.PlayActivity;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
     private File file;
-    String tag = "ListView";
+    String tag = "myListView";
 
 
 
@@ -50,15 +52,32 @@ public class ListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
+//        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name) ;
+        TextView descTextView = (TextView) convertView.findViewById(R.id.text_view_play_time) ;
         ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_play);
+
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 각 항목의 플레이 버튼 눌렀을떄
                 Log.d(tag, "play button click : " + pos);
                 Toast.makeText(context, "play button click : " + pos,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, PlayActivity.class);
+                Bundle bundle = new Bundle();
+                Log.d(tag, listViewItemList.get(pos).getFileName());
+                bundle.putString("fileName", listViewItemList.get(pos).getFileName());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
+        titleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "file name click", Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
@@ -66,8 +85,8 @@ public class ListViewAdapter extends BaseAdapter {
         ListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        iconImageView.setImageDrawable(listViewItem.getIcon());
-        titleTextView.setText(listViewItem.getTitle());
+//        iconImageView.setImageDrawable(listViewItem.getIcon());
+        titleTextView.setText(listViewItem.getFileName());
         descTextView.setText(listViewItem.getDesc());
 
         return convertView;
@@ -90,9 +109,11 @@ public class ListViewAdapter extends BaseAdapter {
         ListViewItem item = new ListViewItem();
 
         item.setIcon(icon);
-        item.setTitle(title);
+        item.setFileName(title);
         item.setDesc(desc);
 
         listViewItemList.add(item);
     }
+
+
 }
