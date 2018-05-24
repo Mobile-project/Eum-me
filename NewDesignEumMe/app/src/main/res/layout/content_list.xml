@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/playlist"
@@ -68,13 +67,14 @@
     </RelativeLayout>
 
     <EditText
-            android:id="@+id/memo_area"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/playlist"
-            android:background="#D5D4EA"
-            android:gravity="top"
-            android:scrollbarAlwaysDrawVerticalTrack="false"
-            android:inputType="textMultiLine|text" />
+        android:id="@+id/memo_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/playlist"
+        android:background="#D5D4EA"
+        android:gravity="top"
+        android:inputType="textMultiLine|text"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        />
 
 </LinearLayout>

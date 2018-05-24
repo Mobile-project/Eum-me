@@ -1,6 +1,5 @@
 package com.sample.andremion.musicplayer.activities;
 
-
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +22,7 @@ public class ListView extends AppCompatActivity{
     private List myList;
 
     String tag = "myListView";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

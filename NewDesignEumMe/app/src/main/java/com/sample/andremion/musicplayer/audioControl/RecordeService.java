@@ -7,19 +7,10 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Chronometer;
-import android.widget.Toast;
-import android.app.Service;
-
-import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class RecordeService extends Service {
 
@@ -28,7 +19,7 @@ public class RecordeService extends Service {
     MediaPlayer mediaPlayer;
     boolean isRecording = false;
     int fileNameCount = 0;
-
+    private String path;
     public RecordeService(){}
 
     @Nullable
@@ -56,7 +47,7 @@ public class RecordeService extends Service {
     }
 
     public String setFilePath() {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        path = Environment.getExternalStorageDirectory().getAbsolutePath();
         File file = new File(path, Constants.getFolderName());
 
         if (!file.exists()) {
@@ -100,5 +91,7 @@ public class RecordeService extends Service {
         }
     }
 
-
+    public String getPath() {
+        return path;
+    }
 }

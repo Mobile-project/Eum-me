@@ -1,11 +1,8 @@
 package com.sample.andremion.musicplayer.audioControl;
 
-import android.media.AudioFormat;
-import android.media.MediaDrmResetException;
 import android.media.MediaRecorder;
 import android.os.Environment;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -17,6 +14,15 @@ public class Constants {
     private static int audioFormat = MediaRecorder.OutputFormat.THREE_GPP;
     private static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
     private  static int fileCount = 0;
+    private static String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ZEum_me";
+
+    public static String getFilePath() {
+        return filePath;
+    }
+
+    public static void setFilePath(String filePath) {
+        Constants.filePath = filePath;
+    }
 
     public static String getFolderName() {
         return folderName;
