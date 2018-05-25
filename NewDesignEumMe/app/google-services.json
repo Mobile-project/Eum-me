@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "645232511549",
+    "firebase_url": "https://eumme-c2ce7.firebaseio.com",
+    "project_id": "eumme-c2ce7",
+    "storage_bucket": "eumme-c2ce7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645232511549:android:1fb54cc9ed391769",
+        "android_client_info": {
+          "package_name": "com.sample.andremion.musicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645232511549-g1rq5kaucd1tbsjppk72jlcibm3gip22.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sample.andremion.musicplayer",
+            "certificate_hash": "a162ce9b91eb49b1fc6dd264113e8ae71af86e04"
+          }
+        },
+        {
+          "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKLoLlJADXrDCXBoeIwf__aaqf6_YzcCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

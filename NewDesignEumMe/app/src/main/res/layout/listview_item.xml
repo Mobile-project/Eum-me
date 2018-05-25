@@ -43,9 +43,6 @@
             android:textColor="#EEEEEE"
             android:layout_weight="1" />
 
-
     </LinearLayout>
-
-
 
 </RelativeLayout>

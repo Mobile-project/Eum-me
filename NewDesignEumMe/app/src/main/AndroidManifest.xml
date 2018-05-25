@@ -17,8 +17,8 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"
@@ -33,6 +33,7 @@
         <service android:name=".audioControl.RecordeService" />
         <activity android:name=".activities.ListView"/>
         <activity android:name=".activities.PlayActivity"/>
+        <activity android:name=".SignIn.SignInActivity"/>
 
 
     </application>
