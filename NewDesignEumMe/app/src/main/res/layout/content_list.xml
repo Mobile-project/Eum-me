@@ -66,15 +66,13 @@
             android:src="@drawable/ic_more_vert_white_24dp" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/memo_area"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/playlist"
-        android:background="#D5D4EA"
-        android:gravity="top"
-        android:inputType="textMultiLine|text"
-        android:scrollbarAlwaysDrawVerticalTrack="false"
         />
+
+
+
 
 </LinearLayout>

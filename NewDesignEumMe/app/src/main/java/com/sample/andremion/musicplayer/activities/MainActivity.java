@@ -16,35 +16,32 @@
 
 package com.sample.andremion.musicplayer.activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.DB.DBHelper;
+import com.sample.andremion.musicplayer.memoControl.MemoFragement;
 import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.RecordingMataData;
 import com.sample.andremion.musicplayer.audioControl.Constants;
 import com.sample.andremion.musicplayer.audioControl.RecordeService;
-import com.sample.andremion.musicplayer.memoControl.onSwipeTouchListener;
 import com.sample.andremion.musicplayer.memoItem;
 
 import java.io.File;
@@ -63,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView title;
     private TextView counter;
 
-    private RelativeLayout play_list;
-    private EditText memoArea;
-
     private ImageView option;
     private ImageButton button;
     private Chronometer chronometer;
@@ -76,16 +70,20 @@ public class MainActivity extends AppCompatActivity {
     private int endTime;
     private int memoCount;
 
-
+    private ViewPager viewPager;
     int playTime;               // 몇초짜리인지
     String createdTime;         // 녹음파일 생성시간
 
     private BackPressCloseHandler backPressCloseHandler;
 
-
     List<memoItem> itemList = null;
     RecordingMataData metaData = null;
     public DBHelper dbHelper = null;
+
+    public MainActivity(){
+        mContext=this;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,34 +91,21 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.content_list);
 
-        mContext=this;
-
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         option = findViewById(R.id.options);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         title = findViewById(R.id.name);
-        memoArea = findViewById(R.id.memo_area);
-
         // DBHelper 객체 생성
         dbHelper = new DBHelper(getApplicationContext(), "RECORDINGMEMO.db", null, 1);
-
 
         itemList = new ArrayList<>();       // 아이템들 넣을 어레이
 
 
-        // Set the recycler adapter
-       /* RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tracks);
-        assert recyclerView != null;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecyclerViewAdapter(MusicContent.ITEMS));*/
-
-       //권한 받아오기
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
+        //권한 받아오기
+       /* if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-        }
+        }*/
 
         //파일 개수 받아오기 다시 하기
         String rootSD = Environment.getExternalStorageDirectory().toString();
@@ -128,28 +113,8 @@ public class MainActivity extends AppCompatActivity {
         File list[] = file.listFiles();
         Constants.setFileCount(list.length);
         counter = findViewById(R.id.counter);
-        counter.setText(Constants.getFilecount()+" 개");
+        counter.setText(Constants.getFilecount() + " 개");
 
-        //메모장 넘기는 부분
-        play_list = (RelativeLayout) findViewById(R.id.playlist);
-        play_list.setOnTouchListener(new onSwipeTouchListener(this) {
-            public void onSwipeTop() {
-                Toast.makeText(getApplicationContext(), "swipetop", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onSwipeRight() {
-                Toast.makeText(getApplicationContext(), "swipeRight", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onSwipeLeft() {
-                Toast.makeText(getApplicationContext(), "swipeLeft", Toast.LENGTH_SHORT).show();
-                // 메모 내용이랑 메모 인덱스 넘겨줌
-                makeNewMemo(memoArea.getText().toString(), memoCount++);
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(getApplicationContext(), "swipeBottom", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         button = (ImageButton) findViewById(R.id.btn_record);
         button.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     startService(new Intent(getApplicationContext(), RecordeService.class));
                     title.setText(Constants.getCurrentTime());
                     check = true;
-                    memoCount=1;
+                    memoCount = 1;
 
                     // 시작시간
                     startTime = (int) System.currentTimeMillis();
@@ -176,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // 끝난 시간
                     endTime = (int) System.currentTimeMillis();
-                    playTime = (endTime - startTime)/1000;                     // 몇초짜리인지 계산. 초 단위
+                    playTime = (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
                     createdTime = Constants.getCurrentTime();           // 현재시간 yyyyMMdd_HHmm
 
                     metaData = new RecordingMataData(itemList, playTime, createdTime);
@@ -193,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     // 메모 갯수만큼 돌면서 디비에 인서트
                     List<memoItem> item = metaData.getMemoItem();
                     Log.d(tag, "before insert");
-                    for(int i=0;i<memoCount-1; i++){
+                    for (int i = 0; i < memoCount - 1; i++) {
                         String fileName = item.get(i).getFileName();
                         String memo = item.get(i).getMemo();
                         int playTime = metaData.getPlayTime();
@@ -213,6 +178,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //viewPager생성하고 설정하기
+        viewPager=findViewById(R.id.view_pager);
+        viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                //SCROLL_STATE_IDLE = 0
+                //SCROLL_STATE_DRAGGING = 1
+                //SCROLL_STATE_SETTING=2
+
+            }
+
+        });
+        viewPager.setCurrentItem(0);
     }
 
     @Override
@@ -222,9 +211,6 @@ public class MainActivity extends AppCompatActivity {
 
     // 오른쪽 스와이프 했을때 새로운 메모 내용 itemList에 넣는 함수.
     public void makeNewMemo(String memo, int memoIndex) {
-        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_slide_out_left);
-        memoArea.startAnimation(anim);
-        memoArea.setText("");
 //        private String fileName;                // 파일 이름
 //        private int playTime;                   // 몇초짜리인지
 //        private String memo;                    // 메모 내용
@@ -255,6 +241,30 @@ public class MainActivity extends AppCompatActivity {
         // 저장하기
     }
 
+    //viewpagerAdapter 설정
+    private class MyViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        public MyViewPagerAdapter(android.support.v4.app.FragmentManager fm)
+        {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if(position>0||position<Integer.MAX_VALUE){
+                Fragment fragment = new MemoFragement();
+                return fragment;
+
+            }
+            else
+                return null;
+        }
 
 
+        @Override
+        public int getCount() {
+            return Integer.MAX_VALUE;
+        }
+    }
 }
+

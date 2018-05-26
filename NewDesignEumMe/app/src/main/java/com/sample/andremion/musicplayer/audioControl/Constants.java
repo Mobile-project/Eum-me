@@ -16,6 +16,17 @@ public class Constants {
     private  static int fileCount = 0;
     private static String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ZEum_me";
 
+    //////////////////////////////////////////////////////////////
+    //메모에서 사용되는 constants
+    private static int Index = 0;
+
+    public static int getIndex() {return Index;}
+
+    public  static void setIndex (int index){
+        Index = index;
+    }
+    /////////////////////////////////////////////////////////////
+
     public static String getFilePath() {
         return filePath;
     }
@@ -53,7 +64,6 @@ public class Constants {
     public static int getFilecount(){
         return fileCount;
     }
-
 
 
 }

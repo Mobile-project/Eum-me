@@ -27,7 +27,7 @@ public class ListView extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview);
+        setContentView(R.layout.list_view);
 
         myList = new ArrayList();
 

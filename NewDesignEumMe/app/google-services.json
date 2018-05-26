@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "645232511549-vi6t401vklpsbve8ibsl74bo2g6mrrnd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sample.andremion.musicplayer",
+            "certificate_hash": "224d88b2c9f7abde3a6ef3fd70b5a534378421fd"
+          }
+        },
+        {
           "client_id": "645232511549-g1rq5kaucd1tbsjppk72jlcibm3gip22.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
