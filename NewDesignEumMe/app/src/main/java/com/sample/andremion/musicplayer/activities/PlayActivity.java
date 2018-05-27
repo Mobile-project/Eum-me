@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.R;
 
@@ -23,8 +24,8 @@ public class PlayActivity extends AppCompatActivity {
     String path = Environment.getExternalStorageDirectory().toString() + "/ZEum_me";
 
     boolean isPlaying = false;
-
-    ImageButton playButton;
+    private boolean buttonMode = false; //false= pause, true = play
+    ImageButton pauseButton;
     TextView textViewFileName;
 
     private TextView mCurrentProgressTextView = null;       // 시간 표시하는 곳
@@ -63,22 +64,36 @@ public class PlayActivity extends AppCompatActivity {
         textViewFileName = findViewById(R.id.file_name);
         textViewFileName.setText(fileName.toString());
 
-        playButton = findViewById(R.id.btn_play);
+        pauseButton = findViewById(R.id.btn_play);
         mediaSeekBar = findViewById(R.id.seek_bar);
 
         Log.d(tag, "onCreate and fileNAme is  : " + fileName);
         path += "/" + fileName;
         Log.d(tag, "file path : " + path);
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(tag, "play button clicked");
 
-                // 재생하는 함수 실행
-                onPlay(isPlaying);
-                isPlaying = !isPlaying;
+
+        // 재생하는 함수 실행
+        onPlay(isPlaying);
+
+        pauseButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                if(!buttonMode) {
+                    pausePlaying();
+                    buttonMode=true;
+                    Toast.makeText(getApplicationContext(),"일시정지",Toast.LENGTH_SHORT).show();
+                    Log.d(tag,"녹음 일시정지");
+                }
+                else if(buttonMode){
+                    resumePlaying();
+                    buttonMode=false;
+                    Toast.makeText(getApplicationContext(),"다시 재생",Toast.LENGTH_SHORT).show();
+                    Log.d(tag,"녹음 다시재생");
+                }
             }
         });
+
     }
 
     //  재생 시작
@@ -98,7 +113,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
     private void startPlaying() {
-        playButton.setImageResource(R.drawable.btn_pause);
+        isPlaying = !isPlaying;
         mediaPlayer = new MediaPlayer();
         Log.d(tag, "start Playing");
         try {
@@ -134,7 +149,6 @@ public class PlayActivity extends AppCompatActivity {
 
     private void stopPlaying() {
         Log.d(tag, "stop Playing");
-        playButton.setImageResource(R.drawable.btn_play);
         mediaHandler.removeCallbacks(mRunnable);
         mediaPlayer.stop();
         mediaPlayer.reset();
@@ -153,15 +167,13 @@ public class PlayActivity extends AppCompatActivity {
 
 
     private void pausePlaying() {
-        Log.d(tag,"pause Playing");
-        playButton.setImageResource(R.drawable.btn_play);
+        Log.d(tag, "pause Playing");
         mediaHandler.removeCallbacks(mRunnable);
         mediaPlayer.pause();
     }
 
     private void resumePlaying() {
         Log.d(tag, "resumePlaying");
-        playButton.setImageResource(R.drawable.btn_pause);
         mediaHandler.removeCallbacks(mRunnable);
         mediaPlayer.start();
         updateSeekBar();
@@ -178,14 +190,22 @@ public class PlayActivity extends AppCompatActivity {
                 mediaSeekBar.setProgress(mCurrentPosition);
 
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
-                        - TimeUnit.MINUTES.toSeconds(minutes);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition) - TimeUnit.MINUTES.toSeconds(minutes);
 //                mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
 
                 updateSeekBar();
             }
         }
     };
+
+    @Override
+    public void onBackPressed() {
+
+        stopPlaying();
+        Log.d(tag, "재생화면 종료");
+        finish();
+
+    }
 
     private void updateSeekBar() {
         mediaHandler.postDelayed(mRunnable, 1000);

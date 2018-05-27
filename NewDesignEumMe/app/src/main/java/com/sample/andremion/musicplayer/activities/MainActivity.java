@@ -42,6 +42,7 @@ import com.sample.andremion.musicplayer.audioControl.Constants;
 import com.sample.andremion.musicplayer.audioControl.RecordeService;
 import com.sample.andremion.musicplayer.memoControl.MemoFragement;
 import com.sample.andremion.musicplayer.memoItem;
+import com.sample.andremion.musicplayer.view.ViewPagerAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private int memoCount;
 
     private ViewPager viewPager;
+    private int prePositon=0;
     int playTime;               // 몇초짜리인지
     String createdTime;         // 녹음파일 생성시간
 
@@ -179,8 +181,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //viewPager생성하고 설정하기
+
+        ViewPagerAdapter viewPagerAdapteradapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager=findViewById(R.id.view_pager);
-        viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(viewPagerAdapteradapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -188,14 +192,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if(prePositon<position) {
+                    prePositon=position;
+                    Log.d(tag, "Next page");
+                }
+                else if(prePositon>position) {
+                    prePositon=position;
+                    Log.d(tag, "Previous Page");
+                }
 
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                //SCROLL_STATE_IDLE = 0
-                //SCROLL_STATE_DRAGGING = 1
-                //SCROLL_STATE_SETTING=2
 
             }
 
@@ -240,31 +249,7 @@ public class MainActivity extends AppCompatActivity {
         // 저장하기
     }
 
-    //viewpagerAdapter 설정
-    private class MyViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        public MyViewPagerAdapter(android.support.v4.app.FragmentManager fm)
-        {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if(position>0||position<Integer.MAX_VALUE){
-                Fragment fragment = new MemoFragement();
-                return fragment;
-
-            }
-            else
-                return null;
-        }
-
-
-        @Override
-        public int getCount() {
-            return Integer.MAX_VALUE;
-        }
-    }
 
     public void setDateAndCreatedTime(String date, String time){
 
