@@ -1,6 +1,7 @@
 package com.sample.andremion.musicplayer.audioControl;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -13,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class RecordeService extends Service {
-
+    Context sContext;
 
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
@@ -43,6 +44,7 @@ public class RecordeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         startRecording();
+        sContext = getApplicationContext();
         return super.onStartCommand(intent, flags, startId);
     }
 

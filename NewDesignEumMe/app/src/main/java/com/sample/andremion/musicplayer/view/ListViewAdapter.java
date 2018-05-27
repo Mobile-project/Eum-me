@@ -26,6 +26,7 @@ public class ListViewAdapter extends BaseAdapter {
     String tag = "myListView";
 
 
+    RecordingMataData metaData;
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
@@ -55,9 +56,10 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
 //        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.text_view_play_time) ;
         ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_play);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name) ;
+        TextView playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time) ;
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +67,7 @@ public class ListViewAdapter extends BaseAdapter {
                 // 각 항목의 플레이 버튼 눌렀을떄
                 Log.d(tag, "play button click : " + pos);
                 Toast.makeText(context, "play button click : " + pos,Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(context, PlayActivity.class);
                 Bundle bundle = new Bundle();
                 Log.d(tag, listViewItemList.get(pos).getFileName());
@@ -82,7 +85,9 @@ public class ListViewAdapter extends BaseAdapter {
         // 아이템 내 각 위젯에 데이터 반영
 //        iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getFileName());
-        descTextView.setText(listViewItem.getDesc());
+        playTimeTextView.setText(listViewItem.getPlayTime());
+        dateTextView.setText(listViewItem.getCreatedTime());
+//        playTimeTextView.setText(listViewItem.getDesc()); // 순서대로 숫자할당
 
 
         titleTextView.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +103,8 @@ public class ListViewAdapter extends BaseAdapter {
                 //
 
                 // 컨텍스트를 통해 액티비티에 접근
-                RecordingMataData metaData = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
+                // dbHelper.getResult로 메모목록 가져옴
+                metaData = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
                 Log.d(tag, "metadata test : " + metaData.getCreatedTime());
                 int len = metaData.getMemoItem().size();
                 Log.d(tag, "len : " + len);
@@ -128,15 +134,18 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String desc) {
+    public void addItem(Drawable icon, String title, String playtime, String createdtime) {
         ListViewItem item = new ListViewItem();
-
         item.setIcon(icon);
         item.setFileName(title);
-        item.setDesc(desc);
-
+        Log.d(tag, "playtime : "+playtime);
+        item.setPlayTime(String.valueOf(playtime));
+        item.setCreatedTime(createdtime);
+        Log.d(tag, "addItem : playtime : " + playtime);
+        Log.d(tag, "addItem : cratedTime : " + ((MainActivity)MainActivity.mContext).dbHelper.getCreatedTime(title));
         listViewItemList.add(item);
     }
+
 
 
 }

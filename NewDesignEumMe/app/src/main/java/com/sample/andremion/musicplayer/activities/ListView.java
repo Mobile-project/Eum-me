@@ -1,5 +1,6 @@
 package com.sample.andremion.musicplayer.activities;
 
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -14,12 +15,14 @@ import com.sample.andremion.musicplayer.view.ListViewAdapter;
 import com.sample.andremion.musicplayer.view.ListViewItem;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListView extends AppCompatActivity{
     private File file;
     private List myList;
+    private List myListDate;
 
     String tag = "myListView";
 
@@ -30,7 +33,7 @@ public class ListView extends AppCompatActivity{
         setContentView(R.layout.list_view);
 
         myList = new ArrayList();
-
+        myListDate = new ArrayList();
         String rootSD = Environment.getExternalStorageDirectory().toString();
         rootSD+="/ZEum_me";
         Log.d(tag,rootSD);
@@ -40,8 +43,11 @@ public class ListView extends AppCompatActivity{
         File list[] = file.listFiles();
         Log.d(tag,"after file list[] : " + list.length);
 
+
+        // 파일 이름들 추가
         for(int i=0;i<list.length;i++){
             myList.add(list[i].getName());
+            myListDate.add(list[i].lastModified());
         }
         Log.d(tag,"after myList add");
 
@@ -56,9 +62,14 @@ public class ListView extends AppCompatActivity{
         listview = (android.widget.ListView) findViewById(R.id.listview1);
         listview.setAdapter(adapter);
 
+        // 아이템 추가
         for(int i=0;i<myList.size();i++){
+            Log.d(tag, "rootSD : " + rootSD);
+            String filename = myList.get(i).toString();
             adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),
-                    myList.get(i).toString(),String.valueOf((i+1)));
+                    filename,
+                    getPlayTime(rootSD+"/"+filename),
+                    getCreatedTime(Long.valueOf(myListDate.get(i).toString())));
 
         }
         // 첫 번째 아이템 추가.
@@ -89,6 +100,29 @@ public class ListView extends AppCompatActivity{
 
 
     }
+
+
+    // path에 있는 파일 길이 가져오기.
+    // hh:mm:ss
+    private String getPlayTime(String path) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(path);
+        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        long timeInmillisec = Long.parseLong( time );
+        long duration = timeInmillisec / 1000;
+        long hours = duration / 3600;
+        long minutes = (duration - hours * 3600) / 60;
+        long seconds = duration - (hours * 3600 + minutes * 60);
+        return hours + ":" + minutes + ":" + seconds;
+    }
+
+
+    private String getCreatedTime(long date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        return sdf.format(date).toString();
+
+    }
+
 
 
 

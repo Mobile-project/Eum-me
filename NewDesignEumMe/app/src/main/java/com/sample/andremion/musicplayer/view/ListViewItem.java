@@ -1,11 +1,35 @@
 package com.sample.andremion.musicplayer.view;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class ListViewItem {
+    String tag = "mylistviewitem";
     private Drawable iconDrawable ;
     private String fileName;
     private String descStr ;
+    private String createdTime;
+    private String playTime;
+
+    public String getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(String createdTime) {
+        Log.d(tag, "createdtime : " + createdTime);
+        this.createdTime = createdTime;
+    }
+
+    public String getPlayTime() {
+        return playTime;
+    }
+
+    public void setPlayTime(String playTime) {
+        Log.d(tag, "playtime : " + playTime);
+        this.playTime = playTime;
+    }
+
+
 
     public void setIcon(Drawable icon) {
         iconDrawable = icon ;
@@ -13,10 +37,6 @@ public class ListViewItem {
     public void setFileName(String title) {
         fileName = title ;
     }
-    public void setDesc(String desc) {
-        descStr = desc ;
-    }
-
 
     public Drawable getIcon() {
         return this.iconDrawable ;
@@ -24,7 +44,6 @@ public class ListViewItem {
     public String getFileName() {
         return this.fileName;
     }
-    public String getDesc() {
-        return this.descStr ;
-    }
+
+
 }

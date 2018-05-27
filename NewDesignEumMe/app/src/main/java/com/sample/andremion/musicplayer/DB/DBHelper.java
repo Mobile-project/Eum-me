@@ -146,7 +146,61 @@ public class DBHelper extends SQLiteOpenHelper {
 //        return result;
     }
 
+     /*
+    file_name       TEXT        파일 이름
+    memo            TEXT        메모 내용
+    play_time       INTEGER     몇초 짜리인지
+    mamo_index      INTEGER     메모 번호
+    created_time    TEXT        녹음파일 생성시간
+     */
 
+    public String getCreatedTime(String fileName){
+        String ret="";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO WHERE file_name=\""+fileName+"\"",null);
+        while(cs.moveToNext()){
+            String t = cs.getString(0);
+            String fn = cs.getString(1);
+            String m = cs.getString(2);
+            int a = cs.getInt(3);
+            int memoIndex = cs.getInt(4);
+            ret = cs.getString(5);
+        }
+        Log.d(tag, "getCreatedTime : " + fileName + " and " + ret);
+
+        db.close();
+
+        return ret;
+
+    }
+
+
+     /*
+    file_name       TEXT        파일 이름
+    memo            TEXT        메모 내용
+    play_time       INTEGER     몇초 짜리인지
+    mamo_index      INTEGER     메모 번호
+    created_time    TEXT        녹음파일 생성시간
+     */
+
+    public int getPlayTime(String fileName){
+        int ret=0;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO WHERE file_name=\""+fileName+"\"",null);
+        while(cs.moveToNext()){
+            String t = cs.getString(0);
+            String fn = cs.getString(1);
+            String m = cs.getString(2);
+            ret = cs.getInt(3);
+            int memoIndex = cs.getInt(4);
+            String createdTime = cs.getString(5);
+        }
+        Log.d(tag, "getPlayTime : " + fileName + " and " + ret);
+
+        db.close();
+
+        return ret;
+    }
     public void cleanDB(){
 
     }
