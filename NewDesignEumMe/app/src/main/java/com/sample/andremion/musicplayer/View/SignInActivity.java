@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.SignIn;
+package com.sample.andremion.musicplayer.View;
 
 
 import android.content.Intent;
@@ -11,7 +11,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.sample.andremion.musicplayer.activities.MainActivity;
 
 import java.util.Arrays;
 import java.util.List;

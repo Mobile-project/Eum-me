@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer;
+package com.sample.andremion.musicplayer.Model;
 
 import java.util.List;
 
@@ -15,17 +15,17 @@ public class RecordingMataData {
     int playTime;
     String createdTime;
 
-    public RecordingMataData(List<com.sample.andremion.musicplayer.memoItem> memoItem, int playTime, String createdTime) {
+    public RecordingMataData(List<com.sample.andremion.musicplayer.Model.memoItem> memoItem, int playTime, String createdTime) {
         this.memoItem = memoItem;
         this.playTime = playTime;
         this.createdTime = createdTime;
     }
 
-    public List<com.sample.andremion.musicplayer.memoItem> getMemoItem() {
+    public List<com.sample.andremion.musicplayer.Model.memoItem> getMemoItem() {
         return memoItem;
     }
 
-    public void setMemoItem(List<com.sample.andremion.musicplayer.memoItem> memoItem) {
+    public void setMemoItem(List<com.sample.andremion.musicplayer.Model.memoItem> memoItem) {
         this.memoItem = memoItem;
     }
 

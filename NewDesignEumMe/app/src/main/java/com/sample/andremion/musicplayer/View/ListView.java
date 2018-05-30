@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.activities;
+package com.sample.andremion.musicplayer.View;
 
 import android.app.ProgressDialog;
 import android.media.MediaMetadataRetriever;
@@ -21,9 +21,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.sample.andremion.musicplayer.R;
-import com.sample.andremion.musicplayer.audioControl.Constants;
-import com.sample.andremion.musicplayer.viewview.ListViewAdapter;
-import com.sample.andremion.musicplayer.viewview.ListViewItem;
+import com.sample.andremion.musicplayer.Model.Constants;
+import com.sample.andremion.musicplayer.Presenter.ListViewAdapter;
+import com.sample.andremion.musicplayer.Presenter.ListViewItem;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

@@ -1,10 +1,10 @@
-package com.sample.andremion.musicplayer.viewview;
+package com.sample.andremion.musicplayer.Presenter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import com.sample.andremion.musicplayer.memoControl.MemoFragement;
+import com.sample.andremion.musicplayer.View.MemoFragement;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public ViewPagerAdapter(android.support.v4.app.FragmentManager fm)

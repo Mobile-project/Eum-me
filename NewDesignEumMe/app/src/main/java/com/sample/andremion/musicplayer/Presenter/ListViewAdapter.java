@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.viewview;
+package com.sample.andremion.musicplayer.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.R;
-import com.sample.andremion.musicplayer.RecordingMataData;
-import com.sample.andremion.musicplayer.activities.MainActivity;
-import com.sample.andremion.musicplayer.activities.PlayActivity;
+import com.sample.andremion.musicplayer.Model.RecordingMataData;
+import com.sample.andremion.musicplayer.View.MainActivity;
+import com.sample.andremion.musicplayer.View.PlayActivity;
 
 import java.io.File;
 import java.util.ArrayList;

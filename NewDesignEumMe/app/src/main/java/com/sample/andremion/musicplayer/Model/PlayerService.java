@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.audioControl;
+package com.sample.andremion.musicplayer.Model;
 
 import android.content.Intent;
 import android.media.MediaPlayer;

@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".View.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,15 +22,15 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"
+        <activity android:name=".View.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
 
 
 
-        <service android:name=".audioControl.RecordeService" />
-        <activity android:name=".activities.ListView"/>
-        <activity android:name=".activities.PlayActivity"/>
+        <service android:name=".Model.RecordeService" />
+        <activity android:name=".View.ListView"/>
+        <activity android:name=".View.PlayActivity"/>
         <!--<activity android:name=".SignIn.SignInActivity"/>-->
 
 

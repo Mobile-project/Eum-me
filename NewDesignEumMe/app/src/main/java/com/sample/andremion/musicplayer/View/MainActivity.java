@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.sample.andremion.musicplayer.activities;
+package com.sample.andremion.musicplayer.View;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,19 +33,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.andremion.musicplayer.DB.DBHelper;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+import com.sample.andremion.musicplayer.Model.Constants;
+import com.sample.andremion.musicplayer.Model.DBHelper;
+import com.sample.andremion.musicplayer.Model.RecordeService;
+import com.sample.andremion.musicplayer.Model.RecordingMataData;
+import com.sample.andremion.musicplayer.Model.memoItem;
+import com.sample.andremion.musicplayer.Presenter.BackPressCloseHandler;
+import com.sample.andremion.musicplayer.Presenter.ViewPagerAdapter;
 import com.sample.andremion.musicplayer.R;
-import com.sample.andremion.musicplayer.RecordingMataData;
-import com.sample.andremion.musicplayer.audioControl.Constants;
-import com.sample.andremion.musicplayer.audioControl.RecordeService;
-import com.sample.andremion.musicplayer.memoItem;
-import com.sample.andremion.musicplayer.viewview.ViewPagerAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.sample.andremion.musicplayer.memoItem;
+//import com.sample.andremion.musicplayer.Model.memoItem;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         mContext=this;
     }
 
+
+    private static final int MY_PERMISSION_STORAGE = 1111;
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,28 +96,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_list);
 
         backPressCloseHandler = new BackPressCloseHandler(this);
-
         option = findViewById(R.id.options);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         title = findViewById(R.id.name);
         // DBHelper 객체 생성
         dbHelper = new DBHelper(getApplicationContext(), "RECORDINGMEMO.db", null, 1);
-
         itemList = new ArrayList<>();       // 아이템들 넣을 어레이
 
-
         //권한 받아오기
-       /* if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-        }*/
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+//                .setRationaleMessage("구글 로그인을 하기 위해서는 주소록 접근 권한이 필요해요")
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
+
+
+//        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+//        }
 
         //파일 개수 받아오기 다시 하기
-        String rootSD = Environment.getExternalStorageDirectory().toString();
-        File file = new File(rootSD + "/ZEum_me");
-        File list[] = file.listFiles();
-        Constants.setFileCount(list.length);
-        counter = findViewById(R.id.counter);
-        counter.setText(Constants.getFilecount() + " 개");
+//        String rootSD = Environment.getExternalStorageDirectory().toString();
+//        File file = new File(rootSD + "/ZEum_me");
+//        File list[] = file.listFiles();
+//        Constants.setFileCount(list.length);
+//        counter = findViewById(R.id.counter);
+//        counter.setText(Constants.getFilecount() + " 개");
 
 
         button = (ImageButton) findViewById(R.id.btn_record);
@@ -215,8 +229,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 오른쪽 스와이프 했을때 새로운 메모 내용 itemList에 넣는 함수.
+
     public void makeNewMemo(String memo, int memoIndex) {
-//        private String fileName;                // 파일 이름
+        //        private String fileName;                // 파일 이름
 //        private int playTime;                   // 몇초짜리인지
 //        private String memo;                    // 메모 내용
 //        private int memoIndex;                  // 몇번쨰 메모인지
@@ -248,9 +263,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void setDateAndCreatedTime(String date, String time){
 
 
-    }
+
+    PermissionListener permissionlistener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+
+    };
+
+
+
+
 }
 

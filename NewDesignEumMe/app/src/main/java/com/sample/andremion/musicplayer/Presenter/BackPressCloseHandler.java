@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.activities;
+package com.sample.andremion.musicplayer.Presenter;
 
 import android.app.Activity;
 import android.widget.Toast;

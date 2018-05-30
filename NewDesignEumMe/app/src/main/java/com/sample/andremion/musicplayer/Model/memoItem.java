@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer;
+package com.sample.andremion.musicplayer.Model;
 
 import android.util.Log;
 

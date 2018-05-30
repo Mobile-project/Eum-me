@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.activities;
+package com.sample.andremion.musicplayer.View;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -150,19 +150,21 @@ public class PlayActivity extends AppCompatActivity {
     private void stopPlaying() {
         Log.d(tag, "stop Playing");
         mediaHandler.removeCallbacks(mRunnable);
-        mediaPlayer.stop();
-        mediaPlayer.reset();
-        mediaPlayer.release();
-        mediaPlayer = null;
-
-        mediaSeekBar.setProgress(mediaSeekBar.getMax());
-        isPlaying = !isPlaying;
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            mediaSeekBar.setProgress(mediaSeekBar.getMax());
+            isPlaying = !isPlaying;
 
 //        mCurrentProgressTextView.setText(mFileLengthTextView.getText()); // 플레이 타임
-        mediaSeekBar.setProgress(mediaSeekBar.getMax());
+            mediaSeekBar.setProgress(mediaSeekBar.getMax());
 
-        //allow the screen to turn off again once audio is finished playing
+            //allow the screen to turn off again once audio is finished playing
 //        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
     }
 
 
@@ -200,7 +202,6 @@ public class PlayActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         stopPlaying();
         Log.d(tag, "재생화면 종료");
         finish();

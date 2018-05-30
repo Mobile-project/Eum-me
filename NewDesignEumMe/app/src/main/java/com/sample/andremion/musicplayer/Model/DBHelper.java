@@ -1,13 +1,10 @@
-package com.sample.andremion.musicplayer.DB;
+package com.sample.andremion.musicplayer.Model;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import com.sample.andremion.musicplayer.RecordingMataData;
-import com.sample.andremion.musicplayer.memoItem;
 
 import java.util.ArrayList;
 import java.util.List;
