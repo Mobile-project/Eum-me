@@ -1,7 +1,8 @@
-package com.sample.andremion.musicplayer.view;
+package com.sample.andremion.musicplayer.viewview;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.sample.andremion.musicplayer.memoControl.MemoFragement;
 
@@ -10,7 +11,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     {
         super(fm);
     }
-
+    String tag = "adapter";
+    int count=1;
     @Override
     public Fragment getItem(int position) {
         if(position>0||position<Integer.MAX_VALUE){
@@ -23,6 +25,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public int getCount() {
+        Log.d(tag, "Getcount");
         return Integer.MAX_VALUE;
     }
 }

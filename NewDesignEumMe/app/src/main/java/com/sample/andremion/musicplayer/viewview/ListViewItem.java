@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.view;
+package com.sample.andremion.musicplayer.viewview;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;

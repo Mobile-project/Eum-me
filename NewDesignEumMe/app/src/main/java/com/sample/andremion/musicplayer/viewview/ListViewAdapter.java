@@ -1,4 +1,4 @@
-package com.sample.andremion.musicplayer.view;
+package com.sample.andremion.musicplayer.viewview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,10 +58,14 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
 //        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
-        ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_play);
+        LinearLayout fileNameContainer = (LinearLayout) convertView.findViewById(R.id.file_name_container);
+        ImageView playButton = (ImageView) convertView.findViewById(R.id.btn_play);
         TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name) ;
         TextView playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time) ;
         TextView dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
+        RelativeLayout topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
+
+
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,46 +83,59 @@ public class ListViewAdapter extends BaseAdapter {
             }
         });
 
+//        playButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(tag, "play button click : " + pos);
+//                Toast.makeText(context, "play button click : " + pos,Toast.LENGTH_SHORT).show();
+//
+//                Intent intent = new Intent(context, PlayActivity.class);
+//                Bundle bundle = new Bundle();
+//                Log.d(tag, listViewItemList.get(pos).getFileName());
+//                bundle.putString("fileName", listViewItemList.get(pos).getFileName());
+//                intent.putExtras(bundle);
+//                context.startActivity(intent);
+//            }
+//        });
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-//        iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getFileName());
         playTimeTextView.setText(listViewItem.getPlayTime());
         dateTextView.setText(listViewItem.getCreatedTime());
-//        playTimeTextView.setText(listViewItem.getDesc()); // 순서대로 숫자할당
 
 
-        titleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String fileName = listViewItem.getFileName(); // 현재 누른 파일 이름
+//        fileNameContainer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String fileName = listViewItem.getFileName(); // 현재 누른 파일 이름
+//
+//                Toast.makeText(context, "file name click : " + fileName, Toast.LENGTH_SHORT).show();
+//
+//
+//                //
+////                Log.d(tag, "test : " + ((MainActivity)MainActivity.mContext).getA());
+//                //
+//
+//                // 컨텍스트를 통해 액티비티에 접근
+//                // dbHelper.getResult로 메모목록 가져옴
+//                metaData = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
+//                Log.d(tag, "metadata test : " + metaData.getCreatedTime());
+//                int len = metaData.getMemoItem().size();
+//                Log.d(tag, "len : " + len);
+//                for(int i=0;i<len;i++){
+//                    Log.d(tag, metaData.getMemoItem().get(i).getFileName() + " " +
+//                    metaData.getMemoItem().get(i).getMemo() + " " +
+//                    metaData.getMemoItem().get(i).getMemoIndex() + " " +
+//                    metaData.getPlayTime() + " " +
+//                    metaData.getCreatedTime());
+//                }
+//            }
+//        });
 
-                Toast.makeText(context, "file name click : " + fileName, Toast.LENGTH_SHORT).show();
-
-
-                //
-//                Log.d(tag, "test : " + ((MainActivity)MainActivity.mContext).getA());
-                //
-
-                // 컨텍스트를 통해 액티비티에 접근
-                // dbHelper.getResult로 메모목록 가져옴
-                metaData = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
-                Log.d(tag, "metadata test : " + metaData.getCreatedTime());
-                int len = metaData.getMemoItem().size();
-                Log.d(tag, "len : " + len);
-                for(int i=0;i<len;i++){
-                    Log.d(tag, metaData.getMemoItem().get(i).getFileName() + " " +
-                    metaData.getMemoItem().get(i).getMemo() + " " +
-                    metaData.getMemoItem().get(i).getMemoIndex() + " " +
-                    metaData.getPlayTime() + " " +
-                    metaData.getCreatedTime());
-                }
-            }
-        });
 
         return convertView;
     }

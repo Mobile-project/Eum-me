@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-import com.sample.andremion.musicplayer.SignIn.SignInActivity;
-
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
            e.printStackTrace();
        }
 
-       startActivity( new Intent(this, SignInActivity.class));
+       startActivity( new Intent(this, MainActivity.class));
         finish();
     }
 }

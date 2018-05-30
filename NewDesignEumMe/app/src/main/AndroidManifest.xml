@@ -3,6 +3,7 @@
     package="com.sample.andremion.musicplayer">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -25,15 +26,12 @@
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
 
-        <activity android:name=".view.FileViewerActivity"
-            android:theme ="@style/FileViewTheme"
-            android:label="저장 목록">
-        </activity>
+
 
         <service android:name=".audioControl.RecordeService" />
         <activity android:name=".activities.ListView"/>
         <activity android:name=".activities.PlayActivity"/>
-        <activity android:name=".SignIn.SignInActivity"/>
+        <!--<activity android:name=".SignIn.SignInActivity"/>-->
 
 
     </application>
