@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView counter;
 
     private ImageView option;
-    private ImageButton button;
+    private ImageButton buttonRecord;
     private Chronometer chronometer;
-    private boolean check = false;
+    private boolean isRecording = false;
 
 
     private int startTime;
@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         itemList = new ArrayList<>();       // 아이템들 넣을 어레이
 
         //권한 받아오기
-
         TedPermission.with(this)
                 .setPermissionListener(permissionlistener)
 //                .setRationaleMessage("구글 로그인을 하기 위해서는 주소록 접근 권한이 필요해요")
@@ -115,41 +114,28 @@ public class MainActivity extends AppCompatActivity {
                 .check();
 
 
-//        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-//        }
-
-        //파일 개수 받아오기 다시 하기
-//        String rootSD = Environment.getExternalStorageDirectory().toString();
-//        File file = new File(rootSD + "/ZEum_me");
-//        File list[] = file.listFiles();
-//        Constants.setFileCount(list.length);
-//        counter = findViewById(R.id.counter);
-//        counter.setText(Constants.getFilecount() + " 개");
-
-
-        button = (ImageButton) findViewById(R.id.btn_record);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonRecord = (ImageButton) findViewById(R.id.btn_record);
+        buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!check) {
+                if (!isRecording) {
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     chronometer.start();
                     Toast.makeText(getApplicationContext(), "녹음 시작", Toast.LENGTH_SHORT).show();
                     startService(new Intent(getApplicationContext(), RecordeService.class));
                     title.setText(Constants.getCurrentTime());
-                    check = true;
+                    isRecording = true;
                     memoCount = 1;
 
                     // 시작시간
                     startTime = (int) System.currentTimeMillis();
-                } else if (check) {
+                } else if (isRecording) {
                     chronometer.stop();
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     Toast.makeText(getApplicationContext(), "녹음 중지", Toast.LENGTH_SHORT).show();
                     stopService(new Intent(getApplicationContext(), RecordeService.class));
                     title.setText("Tab the timer to start recording");
-                    check = false;
+                    isRecording = false;
 
                     // 끝난 시간
                     endTime = (int) System.currentTimeMillis();
@@ -276,8 +262,6 @@ public class MainActivity extends AppCompatActivity {
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
             Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
         }
-
-
     };
 
 

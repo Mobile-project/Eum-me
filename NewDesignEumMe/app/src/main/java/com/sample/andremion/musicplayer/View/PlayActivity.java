@@ -8,14 +8,18 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sample.andremion.musicplayer.Model.RecordingMataData;
+import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity {
@@ -27,6 +31,7 @@ public class PlayActivity extends AppCompatActivity {
     private boolean buttonMode = false; //false= pause, true = play
     ImageButton pauseButton;
     TextView textViewFileName;
+    EditText editText;
 
     private TextView mCurrentProgressTextView = null;       // 시간 표시하는 곳
     private SeekBar mediaSeekBar = null;
@@ -59,13 +64,15 @@ public class PlayActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
 
-        fileName = bundle.getString("fileName");
+        fileName = bundle.getString("fileName");                // 파일이름 꺼냄
         Log.d(tag, "file Fisrt : " + fileName);
         textViewFileName = findViewById(R.id.file_name);
         textViewFileName.setText(fileName.toString());
 
         pauseButton = findViewById(R.id.btn_play);
         mediaSeekBar = findViewById(R.id.seek_bar);
+
+        editText = findViewById(R.id.memo_area);
 
         Log.d(tag, "onCreate and fileNAme is  : " + fileName);
         path += "/" + fileName;
@@ -74,7 +81,7 @@ public class PlayActivity extends AppCompatActivity {
 
         // 재생하는 함수 실행
         onPlay(isPlaying);
-
+        getMemo(fileName);
         pauseButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -210,5 +217,19 @@ public class PlayActivity extends AppCompatActivity {
 
     private void updateSeekBar() {
         mediaHandler.postDelayed(mRunnable, 1000);
+    }
+
+
+
+    private void getMemo(String fileName){
+        RecordingMataData metaTemp = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
+        List<memoItem> itemList= metaTemp.getMemoItem();
+        int len = itemList.size();
+        Log.d(tag, "len : " + len);
+        for(int i=0;i<len;i++){
+            Log.d(tag, itemList.get(i).toString());
+            editText.setText(itemList.get(i).toString() + "\n");
+        }
+
     }
 }
