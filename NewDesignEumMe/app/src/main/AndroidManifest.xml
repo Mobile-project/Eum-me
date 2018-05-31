@@ -26,7 +26,6 @@
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity android:name=".View.SignInActivity" />
-        <activity android:name=".View.SignMainActivity"/>
 
 
         <service android:name=".Model.RecordeService" />
