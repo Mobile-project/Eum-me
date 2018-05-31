@@ -22,6 +22,7 @@
 
             </intent-filter>
         </activity>
+        <activity android:name=".View.GoogleSignInActivity"/>
         <activity android:name=".View.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>

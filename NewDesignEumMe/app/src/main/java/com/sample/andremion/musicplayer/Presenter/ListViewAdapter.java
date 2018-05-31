@@ -10,13 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
+import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.View.MainActivity;
 import com.sample.andremion.musicplayer.View.PlayActivity;
 
@@ -58,7 +57,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
 //        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
-        LinearLayout fileNameContainer = (LinearLayout) convertView.findViewById(R.id.file_name_container);
+//        LinearLayout fileNameContainer = (LinearLayout) convertView.findViewById(R.id.file_name_container);
         ImageView playButton = (ImageView) convertView.findViewById(R.id.btn_play);
         TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name) ;
         TextView playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time) ;

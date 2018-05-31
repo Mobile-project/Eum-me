@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -20,10 +21,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.Model.Constants;
 import com.sample.andremion.musicplayer.Presenter.ListViewAdapter;
-import com.sample.andremion.musicplayer.Presenter.ListViewItem;
+import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -46,6 +46,10 @@ public class ListView extends AppCompatActivity{
     private Uri filePath;
 
     public ProgressDialog progressDialog;
+    public int index=0;
+
+    public ListViewAdapter adapter;
+    public android.widget.ListView listview ;
 
     //////////////////////////////////////////////////////////////
 
@@ -76,8 +80,7 @@ public class ListView extends AppCompatActivity{
         Log.d(tag,"after myList add");
 
 
-        android.widget.ListView listview ;
-        ListViewAdapter adapter;
+
 
         // Adapter 생성
         adapter = new ListViewAdapter() ;
@@ -99,27 +102,46 @@ public class ListView extends AppCompatActivity{
 
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //ListView의 아이템 중 하나가 클릭될 때 호출되는 메소드
+            //첫번째 파라미터 : 클릭된 아이템을 보여주고 있는 AdapterView 객체(여기서는 ListView객체)
+            //두번째 파라미터 : 클릭된 아이템 뷰
+            //세번째 파라미터 : 클릭된 아이템의 위치(ListView이 첫번째 아이템(가장위쪽)부터 차례대로 0,1,2,3.....)
+            //네번재 파리미터 : 클릭된 아이템의 아이디(특별한 설정이 없다면 세번째 파라이터인 position과 같은 값)
             @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // get item
-                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
-                Log.d(tag, "item click listener");
-                Toast.makeText(getApplicationContext(), "item num : " + position, Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO : use item data.
+                // TODO Auto-generated method stub
+                //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
+                Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
+
             }
-        }) ;
+
+        });
+
+//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView parent, View v, int position, long id) {
+//                // get item
+//                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
+//                Log.d(tag, "item click listener");
+//                Toast.makeText(getApplicationContext(), "item num : " + position, Toast.LENGTH_SHORT).show();
+//
+//                // TODO : use item data.
+//            }
+//        }) ;
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "longlong : " + myList.get(position).toString(), Toast.LENGTH_SHORT).show();
+
                 Log.d(tag, "item long click listener");
-                upLoad(myList.get(position).toString());
+//                upLoad(myList.get(position).toString());          // 업로드
                 return false;
             }
         });
 
+        registerForContextMenu(listview);
 
 
 
@@ -223,27 +245,97 @@ public class ListView extends AppCompatActivity{
 
 
 //    //Context 메뉴로 등록한 View(여기서는 ListView)가 클릭되었을 때 자동으로 호출되는 메소드
-//    public boolean onContextItemSelected(MenuItem item) {
-//        //AdapterContextMenuInfo
-//        //AdapterView가 onCreateContextMenu할때의 추가적인 menu 정보를 관리하는 클래스
-//        //ContextMenu로 등록된 AdapterView(여기서는 Listview)의 선택된 항목에 대한 정보를 관리하는 클래스
-//        AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-//        int index= info.position; //AdapterView안에서 ContextMenu를 보여즈는 항목의 위치
-//        //선택된 ContextMenu의  아이템아이디를 구별하여 원하는 작업 수행
-//        //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
-//        switch( item.getItemId() ){
-//            case R.id.modify:
-//                Toast.makeText(this, mDatas.get(index)+" Modify", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.delete:
-//                Toast.makeText(this, mDatas.get(index)+" Delete", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.info:
-//                Toast.makeText(this, mDatas.get(index)+" Info", Toast.LENGTH_SHORT).show();
-//                break;
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //AdapterContextMenuInfo
+        //AdapterView가 onCreateContextMenu할때의 추가적인 menu 정보를 관리하는 클래스
+        //ContextMenu로 등록된 AdapterView(여기서는 Listview)의 선택된 항목에 대한 정보를 관리하는 클래스
+        AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        index= info.position; //AdapterView안에서 ContextMenu를 보여즈는 항목의 위치
+        //선택된 ContextMenu의  아이템아이디를 구별하여 원하는 작업 수행
+        //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
+        switch( item.getItemId() ){
+            case R.id.changeName:
+                Toast.makeText(this, myList.get(index)+" Change Name", Toast.LENGTH_SHORT).show();
+                // 이름 새로 받아야함
+                String newName="";
+                ((MainActivity)MainActivity.mContext).dbHelper.changeName(myList.get(index).toString(), newName);
+
+                // 파일 이름 바꾸는 함수
+                nameChange(myList.get(index).toString(), newName);
+
+
+
+
+
+                break;
+            case R.id.upload:
+                Toast.makeText(this, myList.get(index)+" Upload", Toast.LENGTH_SHORT).show();
+                upLoad(myList.get(index).toString());
+                break;
+            case R.id.delete:
+                Toast.makeText(this, myList.get(index)+" Delete", Toast.LENGTH_SHORT).show();
+                ((MainActivity)MainActivity.mContext).dbHelper.delete(myList.get(index).toString());
+                File file = new File(Constants.getFilePath()+"/"+myList.get(index).toString());
+                Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
+                file.delete();
+
+
+                /////////////////////////
+                // 바로 갱신 안댐 //////////
+//                runOnUiThread(new Runnable() {
+//                    public void run() {
+//                        //reload content
+//
+//                        myList.remove(index);
+//                        adapter.notifyDataSetChanged();
+//                        listview.invalidateViews();
+//                        listview.refreshDrawableState();
+//                    }
+//                });
+                /////////////////////////
+                /////////////////////////
+
+
+                break;
+        }
+        return true;
+    };
+
+
+//    //ListView의 아이템 하나가 클릭되는 것을 감지하는 Listener객체 생성 (Button의 OnClickListener와 같은 역할)
+//    AdapterView.OnItemClickListener listener= new AdapterView.OnItemClickListener() {
+//        //ListView의 아이템 중 하나가 클릭될 때 호출되는 메소드
+//        //첫번째 파라미터 : 클릭된 아이템을 보여주고 있는 AdapterView 객체(여기서는 ListView객체)
+//        //두번째 파라미터 : 클릭된 아이템 뷰
+//        //세번째 파라미터 : 클릭된 아이템의 위치(ListView이 첫번째 아이템(가장위쪽)부터 차례대로 0,1,2,3.....)
+//        //네번재 파리미터 : 클릭된 아이템의 아이디(특별한 설정이 없다면 세번째 파라이터인 position과 같은 값)
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            // TODO Auto-generated method stub
+//            //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
+//            Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
+//
 //        }
-//        return true;
+//
 //    };
+
+
+
+
+
+    public void nameChange(String preName, String newName){
+        File filePre = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/폴더명", preName);
+        File fileNow = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/폴더명", newName);
+
+        if(filePre.renameTo(fileNow)){
+            Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
 }

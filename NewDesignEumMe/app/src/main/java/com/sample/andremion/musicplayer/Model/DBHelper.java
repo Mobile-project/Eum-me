@@ -71,6 +71,16 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    // 이름 바꾸기
+    public void changeName(String prevName, String newName){
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
+
+        db.close();
+    }
+
     public void delete(String file_name) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제
@@ -198,8 +208,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return ret;
     }
-    public void cleanDB(){
 
+
+    public List<String> selectMemo(){
+        List<String> memos=new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cs = db.rawQuery("SELECT memo FROM RECORDINGMEMO",null);
+        while(cs.moveToNext()){
+            
+        }
+        return memos;
     }
+
+
 }
 

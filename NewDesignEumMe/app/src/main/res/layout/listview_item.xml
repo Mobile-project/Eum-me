@@ -16,44 +16,43 @@
         android:layout_margin="5dp"
         />
 
-    <LinearLayout
-        android:id="@+id/file_name_container"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:background="#303030"
-        android:layout_toRightOf="@id/btn_play"
-        >
-
-        <TextView
-            android:id="@+id/text_view_file_name"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:textSize="15dp"
-            android:textColor="#EEEEEE"
-            android:gravity="center_vertical"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/text_view_play_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="playtime"
-            android:textSize="16dp"
-            android:textColor="#EEEEEE"
-            android:layout_weight="1" />
 
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/text_view_file_name"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btn_play"
+        android:layout_marginStart="66dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="New Text"
+        android:textColor="#EEEEEE"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/text_view_play_time"
+        android:layout_width="261dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_play"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="66dp"
+        android:layout_weight="1"
+        android:text="playtime"
+        android:textColor="#EEEEEE"
+        android:textSize="16dp" />
+
+
+    <!--</LinearLayout>-->
     <TextView
         android:id="@+id/text_view_date"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/file_name_container"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
         android:text="date"
-        android:textAlignment="viewEnd"/>
+        android:textAlignment="viewEnd" />
 
 </RelativeLayout>
