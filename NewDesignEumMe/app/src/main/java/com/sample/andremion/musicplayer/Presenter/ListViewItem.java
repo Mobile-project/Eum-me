@@ -29,8 +29,6 @@ public class ListViewItem {
         this.playTime = playTime;
     }
 
-
-
     public void setIcon(Drawable icon) {
         iconDrawable = icon ;
     }

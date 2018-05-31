@@ -54,16 +54,16 @@
 
         <ImageView
             android:id="@+id/options"
-            android:layout_width="@dimen/design_fab_size_mini"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="28dp"
-            android:layout_marginStart="-50dp"
-            android:layout_toEndOf="@+id/btn_record"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@+id/counter"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:paddingRight="10dp"
+            android:paddingRight="0dp"
             android:src="@drawable/ic_more_vert_white_24dp" />
+
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager

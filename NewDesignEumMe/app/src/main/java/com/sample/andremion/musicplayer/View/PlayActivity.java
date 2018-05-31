@@ -40,6 +40,7 @@ public class PlayActivity extends AppCompatActivity {
     private Handler mediaHandler = new Handler();
 
     private String fileName = "";
+    private String playTime = "";
 
     @Override
     protected void onStop() {
@@ -60,12 +61,15 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_player);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
 
         fileName = bundle.getString("fileName");                // 파일이름 꺼냄
-        Log.d(tag, "file Fisrt : " + fileName);
+        playTime = bundle.getString("playTime");                // 플레이타임 꺼냄
+
+        Log.d(tag, "file Fisrt : " + fileName + " playTime : " + playTime);
         textViewFileName = findViewById(R.id.file_name);
         textViewFileName.setText(fileName.toString());
 
@@ -212,14 +216,11 @@ public class PlayActivity extends AppCompatActivity {
         stopPlaying();
         Log.d(tag, "재생화면 종료");
         finish();
-
     }
 
     private void updateSeekBar() {
         mediaHandler.postDelayed(mRunnable, 1000);
     }
-
-
 
     private void getMemo(String fileName){
         RecordingMataData metaTemp = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);

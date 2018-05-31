@@ -101,7 +101,6 @@ public class ListView extends AppCompatActivity{
                     filename,
                     getPlayTime(rootSD+"/"+filename),
                     getCreatedTime(Long.valueOf(myListDate.get(i).toString())));
-
         }
 
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
@@ -147,8 +146,6 @@ public class ListView extends AppCompatActivity{
 
         registerForContextMenu(listview);
 
-
-
     }
 
 
@@ -166,16 +163,21 @@ public class ListView extends AppCompatActivity{
         return hours + ":" + minutes + ":" + seconds;
     }
 
-
+    /**
+     *
+     * @param date
+     * @return
+     * yyyy/MM/dd 형식으로 date 변환
+     *
+     */
     private String getCreatedTime(long date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(date).toString();
-
     }
 
 
     //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
+    ///////////////////////FIRE BASE UPLOAD///////////////////////
     //////////////////////////////////////////////////////////////
     public void upLoad(String fileName) {
         UploadTask uploadTask;
@@ -234,9 +236,6 @@ public class ListView extends AppCompatActivity{
     //////////////////////////////////////////////////////////////
 
 
-
-
-
     //Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -276,8 +275,6 @@ public class ListView extends AppCompatActivity{
                 } else{
                     Log.d(tag, "엘스문이다.");
                 }
-
-
 
                 // 파일 이름 바꾸는 함수
                 break;

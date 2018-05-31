@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -88,12 +89,21 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_STORAGE = 1111;
 
 
+    String memoContext;
+    ArrayList<String> arrayList = new ArrayList<>();
+
+    /////////////////////////////////////
+    Button testBtn;
+    Button testBtn2;
+    /////////////////////////////////////
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.content_list);
+
 
         backPressCloseHandler = new BackPressCloseHandler(this);
         option = findViewById(R.id.options);
@@ -102,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
         // DBHelper 객체 생성
         dbHelper = new DBHelper(getApplicationContext(), "RECORDINGMEMO.db", null, 1);
         itemList = new ArrayList<>();       // 아이템들 넣을 어레이
+
+
+        /////////////////////////////////////
+
+        /////////////////////////////////////
+
+
 
         //권한 받아오기
         TedPermission.with(this)
@@ -179,25 +196,22 @@ public class MainActivity extends AppCompatActivity {
 
         //viewPager생성하고 설정하기
 
-        ViewPagerAdapter viewPagerAdapteradapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter viewPagerAdapteradapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager=findViewById(R.id.view_pager);
         viewPager.setAdapter(viewPagerAdapteradapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            int index=0;
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-                if(prePositon<position) {
-                    prePositon=position;
-                    Log.d(tag, "Next page");
-                }
-                else if(prePositon>position) {
-                    prePositon=position;
-                    Log.d(tag, "Previous Page");
-                }
-
+                MemoFragement fragment =(MemoFragement) getSupportFragmentManager()
+                        .findFragmentByTag("android:switcher:"+R.id.view_pager+":"+prePositon);
+                memoContext= fragment.onFragmentSwipe(); // 여기 입력햇던 메모저장
+                arrayList.add(index,memoContext);       // 메모를 두칸 넘겼을떄 리스트에 저장
+                index++;
             }
 
             @Override

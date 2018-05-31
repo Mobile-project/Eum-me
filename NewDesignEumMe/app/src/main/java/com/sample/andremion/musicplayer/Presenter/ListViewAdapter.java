@@ -77,6 +77,7 @@ public class ListViewAdapter extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 Log.d(tag, listViewItemList.get(pos).getFileName());
                 bundle.putString("fileName", listViewItemList.get(pos).getFileName());
+                bundle.putString("playTime", listViewItemList.get(pos).getPlayTime());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
@@ -105,7 +106,6 @@ public class ListViewAdapter extends BaseAdapter {
         titleTextView.setText(listViewItem.getFileName());
         playTimeTextView.setText(listViewItem.getPlayTime());
         dateTextView.setText(listViewItem.getCreatedTime());
-
 
 //        fileNameContainer.setOnClickListener(new View.OnClickListener() {
 //            @Override

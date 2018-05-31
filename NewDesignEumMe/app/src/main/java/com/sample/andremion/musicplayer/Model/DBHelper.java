@@ -24,6 +24,17 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // DB를 새로 생성할 때 호출되는 함수
+
+
+    /**
+     *
+     * @param db
+     * _id              INTEGER     무시하는 프라이머리 키
+     * file_name        TEXT        녹음 파일 이름
+     * memo             TEXT        메모 내용
+     * memo_time        TEXT        메모한 시간
+     * memo_index       INTEGER     몇번째 메모인지
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(tag, "onCreate gogo");
@@ -40,10 +51,8 @@ public class DBHelper extends SQLiteOpenHelper {
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        //씨발
     }
-
-
     /*
     file_name       TEXT        파일 이름
     memo            TEXT        메모 내용
@@ -218,10 +227,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         Cursor cs = db.rawQuery("SELECT memo FROM RECORDINGMEMO",null);
         while(cs.moveToNext()){
-            
+            memos.add(cs.getString(0));
+            Log.d(tag, "in selectMemo : " + cs.getString(0));
         }
         return memos;
     }
+
+
+
+
 
 
 }
