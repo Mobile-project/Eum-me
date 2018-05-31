@@ -73,11 +73,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // 이름 바꾸기
-    public void changeName(String prevName, String newName){
+    public void reName(String prevName, String newName){
         SQLiteDatabase db = getWritableDatabase();
-
+        Log.d(tag, "pre : " + prevName + " new : " + newName);
         db.execSQL("UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
 
+        Log.d(tag, "UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
         db.close();
     }
 

@@ -1,6 +1,8 @@
 package com.sample.andremion.musicplayer.View;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +56,7 @@ public class ListView extends AppCompatActivity{
 
     //////////////////////////////////////////////////////////////
 
+    String newName="";
 
 
     @Override
@@ -258,16 +262,24 @@ public class ListView extends AppCompatActivity{
             case R.id.changeName:
                 Toast.makeText(this, myList.get(index)+" Change Name", Toast.LENGTH_SHORT).show();
                 // 이름 새로 받아야함
-                String newName="";
-                ((MainActivity)MainActivity.mContext).dbHelper.changeName(myList.get(index).toString(), newName);
+//                ((MainActivity)MainActivity.mContext).dbHelper.noName(myList.get(index).toString(), newName);
+                setNewName("");
+                customDialog(index);
+                if(!newName.equals("")){
+                    Log.d(tag, "이프문에 들어왔다.");
+                    nameChange(myList.get(index).toString(), newName);
+                    ((MainActivity)MainActivity.mContext).dbHelper.reName(myList.get(index).toString(), newName);
+
+                    myList.remove(index);
+                    adapter.notifyDataSetChanged();
+
+                } else{
+                    Log.d(tag, "엘스문이다.");
+                }
+
+
 
                 // 파일 이름 바꾸는 함수
-                nameChange(myList.get(index).toString(), newName);
-
-
-
-
-
                 break;
             case R.id.upload:
                 Toast.makeText(this, myList.get(index)+" Upload", Toast.LENGTH_SHORT).show();
@@ -326,8 +338,10 @@ public class ListView extends AppCompatActivity{
 
 
     public void nameChange(String preName, String newName){
-        File filePre = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/폴더명", preName);
-        File fileNow = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/폴더명", newName);
+        Log.d(tag, "in name change : " +Constants.getFilePath()+"/"+ preName);
+        Log.d(tag, "in name change : " + Constants.getFilePath()+"/" +newName+".mp4");
+        File filePre = new File(Constants.getFilePath()+"/", preName);
+        File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
 
         if(filePre.renameTo(fileNow)){
             Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
@@ -337,5 +351,43 @@ public class ListView extends AppCompatActivity{
     }
 
 
+
+    public void customDialog(final int index){
+        final String[] ret = {""};
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Input your name");
+        alert.setMessage("Plz, input yourname");
+
+
+        final EditText name = new EditText(this);
+        alert.setView(name);
+
+        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                ret[0] = name.getText().toString();
+                Log.d(tag, "셋 전 : " + ret[0]);
+                setNewName(ret[0]);
+                nameChange(myList.get(index).toString(), ret[0]);
+            }
+        });
+
+        alert.show();
+
+    }
+
+    public void setNewName(String t){
+        this.newName = t;
+    }
+
+    public String getNewName(String t){
+        return this.newName;
+    }
 
 }
