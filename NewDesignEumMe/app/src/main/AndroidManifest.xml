@@ -22,17 +22,17 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".View.GoogleSignInActivity"/>
         <activity android:name=".View.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-
+        <activity android:name=".View.SignInActivity" />
+        <activity android:name=".View.SignMainActivity"/>
 
 
         <service android:name=".Model.RecordeService" />
         <activity android:name=".View.ListView"/>
         <activity android:name=".View.PlayActivity"/>
-        <!--<activity android:name=".SignIn.SignInActivity"/>-->
+        <!--<activity android:name=".SignIn.EmailSignInActivity"/>-->
 
 
     </application>

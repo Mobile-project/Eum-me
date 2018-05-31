@@ -18,12 +18,16 @@ package com.sample.andremion.musicplayer.View;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -33,6 +37,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.sample.andremion.musicplayer.Model.Constants;
@@ -50,7 +59,18 @@ import java.util.List;
 //import com.sample.andremion.musicplayer.Model.memoItem;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+
+    //////////구글용
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
+
+    GoogleApiClient mGoogleApiClient;
+
+    String mUsername;
+    String mPhotoUrl;
+    ////////////
+
 
     String tag = "mymainactivity";
 
@@ -106,6 +126,56 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_list);
 
 
+        /////////구글용
+        findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("Signout ?")
+                        .setPositiveButton("signout", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mFirebaseAuth.signOut();
+                                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+
+                                // 이전 화면으로 가버림
+                                // 로그아웃댐
+                                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).show();
+            }
+        });
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if ( mFirebaseUser == null ) {
+            Toast.makeText(this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if ( mFirebaseUser.getPhotoUrl() != null ) {
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+            }
+
+            TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
+            usernameTextView.setText(mUsername);
+
+            Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+
+            // ImageView photoImageView = (ImageView) findViewById(R.id.photo_imageview);
+        }
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
+        ///////////////
         backPressCloseHandler = new BackPressCloseHandler(this);
         option = findViewById(R.id.options);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
@@ -284,6 +354,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+    ///// 구글용
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(tag, "onConnectionFailed:" + connectionResult);
+    }
+    ////////////////////////
 
 
 }
