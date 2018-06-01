@@ -14,12 +14,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.andremion.musicplayer.Model.RecordingMataData;
-import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity {
@@ -85,7 +82,6 @@ public class PlayActivity extends AppCompatActivity {
 
         // 재생하는 함수 실행
         onPlay(isPlaying);
-        getMemo(fileName);
         pauseButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -222,15 +218,16 @@ public class PlayActivity extends AppCompatActivity {
         mediaHandler.postDelayed(mRunnable, 1000);
     }
 
-    private void getMemo(String fileName){
-        RecordingMataData metaTemp = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
-        List<memoItem> itemList= metaTemp.getMemoItem();
-        int len = itemList.size();
-        Log.d(tag, "len : " + len);
-        for(int i=0;i<len;i++){
-            Log.d(tag, itemList.get(i).toString());
-            editText.setText(itemList.get(i).toString() + "\n");
-        }
-
-    }
+    // 테스트용
+//    private void getMemo(String fileName){
+//        RecordingMataData metaTemp = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
+//        List<memoItem> itemList= metaTemp.getMemoItem();
+//        int len = itemList.size();
+//        Log.d(tag, "len : " + len);
+//        for(int i=0;i<len;i++){
+//            Log.d(tag, itemList.get(i).toString());
+//            editText.setText(itemList.get(i).toString() + "\n");
+//        }
+//
+//    }
 }

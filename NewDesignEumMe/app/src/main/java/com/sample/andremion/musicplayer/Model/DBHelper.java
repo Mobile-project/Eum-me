@@ -26,22 +26,16 @@ public class DBHelper extends SQLiteOpenHelper {
     // DB를 새로 생성할 때 호출되는 함수
 
 
-    /**
-     *
-     * @param db
-     * _id              INTEGER     무시하는 프라이머리 키
-     * file_name        TEXT        녹음 파일 이름
-     * memo             TEXT        메모 내용
-     * memo_time        TEXT        메모한 시간
-     * memo_index       INTEGER     몇번째 메모인지
-     */
+//     _id              INTEGER     무시하는 프라이머리 키
+//     file_name        TEXT        녹음 파일 이름
+//     memo             TEXT        메모 내용
+//     memo_time        TEXT        메모한 시간
+//     memo_index       INTEGER     몇번째 메모인지
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(tag, "onCreate gogo");
         // 새로운 테이블 생성
-        /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
-        item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        String sql = "CREATE TABLE RECORDINGMEMO (_id INTEGER PRIMARY KEY AUTOINCREMENT, file_name TEXT, memo TEXT, play_time INTEGER, memo_index INTEGER, created_time TEXT);";
+        String sql = "CREATE TABLE RECORDINGMEMO (_id INTEGER PRIMARY KEY AUTOINCREMENT, file_name TEXT, memo TEXT, memo_time INTEGER, memo_index INTEGER);";
 //        db.execSQL("CREATE TABLE RECORDINGMEMO (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price INTEGER, create_at TEXT);");
         Log.d(tag, sql);
         db.execSQL(sql);
@@ -53,44 +47,49 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //씨발
     }
-    /*
-    file_name       TEXT        파일 이름
-    memo            TEXT        메모 내용
-    play_time       INTEGER     몇초 짜리인지
-    mamo_index      INTEGER     메모 번호
-    created_time    TEXT        녹음파일 생성시간
-     */
-    public void insert(String file_name, String memo, int play_time, int memo_index, String created_time) {
+    //     _id              INTEGER     무시하는 프라이머리 키
+    //     file_name        TEXT        녹음 파일 이름
+    //     memo             TEXT        메모 내용
+    //     memo_time        TEXT        메모한 시간
+    //     memo_index       INTEGER     몇번째 메모인지
+    public void insert(String file_name, String memo, int memo_time, int memo_index) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
 //        String sql = "INSERT INTO RECORDINGMEMO VALUES(null, 'file_name', 'memo', play_time, memo_index, 'created_time');";
 //        db.execSQL("INSERT INTO RECORDINGMEMO VALUES(null, '" + item + "', " + price + ", '" + create_at + "');");
-        db.execSQL("INSERT INTO RECORDINGMEMO VALUES(null, '" + file_name + "', '" + memo + "', " + play_time + ", " + memo_index +", '" + created_time + "' )");
-        Log.d(tag, "INSERT INTO RECORDINGMEMO VALUES(null, '" + file_name + "', '" + memo + "', " + play_time + ", " + memo_index +", '" + created_time + "' )");
+        db.execSQL("INSERT INTO RECORDINGMEMO VALUES(null, '" + file_name + "', '" + memo + "', " + memo_time + ", " + memo_index +")");
+
+        Log.d(tag, "INSERT INTO RECORDINGMEMO VALUES(null, '" + file_name + "', '" + memo + "', " + memo_time + ", " + memo_index +")");
+
         db.close();
     }
 
+
+    // 메모 수정?
     public void update(String file_name, int memo_index, String memo) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-//        db.execSQL("UPDATE RECORDINGMEMO SET price=" + price + " WHERE item='" + item + "';");
-        db.execSQL("UPDATE RECORDINGMEMO SET memo='"+ memo +"' WHERE file_name='" + file_name +"' AND memo_index= " + memo_index + ";");
-        Log.d(tag, "UPDATE RECORDINGMEMO SET memo='"+ memo +"' WHERE file_name='" + file_name +"' AND memo_index= " + memo_index + ";");
+        String sql="UPDATE RECORDINGMEMO SET memo='"+ memo +"' WHERE file_name='" + file_name +"' AND memo_index= " + memo_index;
+        db.execSQL(sql);
+        Log.d(tag, sql);
         db.close();
     }
 
 
     // 이름 바꾸기
+    // 테스트 필요
     public void reName(String prevName, String newName){
         SQLiteDatabase db = getWritableDatabase();
         Log.d(tag, "pre : " + prevName + " new : " + newName);
         db.execSQL("UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
 
         Log.d(tag, "UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
+
         db.close();
     }
 
+    // 파일 이름이 file_name 인 row 삭제
     public void delete(String file_name) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제
@@ -100,126 +99,43 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    /*
-    file_name       TEXT        파일 이름
-    memo            TEXT        메모 내용
-    play_time       INTEGER     몇초 짜리인지
-    mamo_index      INTEGER     메모 번호
-    created_time    TEXT        녹음파일 생성시간
-     */
+    //     _id              INTEGER     무시하는 프라이머리 키
+    //     file_name        TEXT        녹음 파일 이름
+    //     memo             TEXT        메모 내용
+    //     memo_time        TEXT        메모한 시간
+    //     memo_index       INTEGER     몇번째 메모인지
 
-
-    public RecordingMataData getResult(String file_Name) {
+    // 파일 이름이 file_
+    public RecordingMataData getResult(String fileName) {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
         String result = "";
 
-        Log.d(tag, "get result : " + file_Name);
-//        Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
-//        java.lang.String sql = "SELECT * FROM RECORDINGMEMO WHERE file_name = '"+file_Name+"'";
-        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO WHERE file_name=\""+file_Name+"\"",null);
-        Log.d(tag, "SELECT * FROM RECORDINGMEMO WHERE file_name=\""+file_Name+"\"");
+        Log.d(tag, "get result : " + fileName);
+        Log.d(tag, "SELECT * FROM RECORDINGMEMO WHERE file_name=\""+fileName+"\"");
 
-//        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO", null);
-//        Log.d(tag, "SELECT * FROM RECORDINGMEMO WHERE file_name='" + file_Name + "'");
+        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO WHERE file_name=\""+fileName+"\"",null);
 
+        List<memoItem> itemListTemp = new ArrayList<>();      // 메모 아이템들
 
-        List<memoItem> itemListTemp=new ArrayList<>();
-        int playTime=0;
-        String createdTime="";
-
-        while(cs.moveToNext()){
-            String t = cs.getString(0);
-            String fileName = cs.getString(1);
+        while (cs.moveToNext()) {
+            String t = cs.getString(0);         // 얘는 무시
+            String filename = cs.getString(1);
             String memo = cs.getString(2);
-            playTime = cs.getInt(3);
-            int memoIndex = cs.getInt(4);
-            createdTime = cs.getString(5);
-            Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " mamo index : " + memoIndex + " created time : " + createdTime);
-
-                memoItem itemTemp = new memoItem(fileName, memo, memoIndex);
-
-                itemListTemp.add(itemTemp);
+            String memotime = cs.getString(3);
+            int memoidx = cs.getInt(4);
 
 
+            memoItem itemTemp = new memoItem(memo, memotime, memoidx);              // 새로운 메모 아이템 생성
+            itemListTemp.add(itemTemp);                                             // 새로운 메모 아이템을 리스트에 추가
         }
         cs.close();
-
-        RecordingMataData ret = new RecordingMataData(itemListTemp, playTime, createdTime);
-        return ret;
-        // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
-//        Cursor cursor = db.rawQuery("SELECT * FROM RECORDINGMEMO", null);
-//        while (cursor.moveToNext()) {
-//            result += cursor.getString(0)
-//                    + " : "
-//                    + cursor.getString(1)
-//                    + " | "
-//                    + cursor.getInt(2)
-//                    + "원 "
-//                    + cursor.getString(3)
-//                    + "\n";
-//        }
-//
-//        return result;
-    }
-
-     /*
-    file_name       TEXT        파일 이름
-    memo            TEXT        메모 내용
-    play_time       INTEGER     몇초 짜리인지
-    mamo_index      INTEGER     메모 번호
-    created_time    TEXT        녹음파일 생성시간
-     */
-
-    public String getCreatedTime(String fileName){
-        String ret="";
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO WHERE file_name=\""+fileName+"\"",null);
-        while(cs.moveToNext()){
-            String t = cs.getString(0);
-            String fn = cs.getString(1);
-            String m = cs.getString(2);
-            int a = cs.getInt(3);
-            int memoIndex = cs.getInt(4);
-            ret = cs.getString(5);
-        }
-        Log.d(tag, "getCreatedTime : " + fileName + " and " + ret);
-
         db.close();
-
-        return ret;
-
+        return new RecordingMataData(fileName, itemListTemp);                       // 메타데이터 객체를 리턴
     }
 
-
-     /*
-    file_name       TEXT        파일 이름
-    memo            TEXT        메모 내용
-    play_time       INTEGER     몇초 짜리인지
-    mamo_index      INTEGER     메모 번호
-    created_time    TEXT        녹음파일 생성시간
-     */
-
-    public int getPlayTime(String fileName){
-        int ret=0;
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cs = db.rawQuery("SELECT * FROM RECORDINGMEMO WHERE file_name=\""+fileName+"\"",null);
-        while(cs.moveToNext()){
-            String t = cs.getString(0);
-            String fn = cs.getString(1);
-            String m = cs.getString(2);
-            ret = cs.getInt(3);
-            int memoIndex = cs.getInt(4);
-            String createdTime = cs.getString(5);
-        }
-        Log.d(tag, "getPlayTime : " + fileName + " and " + ret);
-
-        db.close();
-
-        return ret;
-    }
-
-
+    // 메모만 반환하는 함수
+    // 테스트 필요
     public List<String> selectMemo(){
         List<String> memos=new ArrayList<>();
 
@@ -233,10 +149,4 @@ public class DBHelper extends SQLiteOpenHelper {
         return memos;
     }
 
-
-
-
-
-
 }
-

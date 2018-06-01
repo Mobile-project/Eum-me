@@ -3,7 +3,6 @@ package com.sample.andremion.musicplayer.View;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +28,6 @@ import com.sample.andremion.musicplayer.Presenter.ListViewAdapter;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +52,7 @@ public class ListView extends AppCompatActivity{
     public ListViewAdapter adapter;
     public android.widget.ListView listview ;
 
+    File list[];
     //////////////////////////////////////////////////////////////
 
     String newName="";
@@ -72,7 +71,7 @@ public class ListView extends AppCompatActivity{
         Log.d(tag,"after rootSD");
 
         file = new File(rootSD);
-        File list[] = file.listFiles();
+        list = file.listFiles();
         Log.d(tag,"after file list[] : " + list.length);
 
 
@@ -94,13 +93,15 @@ public class ListView extends AppCompatActivity{
         listview.setAdapter(adapter);
 
         // 아이템 추가
-        for(int i=0;i<myList.size();i++){
+        // 테스트 필요
+        for(int i=0;i<list.length;i++){
             Log.d(tag, "rootSD : " + rootSD);
-            String filename = myList.get(i).toString();
-            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),
-                    filename,
-                    getPlayTime(rootSD+"/"+filename),
-                    getCreatedTime(Long.valueOf(myListDate.get(i).toString())));
+            String fileName = list[i].getName().toString();
+            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),        // 플레이버튼
+                    fileName,                                                                   // 녹음 파일 이름
+                    Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
+                    Constants.getCreatedTime(list[i])                                           // 녹음파일 마지막 수정시간
+            );
         }
 
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
@@ -149,31 +150,8 @@ public class ListView extends AppCompatActivity{
     }
 
 
-    // path에 있는 파일 길이 가져오기.
-    // hh:mm:ss
-    private String getPlayTime(String path) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(path);
-        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        long timeInmillisec = Long.parseLong( time );
-        long duration = timeInmillisec / 1000;
-        long hours = duration / 3600;
-        long minutes = (duration - hours * 3600) / 60;
-        long seconds = duration - (hours * 3600 + minutes * 60);
-        return hours + ":" + minutes + ":" + seconds;
-    }
 
-    /**
-     *
-     * @param date
-     * @return
-     * yyyy/MM/dd 형식으로 date 변환
-     *
-     */
-    private String getCreatedTime(long date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        return sdf.format(date).toString();
-    }
+
 
 
     //////////////////////////////////////////////////////////////
@@ -270,6 +248,7 @@ public class ListView extends AppCompatActivity{
                     ((MainActivity)MainActivity.mContext).dbHelper.reName(myList.get(index).toString(), newName);
 
                     myList.remove(index);
+
                     adapter.notifyDataSetChanged();
 
                 } else{

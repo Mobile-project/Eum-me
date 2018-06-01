@@ -18,10 +18,13 @@ package com.sample.andremion.musicplayer.View;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,6 +37,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.sample.andremion.musicplayer.Model.Constants;
@@ -51,7 +59,18 @@ import java.util.List;
 //import com.sample.andremion.musicplayer.Model.memoItem;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+
+    //////////구글용
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
+
+    GoogleApiClient mGoogleApiClient;
+
+    String mUsername;
+    String mPhotoUrl;
+    ////////////
+
 
     String tag = "mymainactivity";
 
@@ -77,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
     private BackPressCloseHandler backPressCloseHandler;
 
-    List<memoItem> itemList = null;
-    RecordingMataData metaData = null;
+    List<memoItem> memoItemList = null;                             // 메모정보들
+    RecordingMataData metaData = null;                          // 메모정보 포함한 녹음정보들
+
+
     public DBHelper dbHelper = null;
 
     public MainActivity(){
@@ -105,13 +126,63 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_list);
 
 
+        /////////구글용
+        findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("Signout ?")
+                        .setPositiveButton("signout", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mFirebaseAuth.signOut();
+                                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+
+                                // 이전 화면으로 가버림
+                                // 로그아웃댐
+                                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).show();
+            }
+        });
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if ( mFirebaseUser == null ) {
+            Toast.makeText(this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if ( mFirebaseUser.getPhotoUrl() != null ) {
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+            }
+
+            TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
+            usernameTextView.setText(mUsername);
+
+            Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+
+            // ImageView photoImageView = (ImageView) findViewById(R.id.photo_imageview);
+        }
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
+        ///////////////
         backPressCloseHandler = new BackPressCloseHandler(this);
         option = findViewById(R.id.options);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         title = findViewById(R.id.name);
         // DBHelper 객체 생성
         dbHelper = new DBHelper(getApplicationContext(), "RECORDINGMEMO.db", null, 1);
-        itemList = new ArrayList<>();       // 아이템들 넣을 어레이
+        memoItemList = new ArrayList<>();       // 아이템들 넣을 어레이
 
 
         /////////////////////////////////////
@@ -146,7 +217,9 @@ public class MainActivity extends AppCompatActivity {
 
                     // 시작시간
                     startTime = (int) System.currentTimeMillis();
-                } else if (isRecording) {
+                }
+                else if (isRecording) {
+                    // 녹음 멈춤
                     chronometer.stop();
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     Toast.makeText(getApplicationContext(), "녹음 중지", Toast.LENGTH_SHORT).show();
@@ -159,40 +232,32 @@ public class MainActivity extends AppCompatActivity {
                     playTime = (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
                     createdTime = Constants.getCurrentTime();           // 현재시간 yyyyMMdd_HHmm
 
-                    metaData = new RecordingMataData(itemList, playTime, createdTime);
+                    metaData = new RecordingMataData(title.getText().toString() + ".mp4", memoItemList);
 
 
-                    /*
-    file_name       TEXT        파일 이름
-    memo            TEXT        메모 내용
-    play_time       INTEGER     몇초 짜리인지
-    mamo_index      INTEGER     메모 번호
-    created_time    TEXT        녹음파일 생성시간
-     */
+//     * _id              INTEGER     무시하는 프라이머리 키
+//     * file_name        TEXT        녹음 파일 이름
+//     * memo             TEXT        메모 내용
+//     * memo_time        TEXT        메모한 시간
+//     * memo_index       INTEGER     몇번째 메모인지
 
                     // 메모 갯수만큼 돌면서 디비에 인서트
-                    List<memoItem> item = metaData.getMemoItem();
-                    Log.d(tag, "before insert");
-                    for (int i = 0; i < memoCount - 1; i++) {
-                        String fileName = item.get(i).getFileName();
-                        String memo = item.get(i).getMemo();
-                        int playTime = metaData.getPlayTime();
-                        int memoIndex = item.get(i).getMemoIndex();
-                        String createdTime = metaData.getCreatedTime();
-                        Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " mamo index : " + memoIndex + " created time : " + createdTime);
-                        dbHelper.insert(fileName, memo, playTime, memoIndex, createdTime);
-                    }
+//                    List<memoItem> item = metaData.getMemoItem();
+//                    Log.d(tag, "before insert");
+//                    for (int i = 0; i < memoCount - 1; i++) {
+//                        String fileName = item.get(i).getFileName();
+//                        String memo = item.get(i).getMemo();
+//                        int playTime = metaData.getPlayTime();
+//                        int memoIndex = item.get(i).getMemoIndex();
+//                        String createdTime = metaData.getCreatedTime();
+//                        Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " mamo index : " + memoIndex + " created time : " + createdTime);
+//                        dbHelper.insert(fileName, memo, playTime, memoIndex, createdTime);
+//                    }
                 }
             }
         });
 
-        option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListView.class);
-                startActivity(intent);
-            }
-        });
+
 
         //viewPager생성하고 설정하기
 
@@ -203,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
             int index=0;
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
@@ -221,43 +287,45 @@ public class MainActivity extends AppCompatActivity {
 
         });
         viewPager.setCurrentItem(0);
+
+
+        // option (...) 눌렀을떄 이벤트
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListView.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    @Override
-    public void onBackPressed() {
-        backPressCloseHandler.onBackPressed();
-    }
+
 
     // 오른쪽 스와이프 했을때 새로운 메모 내용 itemList에 넣는 함수.
+    // 두번째 memoTime은 호출할떄 Constants.getCurrentTime 으로 넘겨주면댐.
+    public void makeNewMemo(String memo, String memoTime, int memoIndex) {
+        //     * _id              INTEGER     무시하는 프라이머리 키
+        //     * file_name        TEXT        녹음 파일 이름
+        //     * memo             TEXT        메모 내용             v
+        //     * memo_time        TEXT        메모한 시간            v
+        //     * memo_index       INTEGER     몇번째 메모인지          v
 
-    public void makeNewMemo(String memo, int memoIndex) {
-        //        private String fileName;                // 파일 이름
-//        private int playTime;                   // 몇초짜리인지
-//        private String memo;                    // 메모 내용
-//        private int memoIndex;                  // 몇번쨰 메모인지
-//        private String createdTime;             // 언제 만든 녹음파일인지,
-
-        String fileNameTemp = "audio" + Constants.getCurrentTime() + ".mp4";
+//        String fileNameTemp = "audio" + Constants.getCurrentTime() + ".mp4";
 //        fileNameTemp = fileNameTemp.substring(fileNameTemp.indexOf("/audio"));
 //        Log.d(tag, "fileNameTemp : " +fileNameTemp);
         String memoTemp = memo;
         int memoIndexTemp = memoIndex;
 
-        /*
-        file_name       TEXT        파일 이름
-        memo            TEXT        메모 내용
-        play_time       INTEGER     몇초 짜리인지
-        mamo_index      INTEGER     메모 번호
-        created_time    TEXT        녹음파일 생성시간
-         */
-
         // 새로운 메모 객체 생성
-        memoItem newItem = new memoItem(fileNameTemp, memoTemp, memoIndexTemp);
+        // 컨스트럭터 파라미터 3개
+        // String memo;         // 메모 내용
+        // String memoTime;     // 메모한 시간
+        // String memoIndex;    // 메모 인덱스
 
-        Log.d(tag, "filename : " + fileNameTemp + " memo : " + memoTemp + " memo index : " + memoIndexTemp);
+        memoItem newItem = new memoItem(memo, memoTime, memoIndex);
 
         // 새로운 메모 객체 itemList에 추가
-        itemList.add(newItem);
+        memoItemList.add(newItem);
         // 저장하기
     }
 
@@ -265,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    // 퍼미션 허가하는 함수
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
@@ -279,6 +347,20 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
+    }
+
+
+
+
+    ///// 구글용
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(tag, "onConnectionFailed:" + connectionResult);
+    }
+    ////////////////////////
 
 
 }

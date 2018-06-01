@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.R;
-import com.sample.andremion.musicplayer.View.MainActivity;
 import com.sample.andremion.musicplayer.View.PlayActivity;
 
 import java.io.File;
@@ -152,15 +151,17 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String playtime, String createdtime) {
+    public void addItem(Drawable icon, String title, String playTime, String createdTime) {
         ListViewItem item = new ListViewItem();
         item.setIcon(icon);
         item.setFileName(title);
-        Log.d(tag, "playtime : "+playtime);
-        item.setPlayTime(String.valueOf(playtime));
-        item.setCreatedTime(createdtime);
-        Log.d(tag, "addItem : playtime : " + playtime);
-        Log.d(tag, "addItem : cratedTime : " + ((MainActivity)MainActivity.mContext).dbHelper.getCreatedTime(title));
+        item.setPlayTime(String.valueOf(playTime));
+        item.setCreatedTime(createdTime);
+
+//        Log.d(tag, "playtime : "+playTime);
+//        Log.d(tag, "addItem : playtime : " + playTime);
+//        Log.d(tag, "addItem : cratedTime : " + ((MainActivity)MainActivity.mContext).dbHelper.getCreatedTime(title));
+
         listViewItemList.add(item);
     }
 

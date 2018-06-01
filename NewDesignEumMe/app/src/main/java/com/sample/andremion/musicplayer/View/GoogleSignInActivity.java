@@ -90,8 +90,8 @@ public class GoogleSignInActivity extends BaseActivity implements
                 firebaseAuthWithGoogle(account);
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -182,9 +182,15 @@ public class GoogleSignInActivity extends BaseActivity implements
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
+
+            //////////            //////////            //////////
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+
+            //////////            //////////            //////////
+
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
