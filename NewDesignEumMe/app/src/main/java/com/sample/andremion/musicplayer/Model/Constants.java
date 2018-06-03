@@ -11,23 +11,12 @@ import java.util.Locale;
 
 public class Constants {
 
-    private static String folderName = "/ZEum_me";
-    private static int audioSource = MediaRecorder.AudioSource.MIC;
-    private static int audioFormat = MediaRecorder.OutputFormat.THREE_GPP;
-    private static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
+    private final static String folderName = "/ZEum_me";
+    private final static int audioSource = MediaRecorder.AudioSource.MIC;
+    private final static int audioFormat = MediaRecorder.OutputFormat.THREE_GPP;
+    private final static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
     private  static int fileCount = 0;
     private static String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ZEum_me";
-
-    //////////////////////////////////////////////////////////////
-    //메모에서 사용되는 constants
-    private static int Index = 0;
-
-    public static int getIndex() {return Index;}
-
-    public  static void setIndex (int index){
-        Index = index;
-    }
-    /////////////////////////////////////////////////////////////
 
     public static String getFilePath() {
         return filePath;
@@ -59,14 +48,12 @@ public class Constants {
         return String.valueOf(date.format(day));
     }
 
-
     public static void setFileCount(int count){
         fileCount=count;
     }
-    public static int getFilecount(){
+    public static int getFileCount(){
         return fileCount;
     }
-
 
     // path에 있는 파일 길이 가져오기.
     // hh:mm:ss
@@ -82,13 +69,11 @@ public class Constants {
         return hours + ":" + minutes + ":" + seconds;
     }
 
-
      // yyyy/MM/dd 형식으로 date 변환
     public static String dateTypeConvert(long date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(date).toString();
     }
-
 
     // 파라미터 : 파일
     // 파일의 마지막 수정일을 yyyy/MM/dd 형태로 바꿔서 리턴

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.RecordingFragment">
+    tools:context=".View.PlayingFragment">
 
     <EditText
-        android:id="@+id/memo_area"
+        android:id="@+id/memo_area1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#D5D4EA"
@@ -15,5 +15,4 @@
         android:inputType="textMultiLine|text"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         />
-
 </LinearLayout>

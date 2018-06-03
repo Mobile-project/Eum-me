@@ -30,7 +30,8 @@
 
         <service android:name=".Model.RecordeService" />
         <activity android:name=".View.ListView"/>
-        <activity android:name=".View.PlayActivity"/>
+        <activity android:name=".View.PlayActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <!--<activity android:name=".SignIn.EmailSignInActivity"/>-->
 
 

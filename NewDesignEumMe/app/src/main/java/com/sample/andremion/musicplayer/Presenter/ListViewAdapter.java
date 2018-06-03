@@ -2,6 +2,7 @@ package com.sample.andremion.musicplayer.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,22 +15,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.View.PlayActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
     private File file;
     String tag = "myListView";
+    String playtime;
+    int duration;
+    int seconds, minutes, hours;
 
 
+    private Context mContext;
     RecordingMataData metaData;
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
+    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
 
     // ListViewAdapter의 생성자
     public ListViewAdapter() {
@@ -39,7 +46,7 @@ public class ListViewAdapter extends BaseAdapter {
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {
-        return listViewItemList.size() ;
+        return listViewItemList.size();
     }
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
@@ -58,11 +65,10 @@ public class ListViewAdapter extends BaseAdapter {
 //        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
 //        LinearLayout fileNameContainer = (LinearLayout) convertView.findViewById(R.id.file_name_container);
         ImageView playButton = (ImageView) convertView.findViewById(R.id.btn_play);
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name) ;
-        TextView playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time) ;
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name);
+        TextView playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time);
         TextView dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
         RelativeLayout topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
-
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +76,8 @@ public class ListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 // 각 항목의 플레이 버튼 눌렀을떄
                 Log.d(tag, "play button click : " + pos);
-                Toast.makeText(context, "play button click : " + pos,Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(context, "play button click : " + pos, Toast.LENGTH_SHORT).show();
+                //List<String> memos =
                 Intent intent = new Intent(context, PlayActivity.class);
                 Bundle bundle = new Bundle();
                 Log.d(tag, listViewItemList.get(pos).getFileName());
@@ -103,7 +109,12 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 아이템 내 각 위젯에 데이터 반영
         titleTextView.setText(listViewItem.getFileName());
-        playTimeTextView.setText(listViewItem.getPlayTime());
+        playtime = listViewItem.getPlayTime().replace(":", "");
+        duration = Integer.parseInt(playtime);
+        seconds = duration % 100;
+        minutes = (duration - seconds) % 100;
+        hours = (duration / 10000);
+        playTimeTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
         dateTextView.setText(listViewItem.getCreatedTime());
 
 //        fileNameContainer.setOnClickListener(new View.OnClickListener() {
@@ -141,13 +152,13 @@ public class ListViewAdapter extends BaseAdapter {
     // 지정한 위치(position)에 있는 데이터와 관계된 아이템(row)의 ID를 리턴. : 필수 구현
     @Override
     public long getItemId(int position) {
-        return position ;
+        return position;
     }
 
     // 지정한 위치(position)에 있는 데이터 리턴 : 필수 구현
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position) ;
+        return listViewItemList.get(position);
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
@@ -165,6 +176,9 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
+    public void deleteItem(int position) {
+        listViewItemList.remove(position);
+    }
 
 
 }

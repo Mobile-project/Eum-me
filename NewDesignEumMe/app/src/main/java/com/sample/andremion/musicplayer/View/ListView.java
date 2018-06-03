@@ -225,7 +225,7 @@ public class ListView extends AppCompatActivity{
     }
 
 
-//    //Context 메뉴로 등록한 View(여기서는 ListView)가 클릭되었을 때 자동으로 호출되는 메소드
+    //    //Context 메뉴로 등록한 View(여기서는 ListView)가 클릭되었을 때 자동으로 호출되는 메소드
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         //AdapterContextMenuInfo
