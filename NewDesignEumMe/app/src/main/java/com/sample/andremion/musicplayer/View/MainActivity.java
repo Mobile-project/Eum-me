@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         dbHelper.insert(fileName, memo,  createdTime, memoIndex );
                         Log.d(tag,"디비 종료");
                     }
-                    dbHelper.close();
+//                    dbHelper.close();
                 }
             }
         });

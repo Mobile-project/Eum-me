@@ -267,22 +267,8 @@ public class ListView extends AppCompatActivity{
                 File file = new File(Constants.getFilePath()+"/"+myList.get(index).toString());
                 Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
                 file.delete();
-
-
-                /////////////////////////
-                // 바로 갱신 안댐 //////////
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        //reload content
-//
-//                        myList.remove(index);
-//                        adapter.notifyDataSetChanged();
-//                        listview.invalidateViews();
-//                        listview.refreshDrawableState();
-//                    }
-//                });
-                /////////////////////////
-                /////////////////////////
+                adapter.deleteItem(index);
+                adapter.notifyDataSetChanged();
 
 
                 break;
