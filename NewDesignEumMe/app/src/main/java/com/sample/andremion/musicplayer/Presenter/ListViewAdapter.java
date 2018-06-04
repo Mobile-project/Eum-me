@@ -2,7 +2,6 @@ package com.sample.andremion.musicplayer.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.View.PlayActivity;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
     private File file;
@@ -181,4 +178,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
 
+    public void nameChange(int position, String newName){
+        listViewItemList.get(position).setFileName(newName);
+    }
 }

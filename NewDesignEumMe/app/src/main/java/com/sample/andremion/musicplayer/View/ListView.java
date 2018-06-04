@@ -245,10 +245,11 @@ public class ListView extends AppCompatActivity{
                 if(!newName.equals("")){
                     Log.d(tag, "이프문에 들어왔다.");
                     nameChange(myList.get(index).toString(), newName);
+
                     ((MainActivity)MainActivity.mContext).dbHelper.reName(myList.get(index).toString(), newName);
 
                     myList.remove(index);
-
+                    adapter.nameChange(index,newName);              // 어댑터에 있는 아이템 리스트 index에 있는 이름 변경.
                     adapter.notifyDataSetChanged();
 
                 } else{
