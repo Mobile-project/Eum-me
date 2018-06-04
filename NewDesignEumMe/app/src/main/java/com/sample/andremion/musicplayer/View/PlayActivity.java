@@ -22,14 +22,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Model.RecordeService;
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.ListViewItem;
 import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
+import com.sample.andremion.musicplayer.Presenter.PlayingSingleton;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +58,7 @@ public class PlayActivity extends AppCompatActivity {
     private TextView mCurrentProgressTextView = null;       // 시간 표시하는 곳
     private SeekBar mediaSeekBar = null;
     MediaPlayer mediaPlayer;
-
+    public DBHelper dbHelper;
     private Handler mediaHandler = new Handler();
     private String fileName = "";
     private String playTime = "";
@@ -98,14 +101,21 @@ public class PlayActivity extends AppCompatActivity {
         textViewFileName = findViewById(R.id.file_name);
         textViewFileName.setText(fileName.toString());
 
-
-        textViewFileName = findViewById(R.id.file_name);
         mFileLengthTextView = findViewById(R.id.file_length_text_view);
         mFileLengthTextView.setText(String.format("%02d:%02d", minutes, seconds));
         mCurrentProgressTextView = findViewById(R.id.current_progress_text_view);
 
         pauseButton = findViewById(R.id.btn_play);
         //editText = findViewById(R.id.memo_area);
+        dbHelper = new DBHelper(this);
+        dbHelper.open();
+        ArrayList<String> stringList = PlayingSingleton.getInstance().getList();
+        stringList=dbHelper.selectMemo(fileName.toString());
+        PlayingSingleton.getInstance().setList(stringList);
+        Log.d(tag,"디비 불러와서 스트링리스트에 저장");
+        dbHelper.close();
+        Log.d(tag,"디비 종료");
+       // Log.d(tag,"불러온 내용"+stringList.get(0));
         viewpager = findViewById(R.id.view_pager1);
         PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager());
         viewpager.setAdapter(viewPagerAdapter);
@@ -114,7 +124,6 @@ public class PlayActivity extends AppCompatActivity {
         Log.d(tag, "onCreate and fileNAme is  : " + fileName);
         path += "/" + fileName;
         Log.d(tag, "file path : " + path);
-
 
         mediaSeekBar = findViewById(R.id.seek_bar);
         // mediaSeekBar.setMax(duration);

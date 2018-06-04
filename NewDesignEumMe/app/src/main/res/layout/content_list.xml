@@ -43,20 +43,21 @@
             android:text="Tab the button to start recording"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-        <TextView
-            android:id="@+id/counter"
+        <Button
+            android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/name"
             android:layout_centerHorizontal="true"
-            android:text="getItemCount로 받기 "
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:background="@android:color/transparent"
+            android:text="Logout"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />/>
 
         <ImageView
             android:id="@+id/options"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_alignBottom="@+id/counter"
+            android:layout_alignBottom="@+id/logout_button"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -72,8 +73,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,21 +80,23 @@
         android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/logout_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/username_textview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/photo_imageview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <TextView
-            android:id="@+id/username_textview"
+            android:id="@+id/db_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/photo_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        </TextView>
     </LinearLayout>
 
 

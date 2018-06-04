@@ -159,14 +159,17 @@ public class DBHelper {
 
     // 메모만 반환하는 함수
     // 테스트 필요
-    public List<String> selectMemo() {
-        List<String> memos = new ArrayList<>();
+    public ArrayList<String> selectMemo(String fileName) {
+        ArrayList<String> memos = new ArrayList<String>();
 
         mDB = mDBHelper.getReadableDatabase();
+       // String sql = "SELECT "+DBInfo.CreateDB.MEMO+" FROM "+DBInfo.CreateDB._TABLENAME+" WHERE  =";
+        String[] columns = {DBInfo.CreateDB.MEMO};
+        String[] params = {fileName};
 
-        Cursor cs = mDB.rawQuery("SELECT memo FROM RECORDINGMEMO", null);
+        Cursor cs = mDB.query(DBInfo.CreateDB._TABLENAME,columns,"file_name=?",params,null,null,null);
         while (cs.moveToNext()) {
-            memos.add(cs.getString(0));
+            memos.add(cs.getString(cs.getColumnIndex(DBInfo.CreateDB.MEMO)));
             Log.d(tag, "in selectMemo : " + cs.getString(0));
         }
         return memos;

@@ -12,7 +12,6 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
     public PlayViewPagerAdapter(android.support.v4.app.FragmentManager fm)
     {
         super(fm);
-       // this.list = list;
     }
 
     @Override

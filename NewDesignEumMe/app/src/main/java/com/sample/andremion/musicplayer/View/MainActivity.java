@@ -54,12 +54,13 @@ import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
 import com.sample.andremion.musicplayer.Model.RecordeService;
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.Presenter.BackPressCloseHandler;
-import com.sample.andremion.musicplayer.Presenter.MemoSingleton;
+import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
 import com.sample.andremion.musicplayer.Presenter.RecordViewPagerAdapter;
 import com.sample.andremion.musicplayer.R;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 //import com.sample.andremion.musicplayer.Model.memoItem;
 
@@ -167,8 +168,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
 
-            TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
-            usernameTextView.setText(mUsername);
+           // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
+           // usernameTextView.setText(mUsername);
 
             Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     //마지막 페이지에 있는 메모 저장하기
                     //event 발생시키기
 
-                    metaData = new RecordingMataData(startTime + ".mp4", MemoSingleton.getInstance().getMemoItemList());
+                    metaData = new RecordingMataData(startTime + ".mp4", RecordingSingleton.getInstance().getMemoItemList());
 
 
 //     * _id              INTEGER     무시하는 프라이머리 키
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //     * memo_index       INTEGER     몇번째 메모인지
 
                     // 메모 갯수만큼 돌면서 디비에 인서트
-                    ArrayList<memoItem> memoItemList = MemoSingleton.getInstance().getMemoItemList();
+                    ArrayList<memoItem> memoItemList = RecordingSingleton.getInstance().getMemoItemList();
                     for (int i = 0; i < memoItemList.size(); i++) {
                         String fileName = startTime + ".mp4";
                         String memo = memoItemList.get(i).getMemo();
@@ -239,6 +240,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
                         dbHelper.insert(fileName, memo,  createdTime, memoIndex );
                         Log.d(tag,"디비 종료");
+                    }
+                    TextView textView = findViewById(R.id.db_list);
+                    ArrayList<String> stringList = dbHelper.selectMemo(startTime + ".mp4");
+                    textView.setText(stringList.get(0));
+                    for(int i=1; i<stringList.size();i++){
+                        textView.append(stringList.get(i)+"\n");
                     }
                     dbHelper.close();
                 }
@@ -251,8 +258,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
@@ -272,8 +278,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-            }
+            public void onPageScrollStateChanged(int state) { }
 
         });
         viewPager.setCurrentItem(0);
@@ -289,6 +294,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     // 퍼미션 허가하는 함수
