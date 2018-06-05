@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     /////////////////////////////////////
-    public String newFileName="";
+    public String fileName="";          // 기본이름
+    public String newFileName="";       // 바꾼이름
     /////////////////////////////////////
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -174,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     startService(new Intent(getApplicationContext(), RecordeService.class));//녹음 시작
                     title.setText(Constants.getCurrentTime()); //타이틀 현재시간으로 설정
                     startTime = System.currentTimeMillis(); // 메모가 언제 만들어지는지 알기 위한 시작시간
+
                 } else if (isRecording) {
                     // 녹음 멈춤
                     isRecording = false;
@@ -187,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     endTime = (int) System.currentTimeMillis();
                     playTime = (int) (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
 
+                    fileName = Constants.getPreFileName();          // 기본 이름.
 
                     customDialog();                           // 새 파일 이름 받아오기
 
@@ -196,27 +199,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //     * memo_time        TEXT        메모한 시간
 //     * memo_index       INTEGER     몇번째 메모인지
 
-                    // 메모 갯수만큼 돌면서 디비에 인서트
-                    memoItemList = RecordingSingleton.getInstance().getMemoItemList();
-                    if (memoItemList == null) {
 
-                    } else {
-                            for (int i = 0; i < memoItemList.size(); i++) {
-                                String fileName = Constants.dateTypeConvert(startTime) + ".mp4";
-                                fileName = "audio" + fileName;
-                                String memo = memoItemList.get(i).getMemo();
-                                int memoIndex = memoItemList.get(i).getMemoIndex();
-                                String createdTime = memoItemList.get(i).getMemoTime();
-                                Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
-                                dbHelper.insert(fileName, memo, createdTime, memoIndex);
-                            }
-                            Log.d(tag, "메모아이템리스트 크기 " + memoItemList.size());
-                            for (int i = 0; i < memoItemList.size(); i++) {
-                                Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
-                            }
-                           RecordingSingleton.getInstance().setClear();
-
-                    }
 
 
                 }
@@ -305,17 +288,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         final EditText name = new EditText(this);
         alert.setView(name);
 
-//        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//
-//            }
-//        });
+        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                addMemoItemListToDB(fileName);
+            }
+        });
 
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 newFileName = name.getText().toString();
                 Log.d(tag, "new name : " + newFileName);
                 nameChange(Constants.getPreFileName(), newFileName);
+                addMemoItemListToDB(newFileName+".mp4");
                 Intent in = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(in);
                 finish();
@@ -331,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void nameChange(String preName, String newName){
         Log.d(tag, "in name change preName : " +preName);
         Log.d(tag, "in name change newName : " +newName);
-        File filePre = new File(Constants.getFilePath()+"/", "audio"+preName+".mp4");
+        File filePre = new File(Constants.getFilePath()+"/", preName);
         File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
         if(filePre.exists()){
             Log.d(tag, "exists");
@@ -340,11 +324,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
         if(filePre.renameTo(fileNow)){
             Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
+
         }else{
             Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
+
 //        dbHelper.reName(preName, newName + ".mp4");
+    }
+
+    public void addMemoItemListToDB(String filename){
+        // 메모 갯수만큼 돌면서 디비에 인서트
+        memoItemList = RecordingSingleton.getInstance().getMemoItemList();
+        if (memoItemList == null) {
+
+        } else {
+            for (int i = 0; i < memoItemList.size(); i++) {
+                String memo = memoItemList.get(i).getMemo();
+                int memoIndex = memoItemList.get(i).getMemoIndex();
+                String createdTime = memoItemList.get(i).getMemoTime();
+                Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
+                dbHelper.insert(filename, memo, createdTime, memoIndex);
+            }
+            Log.d(tag, "메모아이템리스트 크기 " + memoItemList.size());
+            for (int i = 0; i < memoItemList.size(); i++) {
+                Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
+            }
+            RecordingSingleton.getInstance().setClear();
+        }
     }
 }
 

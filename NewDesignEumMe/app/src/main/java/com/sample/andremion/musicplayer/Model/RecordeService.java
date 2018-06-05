@@ -72,7 +72,7 @@ public class RecordeService extends Service {
         mediaRecorder.setOutputFormat(Constants.getAudioFormat());
         mediaRecorder.setAudioEncoder(Constants.getAudioEncoder());
         mediaRecorder.setOutputFile(setFilePath());
-        Constants.setPreFileName(currentTime);
+        Constants.setPreFileName("audio"+currentTime+".mp4");
 
     }
 
