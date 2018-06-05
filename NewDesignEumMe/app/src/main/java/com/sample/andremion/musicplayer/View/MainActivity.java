@@ -10,13 +10,12 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,16 +30,15 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.sample.andremion.musicplayer.Model.Constants;
 import com.sample.andremion.musicplayer.Model.DBHelper;
-
-import com.sample.andremion.musicplayer.Model.memoItem;
-import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
 import com.sample.andremion.musicplayer.Model.RecordeService;
+import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.BackPressCloseHandler;
-import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
+import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
 import com.sample.andremion.musicplayer.Presenter.RecordViewPagerAdapter;
+import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
 import com.sample.andremion.musicplayer.R;
 
-
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -91,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     /////////////////////////////////////
-    Button testBtn;
-    Button testBtn2;
+    public String newFileName="";
     /////////////////////////////////////
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     endTime = (int) System.currentTimeMillis();
                     playTime = (int) (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
 
+
+                    customDialog();                           // 새 파일 이름 받아오기
+
 //     * _id              INTEGER     무시하는 프라이머리 키
 //     * file_name        TEXT        녹음 파일 이름
 //     * memo             TEXT        메모 내용
@@ -218,9 +217,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                            RecordingSingleton.getInstance().setClear();
 
                     }
-                    Intent in = new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(in);
-                    finish();
+
+
                 }
             }
         });
@@ -292,5 +290,61 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d(tag, "onConnectionFailed:" + connectionResult);
     }
     ////////////////////////
+
+
+    //////////////////////////////////////////////
+    ////////////// 이름 변경 다이얼로그 ///////////////
+    //////////////////////////////////////////////
+    public void customDialog(){
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("New File Name");
+//        alert.setMessage("Plz, input yourname");
+
+        final EditText name = new EditText(this);
+        alert.setView(name);
+
+//        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//
+//            }
+//        });
+
+        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                newFileName = name.getText().toString();
+                Log.d(tag, "new name : " + newFileName);
+                nameChange(Constants.getPreFileName(), newFileName);
+                Intent in = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(in);
+                finish();
+            }
+        });
+        alert.show();
+    }
+
+
+    //////////////////////////////////////////////
+    //////////////// 이름 변경 /////////////////////
+    //////////////////////////////////////////////
+    public void nameChange(String preName, String newName){
+        Log.d(tag, "in name change preName : " +preName);
+        Log.d(tag, "in name change newName : " +newName);
+        File filePre = new File(Constants.getFilePath()+"/", "audio"+preName+".mp4");
+        File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
+        if(filePre.exists()){
+            Log.d(tag, "exists");
+        } else{
+            Log.d(tag, "no exists");
+        }
+        if(filePre.renameTo(fileNow)){
+            Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
+        }
+
+//        dbHelper.reName(preName, newName + ".mp4");
+    }
 }
 

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class RecordeService extends Service {
+    public static String tag = "myrecordservice";
     Context sContext;
 
     MediaRecorder mediaRecorder;
@@ -21,7 +22,12 @@ public class RecordeService extends Service {
     boolean isRecording = false;
     int fileNameCount = 0;
     private String path;
+
+    String currentTime;
+    String newFileName;
     public RecordeService(){}
+
+
 
     @Nullable
     @Override
@@ -55,7 +61,8 @@ public class RecordeService extends Service {
         if (!file.exists()) {
             file.mkdirs();
         }
-        return (file.getAbsolutePath() + "/audio" + Constants.getCurrentTime() + ".mp4");
+        currentTime = Constants.getCurrentTime();
+        return (file.getAbsolutePath() + "/audio" + currentTime + ".mp4");
     }
 
     public void recordInit() {
@@ -65,6 +72,7 @@ public class RecordeService extends Service {
         mediaRecorder.setOutputFormat(Constants.getAudioFormat());
         mediaRecorder.setAudioEncoder(Constants.getAudioEncoder());
         mediaRecorder.setOutputFile(setFilePath());
+        Constants.setPreFileName(currentTime);
 
     }
 
@@ -91,9 +99,17 @@ public class RecordeService extends Service {
             mediaPlayer.stop();
             mediaPlayer = null;
         }
+
+
     }
 
     public String getPath() {
         return path;
     }
+
+
+
+
+
+
 }

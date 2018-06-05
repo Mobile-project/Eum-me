@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Constants {
+    ////////지우면 안댐 //////////
+    public static String preFileName;
     ////////////////
     private static String userName;
     private static String userEmail;
@@ -44,6 +46,14 @@ public class Constants {
 
     public static int getAudioEncoder() {
         return audioEncoder;
+    }
+
+    public static String getPreFileName() {
+        return preFileName;
+    }
+
+    public static void setPreFileName(String preFileName) {
+        Constants.preFileName = preFileName;
     }
 
     public static String getUserName() {
@@ -97,7 +107,7 @@ public class Constants {
         return hours + ":" + minutes + ":" + seconds;
     }
 
-     // yyyy/MM/dd 형식으로 date 변환
+    // yyyy/MM/dd 형식으로 date 변환
     public static String dateTypeConvert(long date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
         return sdf.format(date).toString();
@@ -108,4 +118,8 @@ public class Constants {
     public static String getCreatedTime(File file){
         return dateTypeConvert(file.lastModified());
     }
+
+
+
+
 }
