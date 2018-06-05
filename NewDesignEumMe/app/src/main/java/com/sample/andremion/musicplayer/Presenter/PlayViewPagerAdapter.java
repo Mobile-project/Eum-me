@@ -10,6 +10,7 @@ import java.util.List;
 
 public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
 
+    public static boolean check = false;
     ArrayList<String> list;
      public PlayViewPagerAdapter(android.support.v4.app.FragmentManager fm, ArrayList<String> stringList)
     {

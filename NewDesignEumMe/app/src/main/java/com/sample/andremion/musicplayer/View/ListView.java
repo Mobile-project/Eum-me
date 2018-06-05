@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.sample.andremion.musicplayer.Model.Constants;
+import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Presenter.ListViewAdapter;
 import com.sample.andremion.musicplayer.R;
 
@@ -56,6 +58,7 @@ public class ListView extends AppCompatActivity{
     //////////////////////////////////////////////////////////////
 
     String newName="";
+    public DBHelper dbHelper;
 
 
     @Override
@@ -87,7 +90,8 @@ public class ListView extends AppCompatActivity{
 
         // Adapter 생성
         adapter = new ListViewAdapter() ;
-
+        dbHelper = new DBHelper(this);
+        dbHelper.open(); // 디비오픈
         // 리스트뷰 참조 및 Adapter달기
         listview = (android.widget.ListView) findViewById(R.id.listview1);
         listview.setAdapter(adapter);
@@ -245,7 +249,6 @@ public class ListView extends AppCompatActivity{
                 if(!newName.equals("")){
                     Log.d(tag, "이프문에 들어왔다.");
                     nameChange(myList.get(index).toString(), newName);
-                    ((MainActivity)MainActivity.mContext).dbHelper.reName(myList.get(index).toString(), newName);
 
                     myList.remove(index);
 
@@ -324,11 +327,17 @@ public class ListView extends AppCompatActivity{
         }else{
             Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
+
+        Log.d("namedbtest","바뀌기 전 이름 : "+myList.get(index).toString()+" 바꾸고 싶은 이름 : "+newName+".mp4");
+        Log.d("namedbtest","디비로 가버렷!!");
+        dbHelper.reName(myList.get(index).toString(), newName+".mp4");
+        Log.d("namedbtest","바뀐 파일 이름으로  디비 업데이트 완료 안되면 자살");
     }
 
 
 
     public void customDialog(final int index){
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final String[] ret = {""};
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 

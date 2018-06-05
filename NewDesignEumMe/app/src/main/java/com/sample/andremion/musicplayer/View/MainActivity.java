@@ -1,25 +1,8 @@
-/*
- * Copyright (c) 2016. André Mion
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.sample.andremion.musicplayer.View;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-//import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,7 +35,6 @@ import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
 import com.sample.andremion.musicplayer.Model.RecordeService;
-import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.Presenter.BackPressCloseHandler;
 import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
 import com.sample.andremion.musicplayer.Presenter.RecordViewPagerAdapter;
@@ -60,10 +42,6 @@ import com.sample.andremion.musicplayer.R;
 
 
 import java.util.ArrayList;
-import java.util.List;
-
-//import com.sample.andremion.musicplayer.Model.memoItem;
-
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -188,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 if (!isRecording) {
+                    //RecordingSingleton.getInstance();
                     isRecording = true; //녹음중이라는 표시
                     chronometer.setBase(SystemClock.elapsedRealtime()); //타이머 설정
                     chronometer.start();
@@ -215,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //     * memo_index       INTEGER     몇번째 메모인지
 
                     // 메모 갯수만큼 돌면서 디비에 인서트
-                    ArrayList<memoItem> memoItemList = RecordingSingleton.getInstance().getMemoItemList();
+                    memoItemList = RecordingSingleton.getInstance().getMemoItemList();
                     if (memoItemList == null) {
 
                     } else {
@@ -232,14 +211,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             for (int i = 0; i < memoItemList.size(); i++) {
                                 Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
                             }
-                            RecordingSingleton.getInstance().setClear();
+                           RecordingSingleton.getInstance().setClear();
 
-                    }
-                    try {
-                        dbHelper.close();
-                    }
-                    catch(NullPointerException e){
-                        e.printStackTrace();
                     }
                 }
             }

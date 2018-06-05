@@ -100,7 +100,7 @@ public class PlayActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         dbHelper.open();
         ArrayList<String> stringList = dbHelper.selectMemo(fileName);
-        dbHelper.close();
+
 
         Log.d("mymainactivity","스트링리스트 크기"+stringList.size());
        // PlayingSingleton.getInstance().setList(stringList);
@@ -112,6 +112,8 @@ public class PlayActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.view_pager1);
         PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager(),stringList);
         viewpager.setAdapter(viewPagerAdapter);
+        viewpager.setCurrentItem(0);
+
 
 
         Log.d(tag, "onCreate and fileNAme is  : " + fileName);
@@ -322,10 +324,13 @@ public class PlayActivity extends AppCompatActivity {
     /**
      * by bigleeuk complete
      */
-//    @Override
-//    public void onBackPressed(){
-//        super.onBackPressed();
-//    }
+    @Override
+    public void onBackPressed(){
+        if(isPlaying){
+            stopPlaying();
+        }
+        super.onBackPressed();
+    }
     /**
      * by bigleeuk complete
      */

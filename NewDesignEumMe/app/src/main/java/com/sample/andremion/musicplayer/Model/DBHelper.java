@@ -96,13 +96,15 @@ public class DBHelper {
     // 이름 바꾸기
     // 테스트 필요
     public void reName(String prevName, String newName) {
+        Log.d("namedbtest","reName 메소드에 들어옴");
         mDB = mDBHelper.getWritableDatabase();
-        Log.d(tag, "pre : " + prevName + " new : " + newName);
-        mDB.execSQL("UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
+        newName= newName+".mp4";
+       // Log.d(tag, "pre : " + prevName + " new : " + newName);
+        String sql = "UPDATE "+DBInfo.CreateDB._TABLENAME +" SET "+DBInfo.CreateDB.FILE_NAME+" = '"+newName +" 'WHERE "+DBInfo.CreateDB.FILE_NAME+" ='"+prevName+"';";
+        mDB.rawQuery(sql,null);
+        Log.d("namedbtest","reName 쿼리문 실행했음");
 
-        Log.d(tag, "UPDATE RECORDINGMEMO SET file_name='" + newName + "' WHERE file_name='" + prevName + "');");
 
-        mDB.close();
     }
 
     // 파일 이름이 file_name 인 row 삭제

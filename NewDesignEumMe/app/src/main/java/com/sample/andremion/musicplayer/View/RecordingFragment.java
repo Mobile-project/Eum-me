@@ -30,7 +30,7 @@ public class RecordingFragment extends Fragment  {
                     Log.d(tag, "그럼 저장해~~ ");
                     memoItem newItem = new memoItem(txt, FlagSingleton.getInstance().getTime(), CurrentPosition - 2);
                     Log.d(tag, "저장 아이템 셋팅 완료");
-                    RecordingSingleton.getInstance().addToArray(CurrentPosition - 2, newItem);
+                    RecordingSingleton.getInstance().addToArray(newItem);
                     Log.d(tag, "리스트 받고 삽입하기 ");
 
                     String memo = RecordingSingleton.getInstance().getMemo(CurrentPosition - 2);

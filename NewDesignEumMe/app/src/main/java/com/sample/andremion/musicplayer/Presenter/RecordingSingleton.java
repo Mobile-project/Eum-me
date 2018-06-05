@@ -22,8 +22,8 @@ public class RecordingSingleton {
         return memoItemList;
     }
 
-    public void addToArray(int position,memoItem newItem){
-        memoItemList.add(position,newItem);
+    public void addToArray(memoItem newItem){
+        memoItemList.add(newItem);
     }
 
     public String getMemo(int position){
@@ -38,6 +38,7 @@ public class RecordingSingleton {
         return memoItemList.get(position).getMemoTime();
     }
 
-    public void setClear()  { memoItemList=null;}
+    public void setClear()  { memoItemList.clear();}
+
 
 }
