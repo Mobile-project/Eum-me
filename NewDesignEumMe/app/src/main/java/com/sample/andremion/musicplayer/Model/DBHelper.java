@@ -44,6 +44,7 @@ public class DBHelper {
             // 새로운 테이블 생성
             //  String sql = "CREATE TABLE RECORDINGMEMO (_id INTEGER PRIMARY KEY AUTOINCREMENT, file_name TEXT, memo TEXT, memo_time INTEGER, memo_index INTEGER)";
             db.execSQL(DBInfo.CreateDB._CREATE);
+            Log.d(tag,"디비 테이블 생성");
         }
 
         // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
@@ -76,14 +77,7 @@ public class DBHelper {
     public void insert(String file_name, String memo, String memo_time, int memo_index) {
         // 읽고 쓰기가 가능하게 DB 열기
         mDB = mDBHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("file_name", file_name);
-        values.put("memo", memo);
-        values.put("memo_time", memo_time);
-        values.put("memo_index", memo_index);
-        Log.d("mymainactivity", "DB인서트 파라미터 설정");
-        mDB.insert("RECORDINGMEMO", null, values);
-
+        mDB.execSQL("INSERT INTO RECORDINGMEMO VALUES(null, '" + file_name + "', '" + memo + "', '" + memo_time + "', " + memo_index +")");
         Log.d(tag, "INSERT INTO RECORDINGMEMO VALUES(null, '" + file_name + "', '" + memo + "', " + memo_time + ", " + memo_index + ")");
 
     }
@@ -93,10 +87,9 @@ public class DBHelper {
     public void update(String file_name, int memo_index, String memo) {
         mDB = mDBHelper.getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        String sql = "UPDATE RECORDINGMEMO SET memo='" + memo + "' WHERE file_name='" + file_name + "' AND memo_index= " + memo_index;
+        String sql = "UPDATE RECORDINGMEMO SET memo='" + memo + "' WHERE file_name = '" + file_name + "' AND memo_index= " + memo_index;
         mDB.execSQL(sql);
         Log.d(tag, sql);
-        mDB.close();
     }
 
 
@@ -160,17 +153,15 @@ public class DBHelper {
     // 메모만 반환하는 함수
     // 테스트 필요
     public ArrayList<String> selectMemo(String fileName) {
-        ArrayList<String> memos = new ArrayList<String>();
 
+        ArrayList<String> memos = new ArrayList<>();
         mDB = mDBHelper.getReadableDatabase();
-       // String sql = "SELECT "+DBInfo.CreateDB.MEMO+" FROM "+DBInfo.CreateDB._TABLENAME+" WHERE  =";
-        String[] columns = {DBInfo.CreateDB.MEMO};
-        String[] params = {fileName};
+        String sql = "SELECT * FROM "+DBInfo.CreateDB._TABLENAME+" WHERE "+DBInfo.CreateDB.FILE_NAME+" = '"+fileName+"';";
+        Log.d(tag,sql);
+        Cursor cs = mDB.rawQuery(sql,null);
 
-        Cursor cs = mDB.query(DBInfo.CreateDB._TABLENAME,columns,"file_name=?",params,null,null,null);
         while (cs.moveToNext()) {
             memos.add(cs.getString(cs.getColumnIndex(DBInfo.CreateDB.MEMO)));
-            Log.d(tag, "in selectMemo : " + cs.getString(0));
         }
         return memos;
     }

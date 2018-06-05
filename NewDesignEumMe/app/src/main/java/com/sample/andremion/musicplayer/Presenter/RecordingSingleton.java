@@ -15,7 +15,7 @@ public class RecordingSingleton {
         return ourInstance;
     }
     private RecordingSingleton(){
-        memoItemList = new ArrayList<memoItem>();
+        memoItemList = new ArrayList<>();
     }
 
     public ArrayList<memoItem> getMemoItemList() {
@@ -33,8 +33,11 @@ public class RecordingSingleton {
     public int getIndex(int position){
         return memoItemList.get(position).getMemoIndex();
     }
+
     public String getTime(int position){
         return memoItemList.get(position).getMemoTime();
     }
+
+    public void setClear()  { memoItemList=null;}
 
 }

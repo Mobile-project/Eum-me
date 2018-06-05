@@ -12,7 +12,7 @@ public final class DBInfo {
     public static final class CreateDB implements BaseColumns {
         public static final String FILE_NAME = "file_name";
         public static final String MEMO = "memo";
-        public static final String MEMO_TIME = "memo_tiem";
+        public static final String MEMO_TIME = "memo_time";
         public static final String MEMO_INDEX = "memo_index";
         public static final String _TABLENAME = "RECORDINGMEMO";
         public static final String _CREATE = "" + "CREATE TABLE " + _TABLENAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " + FILE_NAME + " TEXT, " + MEMO + " TEXT, " + MEMO_TIME + " TEXT, " + MEMO_INDEX + " INTEGER)";

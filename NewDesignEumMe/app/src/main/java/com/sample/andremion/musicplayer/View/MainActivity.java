@@ -95,18 +95,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private ViewPager viewPager;
     private int prePositon = 0;
-    private int currentPosition = 0;
     private RecordViewPagerAdapter recordViewPagerAdapter = null;
 
     int playTime = 0;               // 몇초짜리인지
-    String createdTime;         // 녹음파일 생성시간
+    ArrayList<memoItem> memoItemList;
 
     private BackPressCloseHandler backPressCloseHandler;
 
     // 메모정보들
-    RecordingMataData metaData = null;                          // 메모정보 포함한 녹음정보들
-
-
     public DBHelper dbHelper;
 
     public MainActivity() {
@@ -133,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         title = findViewById(R.id.name);
         buttonRecord = (ImageButton) findViewById(R.id.btn_record);
         viewPager = findViewById(R.id.view_pager);
-
+        backPressCloseHandler = new BackPressCloseHandler(this);
         /////////구글용
         findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,8 +164,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
 
-           // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
-           // usernameTextView.setText(mUsername);
+            // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
+            // usernameTextView.setText(mUsername);
 
             Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
@@ -177,16 +173,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-        ///////////////
-        backPressCloseHandler = new BackPressCloseHandler(this);
 
         // DBHelper 객체 생성
         dbHelper = new DBHelper(this);
         dbHelper.open();
 
-       /////////////////////////////////////
-
-        /////////////////////////////////////
 
         //권한 받아오기
         TedPermission.with(this).setPermissionListener(permissionlistener)
@@ -197,32 +188,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 if (!isRecording) {
+                    isRecording = true; //녹음중이라는 표시
                     chronometer.setBase(SystemClock.elapsedRealtime()); //타이머 설정
                     chronometer.start();
                     Toast.makeText(getApplicationContext(), "녹음 시작", Toast.LENGTH_SHORT).show();
                     startService(new Intent(getApplicationContext(), RecordeService.class));//녹음 시작
                     title.setText(Constants.getCurrentTime()); //타이틀 현재시간으로 설정
-                    isRecording = true; //녹음중이라는 표시
-
                     startTime = System.currentTimeMillis(); // 메모가 언제 만들어지는지 알기 위한 시작시간
                 } else if (isRecording) {
                     // 녹음 멈춤
+                    isRecording = false;
                     chronometer.stop();
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     Toast.makeText(getApplicationContext(), "녹음 중지", Toast.LENGTH_SHORT).show();
                     stopService(new Intent(getApplicationContext(), RecordeService.class));
                     title.setText("Tab the Button to start recording");
-                    isRecording = false;
+
                     // 끝난 시간
                     endTime = (int) System.currentTimeMillis();
                     playTime = (int) (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
-                    //createdTime = Constants.getCurrentTime();           // 현재시간 yyyyMMdd_HHmm
-
-                    //마지막 페이지에 있는 메모 저장하기
-                    //event 발생시키기
-
-                    metaData = new RecordingMataData(startTime + ".mp4", RecordingSingleton.getInstance().getMemoItemList());
-
 
 //     * _id              INTEGER     무시하는 프라이머리 키
 //     * file_name        TEXT        녹음 파일 이름
@@ -232,22 +216,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     // 메모 갯수만큼 돌면서 디비에 인서트
                     ArrayList<memoItem> memoItemList = RecordingSingleton.getInstance().getMemoItemList();
-                    for (int i = 0; i < memoItemList.size(); i++) {
-                        String fileName = startTime + ".mp4";
-                        String memo = memoItemList.get(i).getMemo();
-                        int memoIndex = memoItemList.get(i).getMemoIndex();
-                        String createdTime = memoItemList.get(i).getMemoTime();
-                        Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
-                        dbHelper.insert(fileName, memo,  createdTime, memoIndex );
-                        Log.d(tag,"디비 종료");
+                    if (memoItemList == null) {
+
+                    } else {
+                            for (int i = 0; i < memoItemList.size(); i++) {
+                                String fileName = Constants.dateTypeConvert(startTime) + ".mp4";
+                                fileName = "audio" + fileName;
+                                String memo = memoItemList.get(i).getMemo();
+                                int memoIndex = memoItemList.get(i).getMemoIndex();
+                                String createdTime = memoItemList.get(i).getMemoTime();
+                                Log.d(tag, "file name : " + fileName + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
+                                dbHelper.insert(fileName, memo, createdTime, memoIndex);
+                            }
+                            Log.d(tag, "메모아이템리스트 크기 " + memoItemList.size());
+                            for (int i = 0; i < memoItemList.size(); i++) {
+                                Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
+                            }
+                            RecordingSingleton.getInstance().setClear();
+
                     }
-                    TextView textView = findViewById(R.id.db_list);
-                    ArrayList<String> stringList = dbHelper.selectMemo(startTime + ".mp4");
-                    textView.setText(stringList.get(0));
-                    for(int i=1; i<stringList.size();i++){
-                        textView.append(stringList.get(i)+"\n");
+                    try {
+                        dbHelper.close();
                     }
-                    dbHelper.close();
+                    catch(NullPointerException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -258,27 +251,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
-                currentPosition = position;
                 if (prePositon < position) {
                     actionTime = System.currentTimeMillis();
                     long createdTime = startTime - actionTime;
                     FlagSingleton.getInstance().setTime(createdTime);
-                    Log.d(tag, "오른쪽으로 넘어갔지?");
                     FlagSingleton.getInstance().changeFlag(1);
                     prePositon = position;
                 } else if (prePositon > position) {
                     FlagSingleton.getInstance().changeFlag(2);
-                    Log.d(tag, "왼쪽으로 넘어갔지?");
                     prePositon = position;
                 }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) { }
+            public void onPageScrollStateChanged(int state) {
+            }
 
         });
         viewPager.setCurrentItem(0);
@@ -294,8 +286,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     // 퍼미션 허가하는 함수
@@ -322,5 +312,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d(tag, "onConnectionFailed:" + connectionResult);
     }
     ////////////////////////
+
+    public void clear() {
+        Log.d(tag, "clear함수 돌입");
+
+
+    }
 }
 

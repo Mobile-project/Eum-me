@@ -71,7 +71,7 @@ public class Constants {
 
      // yyyy/MM/dd 형식으로 date 변환
     public static String dateTypeConvert(long date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
         return sdf.format(date).toString();
     }
 

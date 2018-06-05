@@ -70,38 +70,5 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-
-
-        <!--<TextView-->
-            <!--android:id="@+id/username_textview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/photo_imageview"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-
-        <TextView
-            android:id="@+id/db_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TextView>
-    </LinearLayout>
-
-
-
-
-
-
+        android:layout_height="match_parent" />
 </LinearLayout>

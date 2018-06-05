@@ -1,21 +1,16 @@
 package com.sample.andremion.musicplayer.View;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -23,17 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.Model.DBHelper;
-import com.sample.andremion.musicplayer.Model.RecordeService;
-import com.sample.andremion.musicplayer.Model.RecordingMataData;
-import com.sample.andremion.musicplayer.Model.memoItem;
-import com.sample.andremion.musicplayer.Presenter.ListViewItem;
 import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
-import com.sample.andremion.musicplayer.Presenter.PlayingSingleton;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity {
@@ -49,11 +38,11 @@ public class PlayActivity extends AppCompatActivity {
     EditText editText;
     String rPlaytime;
     ViewPager viewpager;
-    int realPlaytime;
-    int seconds;
-    int minutes;
-    int hours;
-    int duration;
+    long realPlaytime;
+    long seconds;
+    long minutes;
+    long hours;
+    long duration;
 
     private TextView mCurrentProgressTextView = null;       // 시간 표시하는 곳
     private SeekBar mediaSeekBar = null;
@@ -106,27 +95,31 @@ public class PlayActivity extends AppCompatActivity {
         mCurrentProgressTextView = findViewById(R.id.current_progress_text_view);
 
         pauseButton = findViewById(R.id.btn_play);
-        //editText = findViewById(R.id.memo_area);
+
+
         dbHelper = new DBHelper(this);
         dbHelper.open();
-        ArrayList<String> stringList = PlayingSingleton.getInstance().getList();
-        stringList=dbHelper.selectMemo(fileName.toString());
-        PlayingSingleton.getInstance().setList(stringList);
-        Log.d(tag,"디비 불러와서 스트링리스트에 저장");
+        ArrayList<String> stringList = dbHelper.selectMemo(fileName);
         dbHelper.close();
-        Log.d(tag,"디비 종료");
-       // Log.d(tag,"불러온 내용"+stringList.get(0));
+
+        Log.d("mymainactivity","스트링리스트 크기"+stringList.size());
+       // PlayingSingleton.getInstance().setList(stringList);
+       // Log.d("mymainactivity","playsingleton "+PlayingSingleton.getInstance().size());
+
+        for(int i=0 ;i<stringList.size(); i++){
+            Log.d("test","리스트 내용과 인덱스 "+i+"번"+stringList.get(i));
+        }
         viewpager = findViewById(R.id.view_pager1);
-        PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager());
+        PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager(),stringList);
         viewpager.setAdapter(viewPagerAdapter);
-        viewpager.setCurrentItem(0);
+
 
         Log.d(tag, "onCreate and fileNAme is  : " + fileName);
         path += "/" + fileName;
         Log.d(tag, "file path : " + path);
 
         mediaSeekBar = findViewById(R.id.seek_bar);
-        // mediaSeekBar.setMax(duration);
+
         ColorFilter filter = new LightingColorFilter
                 (getResources().getColor(R.color.tab_strip), getResources().getColor(R.color.colorAccent1));
         mediaSeekBar.getProgressDrawable().setColorFilter(filter);
@@ -176,11 +169,9 @@ public class PlayActivity extends AppCompatActivity {
         });
         // 재생하는 함수 실행
         onPlay(isPlaying);
-        //getMemo(fileName);
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!buttonMode) {
                     pausePlaying();
                     buttonMode = true;
@@ -244,7 +235,6 @@ public class PlayActivity extends AppCompatActivity {
                 stopPlaying();
             }
         });
-
         updateSeekBar();
     }
 
@@ -262,8 +252,7 @@ public class PlayActivity extends AppCompatActivity {
         isPlaying = !isPlaying;
         mCurrentProgressTextView.setText(mFileLengthTextView.getText()); // 플레이 타임
         mediaSeekBar.setProgress(mediaSeekBar.getMax());
-
-    }
+     }
 
     /**
      * by bigleeuk complete
@@ -333,14 +322,10 @@ public class PlayActivity extends AppCompatActivity {
     /**
      * by bigleeuk complete
      */
-    @Override
-    public void onBackPressed() {
-        stopPlaying();
-        Log.d(tag, "재생화면 종료");
-        finish();
-
-    }
-
+//    @Override
+//    public void onBackPressed(){
+//        super.onBackPressed();
+//    }
     /**
      * by bigleeuk complete
      */
@@ -348,16 +333,5 @@ public class PlayActivity extends AppCompatActivity {
         mediaHandler.postDelayed(mRunnable, 1000);
     }
 
-   /* private void getMemo(String fileName) {
-        RecordingMataData metaTemp = ((MainActivity) MainActivity.mContext).dbHelper.getResult(fileName);
-        List<memoItem> itemList = metaTemp.getMemoItem();
-        int len = itemList.size();
-        Log.d(tag, "len : " + len);
 
-        for (int i = 0; i < len; i++) {
-            Log.d(tag, itemList.get(i).toString());
-            editText.setText(itemList.get(i).toString() + "\n");
-        }
-
-    }*/
 }
