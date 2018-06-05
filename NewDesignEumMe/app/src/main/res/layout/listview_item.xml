@@ -55,4 +55,13 @@
         android:text="date"
         android:textAlignment="viewEnd" />
 
+    <ImageView
+        android:id="@+id/upload_check"
+        android:layout_width="24dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/text_view_file_name"
+        android:layout_alignParentEnd="true"
+        android:background="@color/fui_transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/upload_check" />
 </RelativeLayout>

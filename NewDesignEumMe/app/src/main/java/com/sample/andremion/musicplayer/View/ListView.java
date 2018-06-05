@@ -20,17 +20,26 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.sample.andremion.musicplayer.Model.Constants;
 import com.sample.andremion.musicplayer.Model.DBHelper;
+import com.sample.andremion.musicplayer.Model.RecordingMataData;
+import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.ListViewAdapter;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListView extends AppCompatActivity{
@@ -38,6 +47,7 @@ public class ListView extends AppCompatActivity{
     private List myList;
     private List myListDate;
     String tag = "myListViewActivity";
+
 
     //////////////////////////////////////////////////////////////
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -59,6 +69,15 @@ public class ListView extends AppCompatActivity{
 
     String newName="";
     public DBHelper dbHelper;
+
+    private static HashSet<String> uploadList = new HashSet();
+    ////////////////////////////////////////////////////////////////////////
+    //////////////////////Reaf Time Database////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();     // 읽기 작업용?
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -151,6 +170,62 @@ public class ListView extends AppCompatActivity{
 
         registerForContextMenu(listview);
 
+        ////////////////////////////////////////////////////////////////////////
+        //////////////////////Reaf Time Database////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+
+        // message는 child의 이벤트를 수신합니다.
+        databaseReference.child(Constants.getUserUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Log.d(tag, "get key : " + dataSnapshot.getKey());               // Constants.getUserUid() 밑에 있는 애가 키값
+//                Log.d(tag, "get key2 : " + dataSnapshot.getChildrenCount());    //
+//                Log.d(tag, "get key3 : " + dataSnapshot.getValue());
+                Log.d(tag, "leng : " + dataSnapshot.getChildrenCount());
+                Log.d(tag, "dataSnapshot.getKey() : " + dataSnapshot.getKey()); // 파일 네임
+                uploadList.add(dataSnapshot.getKey());
+
+                Iterator iterator = uploadList.iterator();
+                while (iterator.hasNext()) {
+                    Log.d(tag, "uploadList : " + iterator.next());
+                }
+
+
+                for( DataSnapshot snapshot : dataSnapshot.getChildren() ) {
+                    String key = snapshot.getKey();
+                    Log.d(tag, "key ; " + key);                 // 이건 애트리뷰트
+
+
+
+                    for(DataSnapshot snapbaby : snapshot.getChildren()){
+                        Log.d(tag, "snap baby : " + snapbaby.getValue());
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+
     }
 
 
@@ -200,6 +275,12 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "onSuccess");
                 progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
                 Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+
+                ////////////////// 업로드 성공한후 체크표시 해줌/////////////
+                uploadList.add(myList.get(index).toString());                                                                       // 업로드한 파일 목록 추가
+                adapter.modifyIsUploded(index, true);
+                adapter.notifyDataSetChanged();
+                /////////////////////////////////////////////////////
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -237,6 +318,7 @@ public class ListView extends AppCompatActivity{
         //ContextMenu로 등록된 AdapterView(여기서는 Listview)의 선택된 항목에 대한 정보를 관리하는 클래스
         AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         index= info.position; //AdapterView안에서 ContextMenu를 보여즈는 항목의 위치
+        String fileName = myList.get(index).toString();
         //선택된 ContextMenu의  아이템아이디를 구별하여 원하는 작업 수행
         //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
         switch( item.getItemId() ){
@@ -263,6 +345,48 @@ public class ListView extends AppCompatActivity{
             case R.id.upload:
                 Toast.makeText(this, myList.get(index)+" Upload", Toast.LENGTH_SHORT).show();
                 upLoad(myList.get(index).toString());
+                String uid = Constants.getUserUid();
+
+                RecordingMataData meta = dbHelper.getResult(fileName);
+                List<memoItem> itemList = meta.getMemoItemList();
+
+
+                String fn = myList.get(index).toString();
+                // .mp4에서 . 안되서 . 점까지만 이름으로 저장.
+                fn = fn.substring(0, fn.lastIndexOf('.'));
+
+
+
+                Log.d(tag, "len : " + itemList.size());
+                int len  = itemList.size();
+                String memo ="";                // 메모내용
+                String memotime="";             // 메모타임
+                String memoindex="";            // 메모인덱스
+                for(int i=0;i<len;i++){
+
+                    Log.d(tag, "test in for : " + itemList.get(i).getMemo());
+                    Log.d(tag, "test in for : " + itemList.get(i).getMemoTime());
+                    Log.d(tag, "test in for : " + itemList.get(i).getMemoIndex());
+
+                    memo = itemList.get(i).getMemo();
+                    memotime = itemList.get(i).getMemoTime();
+                    memoindex = String.valueOf(itemList.get(i).getMemoIndex());
+
+                    databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
+                    databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
+                    databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+
+                }
+
+
+
+
+
+//                databaseReference.child(uid).child(fn).child("memo").push().setValue(m);
+//                databaseReference.child(uid).child(fn).child("memoTime").push().setValue(mt);
+//                databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(mi);
+                Log.d(tag, "after push");
+
                 break;
             case R.id.delete:
                 Toast.makeText(this, myList.get(index)+" Delete", Toast.LENGTH_SHORT).show();
@@ -271,6 +395,8 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
                 file.delete();
 
+                adapter.deleteItem(index);
+                adapter.notifyDataSetChanged();
 
                 /////////////////////////
                 // 바로 갱신 안댐 //////////

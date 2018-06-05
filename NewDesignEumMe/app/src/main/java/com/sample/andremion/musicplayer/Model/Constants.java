@@ -10,7 +10,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Constants {
-
+    ////////////////
+    private static String userName;
+    private static String userEmail;
+    private static String userUid;
+    ////////////////
     private final static String folderName = "/ZEum_me";
     private final static int audioSource = MediaRecorder.AudioSource.MIC;
     private final static int audioFormat = MediaRecorder.OutputFormat.THREE_GPP;
@@ -40,6 +44,30 @@ public class Constants {
 
     public static int getAudioEncoder() {
         return audioEncoder;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        Constants.userName = userName;
+    }
+
+    public static String getUserEmail() {
+        return userEmail;
+    }
+
+    public static void setUserEmail(String userEmail) {
+        Constants.userEmail = userEmail;
+    }
+
+    public static String getUserUid() {
+        return userUid;
+    }
+
+    public static void setUserUid(String userUid) {
+        Constants.userUid = userUid;
     }
 
     public static String getCurrentTime() {

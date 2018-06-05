@@ -30,6 +30,7 @@ dependencies {
     implementation "com.github.andremion:musiccoverview:$MUSICCOVERVIEW_VERSION"
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-database:11.8.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     implementation 'com.google.android.gms:play-services-auth:11.8.0'

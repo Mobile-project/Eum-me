@@ -6,6 +6,8 @@ import android.util.Log;
 public class ListViewItem {
     String tag = "mylistviewitem";
     private Drawable iconDrawable ;
+    private boolean isUploaded;
+
     private String fileName;
     private String descStr ;
     private String createdTime;
@@ -43,5 +45,11 @@ public class ListViewItem {
         return this.fileName;
     }
 
+    public boolean isUploaded() {
+        return isUploaded;
+    }
 
+    public void setUploaded(boolean uploaded) {
+        isUploaded = uploaded;
+    }
 }

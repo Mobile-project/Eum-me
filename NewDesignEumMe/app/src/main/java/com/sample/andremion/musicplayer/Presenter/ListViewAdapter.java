@@ -2,7 +2,6 @@ package com.sample.andremion.musicplayer.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Model.RecordingMataData;
 import com.sample.andremion.musicplayer.R;
 import com.sample.andremion.musicplayer.View.PlayActivity;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
     private File file;
@@ -30,6 +27,15 @@ public class ListViewAdapter extends BaseAdapter {
     String playtime;
     int duration;
     int seconds, minutes, hours;
+
+
+    ImageView playButton;
+    TextView titleTextView;
+    TextView playTimeTextView;
+    TextView dateTextView;
+    RelativeLayout topContainer;
+    ImageView uploadCheck;
+
 
 
     private Context mContext;
@@ -42,6 +48,8 @@ public class ListViewAdapter extends BaseAdapter {
     public ListViewAdapter() {
 
     }
+
+
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
@@ -64,11 +72,13 @@ public class ListViewAdapter extends BaseAdapter {
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
 //        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
 //        LinearLayout fileNameContainer = (LinearLayout) convertView.findViewById(R.id.file_name_container);
-        ImageView playButton = (ImageView) convertView.findViewById(R.id.btn_play);
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name);
-        TextView playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time);
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
-        RelativeLayout topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
+        playButton = (ImageView) convertView.findViewById(R.id.btn_play);
+        titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name);
+        playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time);
+        dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
+        topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
+        uploadCheck = (ImageView) convertView.findViewById(R.id.upload_check);
+
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +126,11 @@ public class ListViewAdapter extends BaseAdapter {
         hours = (duration / 10000);
         playTimeTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
         dateTextView.setText(listViewItem.getCreatedTime());
+
+        ///// 체크버튼 표시할지 말지결정//////
+        if(listViewItem.isUploaded()){
+            uploadCheck.setVisibility(View.VISIBLE);
+        } else uploadCheck.setVisibility(View.INVISIBLE);
 
 //        fileNameContainer.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -180,5 +195,8 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.remove(position);
     }
 
+    public void modifyIsUploded(int position, boolean tf){
+        listViewItemList.get(position).setUploaded(tf);
+    }
 
 }
