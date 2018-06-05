@@ -119,12 +119,13 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 아이템 내 각 위젯에 데이터 반영
         titleTextView.setText(listViewItem.getFileName());
-        playtime = listViewItem.getPlayTime().replace(":", "");
-        duration = Integer.parseInt(playtime);
-        seconds = duration % 100;
-        minutes = (duration - seconds) % 100;
-        hours = (duration / 10000);
-        playTimeTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+//        playtime = listViewItem.getPlayTime().replace(":", "");
+//        duration = Integer.parseInt(playtime);
+//        seconds = duration % 100;
+//        minutes = (duration - seconds) % 100;
+//        hours = (duration / 10000);
+//        playTimeTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        playTimeTextView.setText(listViewItem.getPlayTime());
         dateTextView.setText(listViewItem.getCreatedTime());
 
         ///// 체크버튼 표시할지 말지결정//////
