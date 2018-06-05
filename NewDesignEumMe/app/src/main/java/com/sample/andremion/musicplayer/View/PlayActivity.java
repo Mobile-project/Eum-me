@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -79,24 +80,24 @@ public class PlayActivity extends AppCompatActivity {
         fileName = bundle.getString("fileName");// 파일이름 꺼냄
         playTime = bundle.getString("playTime");
         rPlaytime = playTime.replace(":", "");
+        Log.d(tag, "playtime : " + playTime);
         realPlaytime = Integer.parseInt(rPlaytime);
         seconds = realPlaytime % 100;
         minutes = (realPlaytime - seconds) % 100;
         hours = (realPlaytime / 10000);
         minutes = minutes + (hours * 60);
         duration = (minutes * 60) + seconds;
-        //  playTime = bundle.getString(String.format("%02d:%02d", minutes,seconds));                // 플레이타임 꺼냄
+//          playTime = bundle.getString(String.format("%02d:%02d", minutes,seconds));                // 플레이타임 꺼냄
 
         Log.d(tag, "file Fisrt : " + fileName + " playTime : " + playTime);
         textViewFileName = findViewById(R.id.file_name);
-        textViewFileName.setText(fileName.toString());
-
         mFileLengthTextView = findViewById(R.id.file_length_text_view);
-        mFileLengthTextView.setText(String.format("%02d:%02d", minutes, seconds));
         mCurrentProgressTextView = findViewById(R.id.current_progress_text_view);
 
-        pauseButton = findViewById(R.id.btn_play);
+        textViewFileName.setText(fileName.toString());
+        mFileLengthTextView.setText(playTime.toString());
 
+        pauseButton = findViewById(R.id.btn_play);
 
         dbHelper = new DBHelper(this);
         dbHelper.open();
@@ -173,11 +174,14 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!buttonMode) {
+                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_play));
+
                     pausePlaying();
                     buttonMode = true;
                     Toast.makeText(getApplicationContext(), "일시정지", Toast.LENGTH_SHORT).show();
                     Log.d(tag, "녹음 일시정지");
                 } else if (buttonMode) {
+                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_pause));
                     resumePlaying();
                     buttonMode = false;
                     Toast.makeText(getApplicationContext(), "다시 재생", Toast.LENGTH_SHORT).show();
@@ -310,6 +314,7 @@ public class PlayActivity extends AppCompatActivity {
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
+                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_stop));
                     stopPlaying();
                 }
             });

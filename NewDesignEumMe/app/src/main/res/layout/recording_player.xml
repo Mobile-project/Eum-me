@@ -53,7 +53,7 @@
             android:layout_marginEnd="50dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/play_and_pause_button" />
+            android:src="@drawable/btn_pause" />
 
 
         <TextView
