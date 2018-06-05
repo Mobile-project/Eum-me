@@ -17,6 +17,7 @@ public class PlayingFragment extends Fragment {
     private static int CurrentPosition;
     private static ArrayList<String> txt;
     EditText editText;
+    private static boolean check = false;
 
     public static PlayingFragment create(int position, ArrayList<String> list) {
         PlayingFragment fragment = new PlayingFragment();
@@ -31,17 +32,10 @@ public class PlayingFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_play, container, false);
         editText = view.findViewById(R.id.memo_area1);
-//        try {
-//            editText.setText(PlayingSingleton.getInstance().getTxt(CurrentPosition));
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        } catch (IndexOutOfBoundsException ae) {
-//            ae.printStackTrace();
-//
-//        }
-        Log.d("test","현재 프래그먼트의 포지션은 뭐지? "+CurrentPosition);
+
         try{
-        if(CurrentPosition==1) {
+        if(CurrentPosition==1 && !check) {
+            check=true;
             editText.setText(txt.get(CurrentPosition - 1));
         }
         else{

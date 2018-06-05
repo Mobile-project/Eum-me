@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
 
         });
-        viewPager.setCurrentItem(0);
+
 
         // option (...) 눌렀을떄 이벤트
         option.setOnClickListener(new View.OnClickListener() {
@@ -312,11 +312,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d(tag, "onConnectionFailed:" + connectionResult);
     }
     ////////////////////////
-
-    public void clear() {
-        Log.d(tag, "clear함수 돌입");
-
-
-    }
 }
 
