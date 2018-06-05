@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
 import com.sample.andremion.musicplayer.R;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class PlayingFragment extends Fragment {
     private static int CurrentPosition;
-    private static ArrayList<String> txt;
+    private static ArrayList<memoItem> txt;
     EditText editText;
 
     @Override
@@ -27,7 +28,7 @@ public class PlayingFragment extends Fragment {
 
     }
 
-    public static PlayingFragment create(int position, ArrayList<String> list) {
+    public static PlayingFragment create(int position, ArrayList<memoItem> list) {
         PlayingFragment fragment = new PlayingFragment();
         CurrentPosition = position;
         txt = list;
@@ -44,9 +45,9 @@ public class PlayingFragment extends Fragment {
         try {
             if (CurrentPosition == 1 && !PlayViewPagerAdapter.check) {
                 PlayViewPagerAdapter.check = true;
-                editText.setText(txt.get(CurrentPosition - 1));
+                editText.setText(txt.get(CurrentPosition - 1).getMemo());
             } else {
-                editText.setText(txt.get(CurrentPosition));
+                editText.setText(txt.get(CurrentPosition).getMemo());
             }
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();

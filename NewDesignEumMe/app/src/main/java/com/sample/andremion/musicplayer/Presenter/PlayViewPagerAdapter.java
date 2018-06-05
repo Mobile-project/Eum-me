@@ -3,6 +3,7 @@ package com.sample.andremion.musicplayer.Presenter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.View.PlayingFragment;
 
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ import java.util.List;
 public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public static boolean check = false;
-    ArrayList<String> list;
-     public PlayViewPagerAdapter(android.support.v4.app.FragmentManager fm, ArrayList<String> stringList)
+    ArrayList<memoItem> list;
+     public PlayViewPagerAdapter(android.support.v4.app.FragmentManager fm, ArrayList<memoItem> stringList)
     {
         super(fm);
         list= stringList;
@@ -26,7 +27,7 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public int getCount() {
-        return 100;
+        return list.size();
     }
 
 }

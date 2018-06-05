@@ -103,7 +103,7 @@ public class DBHelper {
         String sql = "UPDATE "+DBInfo.CreateDB._TABLENAME +" SET "+DBInfo.CreateDB.FILE_NAME+" = '"+newName +" 'WHERE "+DBInfo.CreateDB.FILE_NAME+" ='"+prevName+"';";
         mDB.rawQuery(sql,null);
         Log.d("namedbtest","reName 쿼리문 실행했음");
-
+        mDB.close();
 
     }
 
@@ -154,16 +154,20 @@ public class DBHelper {
 
     // 메모만 반환하는 함수
     // 테스트 필요
-    public ArrayList<String> selectMemo(String fileName) {
+    public ArrayList<memoItem> selectMemo(String fileName) {
 
-        ArrayList<String> memos = new ArrayList<>();
+        ArrayList<memoItem> memos = new ArrayList<>();
         mDB = mDBHelper.getReadableDatabase();
         String sql = "SELECT * FROM "+DBInfo.CreateDB._TABLENAME+" WHERE "+DBInfo.CreateDB.FILE_NAME+" = '"+fileName+"';";
         Log.d(tag,sql);
         Cursor cs = mDB.rawQuery(sql,null);
 
         while (cs.moveToNext()) {
-            memos.add(cs.getString(cs.getColumnIndex(DBInfo.CreateDB.MEMO)));
+            String memo = cs.getString(cs.getColumnIndex(DBInfo.CreateDB.MEMO));
+            String memo_time  = cs.getString(cs.getColumnIndex(DBInfo.CreateDB.MEMO_TIME));
+            int memo_index = cs.getInt(cs.getColumnIndex(DBInfo.CreateDB.MEMO_INDEX));
+            memoItem term = new memoItem(memo,memo_time,memo_index);
+            memos.add(term);
         }
         return memos;
     }

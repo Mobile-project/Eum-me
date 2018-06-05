@@ -390,10 +390,11 @@ public class ListView extends AppCompatActivity{
                 break;
             case R.id.delete:
                 Toast.makeText(this, myList.get(index)+" Delete", Toast.LENGTH_SHORT).show();
-                ((MainActivity)MainActivity.mContext).dbHelper.delete(myList.get(index).toString());
+                dbHelper.delete(myList.get(index).toString());
                 File file = new File(Constants.getFilePath()+"/"+myList.get(index).toString());
                 Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
                 file.delete();
+
 
                 adapter.deleteItem(index);
                 adapter.notifyDataSetChanged();

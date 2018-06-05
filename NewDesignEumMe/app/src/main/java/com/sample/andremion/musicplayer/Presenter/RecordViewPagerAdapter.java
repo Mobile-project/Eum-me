@@ -1,6 +1,8 @@
 package com.sample.andremion.musicplayer.Presenter;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sample.andremion.musicplayer.View.RecordingFragment;
@@ -20,6 +22,5 @@ public class RecordViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 100;
     }
-
 
 }

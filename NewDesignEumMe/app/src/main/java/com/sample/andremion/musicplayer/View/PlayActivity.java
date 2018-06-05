@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.Model.DBHelper;
+import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
 import com.sample.andremion.musicplayer.R;
 
@@ -99,7 +100,7 @@ public class PlayActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
         dbHelper.open();
-        ArrayList<String> stringList = dbHelper.selectMemo(fileName);
+        ArrayList<memoItem> stringList = dbHelper.selectMemo(fileName);
 
 
         Log.d("mymainactivity","스트링리스트 크기"+stringList.size());
@@ -112,9 +113,6 @@ public class PlayActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.view_pager1);
         PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager(),stringList);
         viewpager.setAdapter(viewPagerAdapter);
-        viewpager.setCurrentItem(0);
-
-
 
         Log.d(tag, "onCreate and fileNAme is  : " + fileName);
         path += "/" + fileName;

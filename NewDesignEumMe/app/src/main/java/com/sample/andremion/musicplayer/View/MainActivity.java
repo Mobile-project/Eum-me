@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 if (!isRecording) {
-                    //RecordingSingleton.getInstance();
+                    RecordingSingleton.getInstance();
                     isRecording = true; //녹음중이라는 표시
                     chronometer.setBase(SystemClock.elapsedRealtime()); //타이머 설정
                     chronometer.start();
@@ -218,6 +218,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                            RecordingSingleton.getInstance().setClear();
 
                     }
+                    Intent in = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(in);
+                    finish();
                 }
             }
         });
