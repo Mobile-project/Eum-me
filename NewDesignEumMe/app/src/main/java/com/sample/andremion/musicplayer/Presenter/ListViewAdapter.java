@@ -200,4 +200,9 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.get(position).setUploaded(tf);
     }
 
+
+    public boolean ischecked(int idx){
+        return this.listViewItemList.get(idx).isUploaded();
+    }
+
 }

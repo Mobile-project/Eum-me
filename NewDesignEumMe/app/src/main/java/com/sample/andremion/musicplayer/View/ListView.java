@@ -25,6 +25,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -37,16 +39,29 @@ import com.sample.andremion.musicplayer.Presenter.ListViewAdapter;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+
+
+
+///////////************//////////////////
+// 메모 없는 녹음파일은 업로드해도 표시안댐//
+// 그래서 메모없으면 ""으로 넣었다. //////
+///////////************//////////////////
+
 
 public class ListView extends AppCompatActivity{
     private File file;
     private List myList;
     private List myListDate;
     String tag = "myListViewActivity";
+
+
+
+    public HashSet<String> uploadedList = new HashSet<String>();
 
 
     //////////////////////////////////////////////////////////////
@@ -70,7 +85,6 @@ public class ListView extends AppCompatActivity{
     String newName="";
     public DBHelper dbHelper;
 
-    private static HashSet<String> uploadList = new HashSet();
     ////////////////////////////////////////////////////////////////////////
     //////////////////////Reaf Time Database////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
@@ -80,10 +94,15 @@ public class ListView extends AppCompatActivity{
     ////////////////////////////////////////////////////////////////////////
 
 
+    // 데이터에 한번만 접근하고 싶을떄
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view);
+        downLoad("fu2.mp4");
+
+
+        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 : " + uploadedList.size());
 
         myList = new ArrayList();
         myListDate = new ArrayList();
@@ -102,18 +121,19 @@ public class ListView extends AppCompatActivity{
             myList.add(list[i].getName());
             myListDate.add(list[i].lastModified());
         }
+
         Log.d(tag,"after myList add");
-
-
-
 
         // Adapter 생성
         adapter = new ListViewAdapter() ;
+
         dbHelper = new DBHelper(this);
         dbHelper.open(); // 디비오픈
+
         // 리스트뷰 참조 및 Adapter달기
         listview = (android.widget.ListView) findViewById(R.id.listview1);
         listview.setAdapter(adapter);
+        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 141: " + uploadedList.size());
 
         // 아이템 추가
         // 테스트 필요
@@ -127,6 +147,7 @@ public class ListView extends AppCompatActivity{
             );
         }
 
+
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //ListView의 아이템 중 하나가 클릭될 때 호출되는 메소드
@@ -136,13 +157,12 @@ public class ListView extends AppCompatActivity{
             //네번재 파리미터 : 클릭된 아이템의 아이디(특별한 설정이 없다면 세번째 파라이터인 position과 같은 값)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                // get item
+                //ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
                 // TODO Auto-generated method stub
                 //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
                 Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
-
             }
-
         });
 
 //        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -184,15 +204,14 @@ public class ListView extends AppCompatActivity{
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 //                Log.d(tag, "get key : " + dataSnapshot.getKey());               // Constants.getUserUid() 밑에 있는 애가 키값
-//                Log.d(tag, "get key2 : " + dataSnapshot.getChildrenCount());    //
+//                Log.d(tag, "get key2 : " + dataSnapshot.getChildrenCount());
 //                Log.d(tag, "get key3 : " + dataSnapshot.getValue());
                 Log.d(tag, "leng : " + dataSnapshot.getChildrenCount());
                 Log.d(tag, "dataSnapshot.getKey() : " + dataSnapshot.getKey()); // 파일 네임
-                uploadList.add(dataSnapshot.getKey());
 
-                Iterator iterator = uploadList.iterator();
+                Iterator iterator = uploadedList.iterator();
                 while (iterator.hasNext()) {
-                    Log.d(tag, "uploadList : " + iterator.next());
+                    Log.d(tag, "getUploadList() : " + iterator.next());
                 }
 
 
@@ -200,13 +219,13 @@ public class ListView extends AppCompatActivity{
                     String key = snapshot.getKey();
                     Log.d(tag, "key ; " + key);                 // 이건 애트리뷰트
 
-
-
                     for(DataSnapshot snapbaby : snapshot.getChildren()){
                         Log.d(tag, "snap baby : " + snapbaby.getValue());
                     }
                 }
             }
+
+
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -226,74 +245,70 @@ public class ListView extends AppCompatActivity{
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
 
-    }
 
-
-
-
-
-
-    //////////////////////////////////////////////////////////////
-    ///////////////////////FIRE BASE UPLOAD///////////////////////
-    //////////////////////////////////////////////////////////////
-    public void upLoad(String fileName) {
-        UploadTask uploadTask;
-        filePath = Uri.parse(Constants.getFilePath() + "/" + fileName);                                 // 올라갈 파일 경로
-        Log.d(tag, "filePath : " + filePath);
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://eumme-c2ce7.appspot.com/");         // 올릴 저장소 주소
-        //위에서 생성한 FirebaseStorage 를 참조하는 storage를 생성한다
-        StorageReference storageRef = storage.getReference();                                           // 저장소에 대한 레퍼런스
-
-        // 위의 저장소를 참조하는 images폴더안의 space.jpg 파일명으로 지정하여
-        // 하위 위치를 가리키는 참조를 만든다
-//        StorageReference spaceRef = storageRef.child("images/space.jpg");                               // 무엇?
-
-        Uri file = Uri.fromFile(new File(Constants.getFilePath() + "/" + fileName));            // 올라갈 파일을 객체로 가져옴
-        StorageReference Ref = storageRef.child("Recording/" + file.getLastPathSegment());            //
-        uploadTask = Ref.putFile(file);                                                                 // 파일 올리는 태스크에 파일 장착
-
-        // 상태바표시
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("uploading...");
-        progressDialog.show();
-        progressDialog.onStart();
-        Log.d(tag, "after uploading...");
-
-
-        // 파일 업로드의 성공/실패에 대한 콜백 받아 핸들링 하기 위해 아래와 같이 작성한다
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        ///////////////////////////////////////////////////////////////
+        ////////////////////// READ FROM FIREBASE /////////////////////
+        ///////////////////////////////////////////////////////////////
+        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(tag, "on Failure");
-                // Handle unsuccessful uploads
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(tag, "onSuccess");
-                progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
-                Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(tag, "시발 개수 : " + dataSnapshot.getChildrenCount());
+                for( DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d(tag, "시발getkey : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
+                    uploadedList.add(ds.getKey()+".mp4");
+//                    uploadedList.add(ds.getKey().toString()+".mp4");
+                    Log.d(tag, "시발 이제는 이만큼 : " + uploadedList.size());
+//                    Log.d(tag, "시발getvalue : " + ds.getValue());
 
-                ////////////////// 업로드 성공한후 체크표시 해줌/////////////
-                uploadList.add(myList.get(index).toString());                                                                       // 업로드한 파일 목록 추가
-                adapter.modifyIsUploded(index, true);
+                }
+                //////////////////////
+                // 다 돌아서 뭐있는지 알았으니까
+                // 리스트 뷰 업데이트 (notifyDataSetChange();)
+                for(String temp : uploadedList){
+                    if(myList.indexOf(temp)!=-1){
+                        adapter.modifyIsUploded(myList.indexOf(temp),true);
+                    } else{
+                        // 웹상에만 있는애들은 일로 들어온다.
+                        String fileName = temp;
+                        Log.d(tag, "웹에만 있는애들 : " + temp);
+//                        downLoad(temp);
+                    }
+
+                    Log.d(tag, "index : " + myList.indexOf(temp));
+                    Log.d(tag, "name : " + temp);
+                }
                 adapter.notifyDataSetChanged();
-                /////////////////////////////////////////////////////
+
+
+                //////////////////////
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
             @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(tag, "onProgressss");
-                //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
-//                @SuppressWarnings("VisibleForTests")
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                //dialog에 진행률을 퍼센트로 출력해 준다
-                progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
+        List<String> a = findFileOnlyInFireBase();
+        for(int i=0;i<a.size();i++){
+            Log.d(tag, "결과로 나온애들 ?? : " + a.get(i));
+            adapter.addItem(null, a.get(i),null,null);
+        }
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -311,15 +326,15 @@ public class ListView extends AppCompatActivity{
 
 
     //    //Context 메뉴로 등록한 View(여기서는 ListView)가 클릭되었을 때 자동으로 호출되는 메소드
+    /// 각 아이템 클릭했을떄 어떻게 처리할지
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         //AdapterContextMenuInfo
         //AdapterView가 onCreateContextMenu할때의 추가적인 menu 정보를 관리하는 클래스
         //ContextMenu로 등록된 AdapterView(여기서는 Listview)의 선택된 항목에 대한 정보를 관리하는 클래스
         AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        index= info.position; //AdapterView안에서 ContextMenu를 보여즈는 항목의 위치
+        index= info.position; //AdapterView안에서 ContextMenu를 보여주는 항목의 위치
         String fileName = myList.get(index).toString();
-        //선택된 ContextMenu의  아이템아이디를 구별하여 원하는 작업 수행
         //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
         switch( item.getItemId() ){
             case R.id.changeName:
@@ -331,11 +346,8 @@ public class ListView extends AppCompatActivity{
                 if(!newName.equals("")){
                     Log.d(tag, "이프문에 들어왔다.");
                     nameChange(myList.get(index).toString(), newName);
-
                     myList.remove(index);
-
                     adapter.notifyDataSetChanged();
-
                 } else{
                     Log.d(tag, "엘스문이다.");
                 }
@@ -343,41 +355,56 @@ public class ListView extends AppCompatActivity{
                 // 파일 이름 바꾸는 함수
                 break;
             case R.id.upload:
-                Toast.makeText(this, myList.get(index)+" Upload", Toast.LENGTH_SHORT).show();
-                upLoad(myList.get(index).toString());
-                String uid = Constants.getUserUid();
+                if(!adapter.ischecked(index)){
+                    // 체크안되어있으면(업로드 안되어있으면 다운로드)
+                    Log.d(tag, "체크안되어있으면(업로드 안되어있으면 다운로드)");
+//                    downLoad(myList.get(index).toString());
+                    downLoad("fu2.mp4");
 
-                RecordingMataData meta = dbHelper.getResult(fileName);
-                List<memoItem> itemList = meta.getMemoItemList();
-
-
-                String fn = myList.get(index).toString();
-                // .mp4에서 . 안되서 . 점까지만 이름으로 저장.
-                fn = fn.substring(0, fn.lastIndexOf('.'));
+                } else {
 
 
+                    Toast.makeText(this, myList.get(index) + " Upload", Toast.LENGTH_SHORT).show();
+                    upLoad(myList.get(index).toString());
+                    String uid = Constants.getUserUid();
 
-                Log.d(tag, "len : " + itemList.size());
-                int len  = itemList.size();
-                String memo ="";                // 메모내용
-                String memotime="";             // 메모타임
-                String memoindex="";            // 메모인덱스
-                for(int i=0;i<len;i++){
+                    RecordingMataData meta = dbHelper.getResult(fileName);
+                    List<memoItem> itemList = meta.getMemoItemList();
 
-                    Log.d(tag, "test in for : " + itemList.get(i).getMemo());
-                    Log.d(tag, "test in for : " + itemList.get(i).getMemoTime());
-                    Log.d(tag, "test in for : " + itemList.get(i).getMemoIndex());
+                    String fn = myList.get(index).toString();
+                    // .mp4에서 . 안되서 . 전까지만 이름으로 저장.
+                    fn = fn.substring(0, fn.lastIndexOf('.'));
 
-                    memo = itemList.get(i).getMemo();
-                    memotime = itemList.get(i).getMemoTime();
-                    memoindex = String.valueOf(itemList.get(i).getMemoIndex());
+                    Log.d(tag, "len : " + itemList.size());
+                    Log.d(tag, "올라갈파일이름 : " + fn);
+                    int len = itemList.size();
+                    String memo = "";                // 메모내용
+                    String memotime = "";             // 메모타임
+                    String memoindex = "";            // 메모인덱스
 
-                    databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
-                    databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
-                    databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+                    if (len > 0) {  //  메모가 있다
+                        for (int i = 0; i < len; i++) {
+
+                            Log.d(tag, "test in for : " + itemList.get(i).getMemo());
+                            Log.d(tag, "test in for : " + itemList.get(i).getMemoTime());
+                            Log.d(tag, "test in for : " + itemList.get(i).getMemoIndex());
+
+                            memo = itemList.get(i).getMemo();
+                            memotime = itemList.get(i).getMemoTime();
+                            memoindex = String.valueOf(itemList.get(i).getMemoIndex());
+
+                            databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
+                            databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
+                            databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+
+                        }
+                    } else { // 메모가 없다.
+                        databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
+                        databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
+                        databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+                    }
 
                 }
-
 
 
 
@@ -393,8 +420,12 @@ public class ListView extends AppCompatActivity{
                 dbHelper.delete(myList.get(index).toString());
                 File file = new File(Constants.getFilePath()+"/"+myList.get(index).toString());
                 Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
+                ///////////////////////////////////////////////
+                /////// 여기 안하면 리스트 제대로 업데이트 안댐//////////
+                myList.remove(index);
+                myListDate.remove(index);
                 file.delete();
-
+                ///////////////////////////////////////////////
 
                 adapter.deleteItem(index);
                 adapter.notifyDataSetChanged();
@@ -501,5 +532,188 @@ public class ListView extends AppCompatActivity{
     public String getNewName(String t){
         return this.newName;
     }
+
+
+
+
+    //////////////////////////////////////////////////////////////
+    ///////////////////////FIRE BASE UPLOAD///////////////////////
+    //////////////////////////////////////////////////////////////
+    public void upLoad(String fileName) {
+        UploadTask uploadTask;
+        filePath = Uri.parse(Constants.getFilePath() + "/" + fileName);                                 // 올라갈 파일 경로
+        Log.d(tag, "filePath : " + filePath);
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://eumme-c2ce7.appspot.com/");         // 올릴 저장소 주소
+        //위에서 생성한 FirebaseStorage 를 참조하는 storage를 생성한다
+        StorageReference storageRef = storage.getReference();                                           // 저장소에 대한 레퍼런스
+
+        // 위의 저장소를 참조하는 images폴더안의 space.jpg 파일명으로 지정하여
+        // 하위 위치를 가리키는 참조를 만든다
+//        StorageReference spaceRef = storageRef.child("images/space.jpg");                               // 무엇?
+
+        Uri file = Uri.fromFile(new File(Constants.getFilePath() + "/" + fileName));            // 올라갈 파일을 객체로 가져옴
+        StorageReference Ref = storageRef.child("users").child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
+        uploadTask = Ref.putFile(file);                                                                 // 파일 올리는 태스크에 파일 장착
+
+        // 상태바표시
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("uploading...");
+        progressDialog.show();
+        progressDialog.onStart();
+        Log.d(tag, "after uploading...");
+
+
+        // 파일 업로드의 성공/실패에 대한 콜백 받아 핸들링 하기 위해 아래와 같이 작성한다
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d(tag, "on Failure");
+                // Handle unsuccessful uploads
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(tag, "onSuccess");
+                progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
+                Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+
+                ////////////////// 업로드 성공한후 체크표시 해줌/////////////
+                uploadedList.add(myList.get(index).toString());
+//                uploadedList.add(myList.get(index).toString());                                                                       // 업로드한 파일 목록 추가
+                adapter.modifyIsUploded(index, true);
+                adapter.notifyDataSetChanged();
+                /////////////////////////////////////////////////////
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(tag, "onProgressss");
+                //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
+//                @SuppressWarnings("VisibleForTests")
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                //dialog에 진행률을 퍼센트로 출력해 준다
+                progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+            }
+        });
+    }
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
+    ///////////////////////FIRE BASE DOWNLOAD/////////////////////
+    //////////////////////////////////////////////////////////////
+
+//    public void downLoad(String fileName){
+//        Log.d(tag, "fileNAme in download: " + fileName);
+//        // Create a reference to a file from a Google Cloud Storage URI
+//        // 저기/내 uid/recording
+//
+//        StorageReference storageRef = storage.getReferenceFromUrl("gs://eumme-c2ce7.appspot.com/");
+//
+////
+////        islandRef=storageRef.child("users").child(Constants.getUserUid()).child("Recording");
+////        islandRef = storageRef.child(fileName);
+////        File localFile=null;
+////        fileName = fileName.substring(0, fileName.indexOf('.'));
+////        Log.d(tag, "자른이름 : " + fileName);
+////        try{
+////            localFile = File.createTempFile("tempFile", "mp4");
+////            Log.d(tag, "로컬 파일 생성");
+////        } catch(IOException e){
+////            Log.d(tag, "로컬 파일생성 캐치");
+////            e.printStackTrace();
+////        }
+////
+//
+//        storageRef.child("users/"+Constants.getUserUid()+"/Recording/"+fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Log.d(tag, "다운로드 완료");
+//                // Got the download URL for 'users/me/profile.png'
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                Log.d(tag, "다운로드 실패");
+//                // Handle any errors
+//            }
+//        });
+//
+//    }
+
+    public void downLoad(String fileName){
+        StorageReference storageRef = storage.getReference();
+        StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName);
+
+        File localFile=null;
+        try{
+            localFile = File.createTempFile("temp", ".mp4", Environment.getExternalStorageDirectory());
+
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+        final File finalLocalFile = localFile;
+        final String finalFileName = fileName;
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                Log.d(tag, "다운로드 완료");
+                Log.d(tag, "파일 위치 : " + finalLocalFile.getPath());
+                moveFile(finalLocalFile, finalFileName);
+//                moveFile(finalLocalFile, finalFileName);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d(tag, "다운로드 실패");
+                // Handle any errors
+            }
+        });
+    }
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    public void moveFile(File from,String name) {
+//        File file = new File("D:\\Test.java");
+        File file = from;
+        File file2 = new File(Constants.getFilePath()+"/"+name);//이동
+
+        if(file.exists()) {
+            Log.d(tag, "이동 완료");
+            file.renameTo(file2);	//변경
+        }
+    }
+
+
+
+
+
+
+
+    public List<String> findFileOnlyInFireBase(){
+        List<String> ret = new ArrayList<String>();
+
+        for(String iter : uploadedList){
+            // 업로드한 파일이 로컬에 없다면
+            if(!myList.contains(iter)){
+                Log.d(tag, "웹에만 있는애들 : " + iter);
+                ret.add(iter);
+            } else{
+                Log.d(tag, "둘다 있는애들 : " + iter);
+            }
+        }
+
+        return ret;
+    }
+
+
 
 }

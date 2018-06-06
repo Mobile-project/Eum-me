@@ -35,7 +35,6 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <!--<activity android:name=".SignIn.EmailSignInActivity"/>-->
 
-
     </application>
 
 </manifest>

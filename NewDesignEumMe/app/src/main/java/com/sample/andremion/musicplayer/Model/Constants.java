@@ -16,6 +16,7 @@ public class Constants {
     private static String userName;
     private static String userEmail;
     private static String userUid;
+
     ////////////////
     private final static String folderName = "/ZEum_me";
     private final static int audioSource = MediaRecorder.AudioSource.MIC;

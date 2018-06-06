@@ -11,7 +11,8 @@
         android:id="@+id/playlist"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@drawable/the_speaker_grill">
+        android:background="@drawable/the_speaker_grill"
+        >
 
         <Chronometer
             android:id="@+id/chronometer"

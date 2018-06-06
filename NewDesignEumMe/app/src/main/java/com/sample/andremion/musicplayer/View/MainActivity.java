@@ -199,9 +199,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //     * memo_time        TEXT        메모한 시간
 //     * memo_index       INTEGER     몇번째 메모인지
 
-
-
-
                 }
             }
         });
@@ -235,11 +232,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         });
 
-
         // option (...) 눌렀을떄 이벤트
         option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (!isRecording) {
                     Intent intent = new Intent(getApplicationContext(), ListView.class);
                     startActivity(intent);
@@ -247,7 +244,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
+
+
+
+
+
 
     // 퍼미션 허가하는 함수
     PermissionListener permissionlistener = new PermissionListener() {
@@ -255,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         public void onPermissionGranted() {
             Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
         }
-
         @Override
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
             Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();

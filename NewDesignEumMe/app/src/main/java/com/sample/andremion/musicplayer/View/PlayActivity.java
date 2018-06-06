@@ -80,13 +80,24 @@ public class PlayActivity extends AppCompatActivity {
         fileName = bundle.getString("fileName");// 파일이름 꺼냄
         playTime = bundle.getString("playTime");
         rPlaytime = playTime.replace(":", "");
-        Log.d(tag, "playtime : " + playTime);
         realPlaytime = Integer.parseInt(rPlaytime);
         seconds = realPlaytime % 100;
-        minutes = (realPlaytime - seconds) % 100;
+        //minutes = (realPlaytime - seconds) % 100;
         hours = (realPlaytime / 10000);
-        minutes = minutes + (hours * 60);
+        minutes = (realPlaytime  - (hours*10000)- seconds)/100;
+        minutes = (hours*3600 + minutes);
         duration = (minutes * 60) + seconds;
+
+//        fileName = bundle.getString("fileName");// 파일이름 꺼냄
+////        playTime = bundle.getString("playTime");
+////        rPlaytime = playTime.replace(":", "");
+////        Log.d(tag, "playtime : " + playTime);
+////        realPlaytime = Integer.parseInt(rPlaytime);
+////        seconds = realPlaytime % 100;
+////        minutes = (realPlaytime - seconds) % 100;
+////        hours = (realPlaytime / 10000);
+////        minutes = minutes + (hours * 60);
+////        duration = (minutes * 60) + seconds;
 //          playTime = bundle.getString(String.format("%02d:%02d", minutes,seconds));                // 플레이타임 꺼냄
 
         Log.d(tag, "file Fisrt : " + fileName + " playTime : " + playTime);
