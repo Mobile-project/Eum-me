@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,44 +23,43 @@ import android.widget.Toast;
 
 import com.sample.andremion.musicplayer.Model.DBHelper;
 import com.sample.andremion.musicplayer.Model.memoItem;
+import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
 import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
 import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-public class PlayActivity extends AppCompatActivity {
+public class ModifyActivity extends AppCompatActivity {
 
     String tag = "myplayactivity";
     String path = Environment.getExternalStorageDirectory().toString() + "/ZEum_me";
     int pos;//재생 멈춘 시점
-    int Cseconds, Cminutes, Chours, realCtime, Cduration;
     boolean isPlaying = false;
     private static int buttonMode = 1; // 1==pause 2==resume 3==replay
+    public static int modifyMode = 1; // 1 = none Modify, 2 = modify
     ImageButton pauseButton;
     TextView textViewFileName;
     TextView mFileLengthTextView;
-    int Preposition = 0;
+    int Cseconds, Cminutes, Chours, realCtime, Cduration;
+
+    private int checkPosition;
     String rPlaytime, CTime;
     ViewPager viewpager;
-    long realPlaytime;
-    long seconds;
-    long minutes;
-    long hours;
-    long duration;
+
     int[] createdTime = new int[100];
-    private int mCurrentPosition;
     private TextView mCurrentProgressTextView = null;       // 시간 표시하는 곳
     private SeekBar mediaSeekBar = null;
     MediaPlayer mediaPlayer;
     public DBHelper dbHelper;
+    private int prePositon = 0;
     private Handler mediaHandler = new Handler();
     private String fileName = "";
     private String playTime = "";
+    public static int mCurrentPosition;
 
     @Override
     protected void onStop() {
@@ -69,7 +69,6 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        buttonMode = 1;
 
     }
 
@@ -84,19 +83,21 @@ public class PlayActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.recording_player);
 
+        buttonMode = 1;
+
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
 
         fileName = bundle.getString("fileName");// 파일이름 꺼냄
         playTime = bundle.getString("playTime");
         rPlaytime = playTime.replace(":", "");
-        realPlaytime = Integer.parseInt(rPlaytime);
-        seconds = realPlaytime % 100;
-        //minutes = (realPlaytime - seconds) % 100;
-        hours = (realPlaytime / 10000);
-        minutes = (realPlaytime - (hours * 10000) - seconds) / 100;
+
+        long realPlaytime = Integer.parseInt(rPlaytime);
+        long seconds = realPlaytime % 100;
+        long hours = (realPlaytime / 10000);
+        long minutes = (realPlaytime - (hours * 10000) - seconds) / 100;
         minutes = (hours * 3600 + minutes);
-        duration = (minutes * 60) + seconds;
+
 
         Log.d(tag, "file Fisrt : " + fileName + " playTime : " + playTime);
         textViewFileName = findViewById(R.id.file_name);
@@ -141,11 +142,6 @@ public class PlayActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.view_pager1);
         PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager(), stringList);
         viewpager.setAdapter(viewPagerAdapter);
-        /**
-         *  Viewpager and SeekBar connection
-         *  changing screen and moving seekbar
-         *  by bigleeuk
-         */
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -154,19 +150,21 @@ public class PlayActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("position", "logPosition" + position);
-                /**
-                 * Apply SeekBar time , According to ViewPager
-                 * by bigleeuk
-                 */
+                if (prePositon < position) {
+                    FlagSingleton.getInstance().changeFlag(1);
+                    prePositon = position;
+                } else if (prePositon > position) {
+                    FlagSingleton.getInstance().changeFlag(2);
+                    prePositon = position;
+                }
+
                 if (position == 0) {
                     mediaPlayer.seekTo(0);
                 } else {
                     mediaPlayer.seekTo(createdTime[position - 1] * 1000);
-                    Preposition = position;
+                    checkPosition = position;
                     Log.d("mill", "mills" + createdTime[position - 1] * 1000);
                 }
-
             }
 
             @Override
@@ -216,25 +214,20 @@ public class PlayActivity extends AppCompatActivity {
         mFileLengthTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 
        /* final Button btn_modify = findViewById(R.id.btn_modify);
-        btn_modify.setText("Modify");
+        btn_modify.setText("Complete");
 
         btn_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //모드가 true면 100개 뿌리기 false면 list.size
-                PlayViewPagerAdapter.mode = true;
+                PlayViewPagerAdapter.mode = false;
                 PlayViewPagerAdapter.check = false;
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("fileName", fileName);
-                bundle1.putString("playTime", playTime);
-                Intent in = new Intent(PlayActivity.this, ModifyActivity.class);
-                in.putExtras(bundle1);
-                startActivity(in);
+                updateMemo();
                 finish();
+
             }
         });*/
     }
+
 
     /**
      * by bigleeuk complete
@@ -285,6 +278,8 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
         updateSeekBar();
+
+
     }
 
     /**
@@ -341,6 +336,7 @@ public class PlayActivity extends AppCompatActivity {
         }
     };
 
+
     /**
      * by bigleeuk complete
      */
@@ -350,9 +346,9 @@ public class PlayActivity extends AppCompatActivity {
         if (isPlaying) {
             stopPlaying();
         }
-
         PlayViewPagerAdapter.check = false;
         PlayViewPagerAdapter.mode = false;
+
     }
 
     /**
@@ -374,7 +370,7 @@ public class PlayActivity extends AppCompatActivity {
                     mediaHandler.removeCallbacks(mRunnable);
                     long hours = TimeUnit.MICROSECONDS.toHours(mCurrentPosition);
                     long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition) - TimeUnit.HOURS.toMinutes(hours);
-                    long seconds = TimeUnit.MILLISECONDS.toSeconds(mediaPlayer.getCurrentPosition()) - TimeUnit.MINUTES.toSeconds(minutes);
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition) - TimeUnit.MINUTES.toSeconds(minutes);
                     mCurrentProgressTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 
                     updateSeekBar();
@@ -399,7 +395,7 @@ public class PlayActivity extends AppCompatActivity {
                     mediaPlayer.seekTo(seekBar.getProgress());
                     long hours = TimeUnit.MICROSECONDS.toHours(mCurrentPosition);
                     long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition) - TimeUnit.HOURS.toMinutes(hours);
-                    long seconds = TimeUnit.MILLISECONDS.toSeconds(mediaPlayer.getCurrentPosition()) - TimeUnit.MINUTES.toSeconds(minutes);
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition) - TimeUnit.MINUTES.toSeconds(minutes);
                     mCurrentProgressTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
                     updateSeekBar();
                 }
@@ -408,4 +404,21 @@ public class PlayActivity extends AppCompatActivity {
         });
     }
 
+    public void updateMemo() {
+        ConcurrentHashMap<Integer, memoItem> memoItemList = RecordingSingleton.getInstance().getMemoItemList();
+        dbHelper.delete(fileName);
+        if (memoItemList == null) {
+
+        } else {
+            for (int i = 0; i < memoItemList.size(); i++) {
+                String memo = memoItemList.get(i).getMemo();
+                int memoIndex = memoItemList.get(i).getMemoIndex();
+                String createdTime = memoItemList.get(i).getMemoTime();
+                // Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
+                dbHelper.insert(fileName, memo, createdTime, memoIndex);
+            }
+
+        }
+
+    }
 }

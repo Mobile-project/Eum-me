@@ -34,12 +34,14 @@ import com.sample.andremion.musicplayer.Model.RecordeService;
 import com.sample.andremion.musicplayer.Model.memoItem;
 import com.sample.andremion.musicplayer.Presenter.BackPressCloseHandler;
 import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
+import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
 import com.sample.andremion.musicplayer.Presenter.RecordViewPagerAdapter;
 import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
 import com.sample.andremion.musicplayer.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private RecordViewPagerAdapter recordViewPagerAdapter = null;
 
     int playTime = 0;               // 몇초짜리인지
-    ArrayList<memoItem> memoItemList;
+    ConcurrentHashMap<Integer,memoItem> memoItemList;
 
     private BackPressCloseHandler backPressCloseHandler;
 
@@ -85,10 +87,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mContext = this;
     }
 
-    private static final int MY_PERMISSION_STORAGE = 1111;
-
-
-    /////////////////////////////////////
+       /////////////////////////////////////
     public String fileName="";          // 기본이름
     public String newFileName="";       // 바꾼이름
     /////////////////////////////////////
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
             // usernameTextView.setText(mUsername);
 
-            Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
             // ImageView photoImageView = (ImageView) findViewById(R.id.photo_imageview);
         }
@@ -167,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 if (!isRecording) {
-                    RecordingSingleton.getInstance();
                     isRecording = true; //녹음중이라는 표시
                     chronometer.setBase(SystemClock.elapsedRealtime()); //타이머 설정
                     chronometer.start();
@@ -192,12 +190,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     fileName = Constants.getPreFileName();          // 기본 이름.
 
                     customDialog();                           // 새 파일 이름 받아오기
-
-//     * _id              INTEGER     무시하는 프라이머리 키
-//     * file_name        TEXT        녹음 파일 이름
-//     * memo             TEXT        메모 내용
-//     * memo_time        TEXT        메모한 시간
-//     * memo_index       INTEGER     몇번째 메모인지
 
                 }
             }
@@ -247,20 +239,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
-
-
-
-
-
     // 퍼미션 허가하는 함수
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
-            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
         }
         @Override
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-            Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -289,21 +276,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         final EditText name = new EditText(this);
         alert.setView(name);
+        alert.setCancelable(false);
 
         alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                PlayViewPagerAdapter.check = false;
                 addMemoItemListToDB(fileName);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+
+
             }
         });
 
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                PlayViewPagerAdapter.check = true;
                 newFileName = name.getText().toString();
                 Log.d(tag, "new name : " + newFileName);
                 nameChange(Constants.getPreFileName(), newFileName);
                 addMemoItemListToDB(newFileName+".mp4");
                 Intent in = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(in);
+
                 finish();
             }
         });
@@ -341,19 +337,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (memoItemList == null) {
 
         } else {
-            for (int i = 0; i < memoItemList.size(); i++) {
-                String memo = memoItemList.get(i).getMemo();
-                int memoIndex = memoItemList.get(i).getMemoIndex();
-                String createdTime = memoItemList.get(i).getMemoTime();
-                Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
-                dbHelper.insert(filename, memo, createdTime, memoIndex);
-            }
-            Log.d(tag, "메모아이템리스트 크기 " + memoItemList.size());
-            for (int i = 0; i < memoItemList.size(); i++) {
-                Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
-            }
-            RecordingSingleton.getInstance().setClear();
+                for (int i = 0; i < memoItemList.size(); i++) {
+                    String memo = memoItemList.get(i).getMemo();
+                    int memoIndex = memoItemList.get(i).getMemoIndex();
+                    String createdTime = memoItemList.get(i).getMemoTime();
+                    Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
+                    dbHelper.insert(filename, memo, createdTime, memoIndex);
+                }
         }
+
     }
 }
 

@@ -26,14 +26,11 @@ public class FlagSingleton {
         return flag;
     }
 
-    public String getTime(){
-
-    long duration = time / 1000;
-    long hours = duration / 3600;
-    long minutes = (duration - hours * 3600) / 60;
-    long seconds = abs(duration - (hours * 3600 + minutes * 60));
-    return hours + ":" + minutes + ":" + seconds;
+    public String getTime() {
+        long duration = time / 1000;
+        return Integer.toString((int) duration);
     }
+
     public void changeFlag(int mode){
         if(mode==1) flag = true;
         else if(mode==2) flag = false;

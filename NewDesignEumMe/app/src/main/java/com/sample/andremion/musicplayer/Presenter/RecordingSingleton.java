@@ -3,9 +3,11 @@ package com.sample.andremion.musicplayer.Presenter;
 import com.sample.andremion.musicplayer.Model.memoItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RecordingSingleton {
-    ArrayList<memoItem>  memoItemList = null;
+    ConcurrentHashMap<Integer,memoItem> memoItemList = null;
     private volatile static RecordingSingleton ourInstance = new RecordingSingleton();
 
     public static synchronized RecordingSingleton getInstance() {
@@ -15,15 +17,15 @@ public class RecordingSingleton {
         return ourInstance;
     }
     private RecordingSingleton(){
-        memoItemList = new ArrayList<>();
+        memoItemList = new ConcurrentHashMap<>();
     }
 
-    public ArrayList<memoItem> getMemoItemList() {
+    public ConcurrentHashMap<Integer,memoItem> getMemoItemList() {
         return memoItemList;
     }
 
-    public void addToArray(memoItem newItem){
-        memoItemList.add(newItem);
+    public void addToArray(int index,memoItem newItem){
+        memoItemList.put(index,newItem);
     }
 
     public String getMemo(int position){
@@ -38,7 +40,32 @@ public class RecordingSingleton {
         return memoItemList.get(position).getMemoTime();
     }
 
-    public void setClear()  { memoItemList.clear();}
+    public void setClear()  {
 
+       memoItemList.clear();
+    }
+
+    public boolean check(int index){
+
+        if(memoItemList.containsKey(index)){
+            //있으면 true
+            return true;
+        }
+        else
+            //없으면 false
+            return false;
+    }
+
+    public void reset(int index, String modifiedMemo){
+        String term = memoItemList.get(index).getMemoTime();
+        memoItem modifiedItem = new memoItem(modifiedMemo,term,index);
+        memoItemList.put(index,modifiedItem);
+    }
+
+    public void resetForModify(int index, String modifiedMemo, ConcurrentHashMap<Integer,memoItem> list){
+        String term = list.get(index).getMemoTime();
+        memoItem modifiedItem = new memoItem(modifiedMemo,term,index);
+        memoItemList.put(index,modifiedItem);
+    }
 
 }

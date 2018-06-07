@@ -8,8 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
+import com.sample.andremion.musicplayer.View.PlayActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -82,27 +86,16 @@ public class DBHelper {
 
     }
 
-
-    // 메모 수정?
-    public void update(String file_name, int memo_index, String memo) {
-        mDB = mDBHelper.getWritableDatabase();
-        // 입력한 항목과 일치하는 행의 가격 정보 수정
-        String sql = "UPDATE RECORDINGMEMO SET memo='" + memo + "' WHERE file_name = '" + file_name + "' AND memo_index= " + memo_index;
-        mDB.execSQL(sql);
-        Log.d(tag, sql);
-    }
-
-
     // 이름 바꾸기
     // 테스트 필요
     public void reName(String prevName, String newName) {
-        Log.d("namedbtest","reName 메소드에 들어옴");
+
         mDB = mDBHelper.getWritableDatabase();
         newName= newName+".mp4";
-       // Log.d(tag, "pre : " + prevName + " new : " + newName);
-        String sql = "UPDATE "+DBInfo.CreateDB._TABLENAME +" SET "+DBInfo.CreateDB.FILE_NAME+" = '"+newName +" 'WHERE "+DBInfo.CreateDB.FILE_NAME+" ='"+prevName+"';";
-        mDB.rawQuery(sql,null);
-        Log.d("namedbtest","reName 쿼리문 실행했음");
+        String sql = "UPDATE "+DBInfo.CreateDB._TABLENAME +" SET "+DBInfo.CreateDB.FILE_NAME+" = '"+newName +"' WHERE "+DBInfo.CreateDB.FILE_NAME+" ='"+prevName+"';";
+        Log.d("test",sql);
+        mDB.execSQL(sql);
+      //  mDB.rawQuery(sql,null);
         mDB.close();
 
     }
@@ -112,8 +105,7 @@ public class DBHelper {
         mDB = mDBHelper.getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제
 //        db.execSQL("DELETE FROM RECORDINGMEMO WHERE item='" + item + "';");
-        mDB.execSQL("DELETE FROM RECORDINGMEMO WHERE file_name='" + file_name + "';");
-        mDB.close();
+        mDB.execSQL(String.format("DELETE FROM %s WHERE %s = '%s'",DBInfo.CreateDB._TABLENAME,DBInfo.CreateDB.FILE_NAME,file_name));
     }
 
 
@@ -154,12 +146,12 @@ public class DBHelper {
 
     // 메모만 반환하는 함수
     // 테스트 필요
-    public ArrayList<memoItem> selectMemo(String fileName) {
+    public ConcurrentHashMap<Integer, memoItem> selectMemo(String fileName) {
 
-        ArrayList<memoItem> memos = new ArrayList<>();
+        ConcurrentHashMap<Integer, memoItem> memos = new ConcurrentHashMap<>();
         mDB = mDBHelper.getReadableDatabase();
         String sql = "SELECT * FROM "+DBInfo.CreateDB._TABLENAME+" WHERE "+DBInfo.CreateDB.FILE_NAME+" = '"+fileName+"';";
-        Log.d(tag,sql);
+
         Cursor cs = mDB.rawQuery(sql,null);
 
         while (cs.moveToNext()) {
@@ -167,7 +159,7 @@ public class DBHelper {
             String memo_time  = cs.getString(cs.getColumnIndex(DBInfo.CreateDB.MEMO_TIME));
             int memo_index = cs.getInt(cs.getColumnIndex(DBInfo.CreateDB.MEMO_INDEX));
             memoItem term = new memoItem(memo,memo_time,memo_index);
-            memos.add(term);
+            memos.put(memo_index, term);
         }
         return memos;
     }

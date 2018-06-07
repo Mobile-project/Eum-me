@@ -113,13 +113,19 @@ public class ListView extends AppCompatActivity{
 
         file = new File(rootSD);
         list = file.listFiles();
-        Log.d(tag,"after file list[] : " + list.length);
+     //   Log.d(tag,"after file list[] : " + list.length);
 
 
         // 파일 이름들 추가
-        for(int i=0;i<list.length;i++){
-            myList.add(list[i].getName());
-            myListDate.add(list[i].lastModified());
+        try {
+            for (int i = 0; i < list.length; i++) {
+                myList.add(list[i].getName());
+                myListDate.add(list[i].lastModified());
+            }
+            Log.d(tag, "after myList add");
+        }
+        catch (RuntimeException e){
+            e.printStackTrace();
         }
 
         Log.d(tag,"after myList add");
@@ -137,14 +143,20 @@ public class ListView extends AppCompatActivity{
 
         // 아이템 추가
         // 테스트 필요
-        for(int i=0;i<list.length;i++){
-            Log.d(tag, "rootSD : " + rootSD);
-            String fileName = list[i].getName().toString();
-            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),        // 플레이버튼
-                    fileName,                                                                   // 녹음 파일 이름
-                    Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
-                    Constants.getCreatedTime(list[i])                                           // 녹음파일 마지막 수정시간
-            );
+        try {
+            for (int i = 0; i < list.length; i++) {
+                Log.d(tag, "rootSD : " + rootSD);
+                String fileName = list[i].getName().toString();
+                adapter.addItem(ContextCompat.getDrawable(this, R.drawable.btn_play),        // 플레이버튼
+                        fileName,                                                                   // 녹음 파일 이름
+                        Constants.getPlayTime(rootSD + "/" + fileName),                           // 녹음파일 재생시간
+                        Constants.getCreatedTime(list[i])// 녹음파일 마지막 수정시간
+
+                );
+            }
+        }
+        catch (RuntimeException e){
+            e.printStackTrace();
         }
 
 
@@ -486,10 +498,7 @@ public class ListView extends AppCompatActivity{
             Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
-        Log.d("namedbtest","바뀌기 전 이름 : "+myList.get(index).toString()+" 바꾸고 싶은 이름 : "+newName+".mp4");
-        Log.d("namedbtest","디비로 가버렷!!");
-        dbHelper.reName(myList.get(index).toString(), newName+".mp4");
-        Log.d("namedbtest","바뀐 파일 이름으로  디비 업데이트 완료 안되면 자살");
+
     }
 
 
@@ -518,6 +527,7 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "셋 전 : " + ret[0]);
                 setNewName(ret[0]);
                 nameChange(myList.get(index).toString(), ret[0]);
+                dbHelper.reName(myList.get(index).toString(),ret[0]);
             }
         });
 

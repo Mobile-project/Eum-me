@@ -1,5 +1,6 @@
 package com.sample.andremion.musicplayer.View;
 
+import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,28 +11,65 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.sample.andremion.musicplayer.Model.memoItem;
+import com.sample.andremion.musicplayer.Presenter.FlagSingleton;
 import com.sample.andremion.musicplayer.Presenter.PlayViewPagerAdapter;
+import com.sample.andremion.musicplayer.Presenter.RecordingSingleton;
 import com.sample.andremion.musicplayer.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 public class PlayingFragment extends Fragment {
+    private String modifiedTxt;
     private static int CurrentPosition;
-    private static ArrayList<memoItem> txt;
+    private static ConcurrentHashMap<Integer, memoItem> txt;
     EditText editText;
+    private static final String tag = "test";
 
-    @Override
+    /*@Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
+        if (PlayViewPagerAdapter.mode) {
 
-    }
+            try {
+                if (isVisibleToUser) {
+                } else {
+                    if (PlayViewPagerAdapter.mode) {
+                        modifiedTxt = editText.getText().toString();
+                        if (FlagSingleton.getInstance().getFlag()) {
+                            //오른쪽으로 넘겻으면 저장하자
+                            memoItem newItem = new memoItem(modifiedTxt,txt.get(CurrentPosition-2).getMemoTime(),CurrentPosition-2);
+                            Log.d(tag,"저장하자 오른쪽으로 넘겻자나");
+                            if (RecordingSingleton.getInstance().check(CurrentPosition - 2)) {
+                                Log.d(tag,"값이 있는 곳이네 그럼 덮어쓰자 ");
+                                RecordingSingleton.getInstance().reset(CurrentPosition - 2, modifiedTxt);
+                            }
+                            else{
+                                Log.d(tag,"값이 없는 곳이네 그럼 새로 추가하자");
+                                RecordingSingleton.getInstance().addToArray(CurrentPosition-2,newItem);
+                                Log.d(tag,"메모내용 "+RecordingSingleton.getInstance().getMemo(CurrentPosition-2));
+                                Log.d(tag,"메모 생성 시간 "+RecordingSingleton.getInstance().getTime(CurrentPosition-2));
+                                Log.d(tag,"메모 인덱스 "+RecordingSingleton.getInstance().getIndex(CurrentPosition-2));
 
-    public static PlayingFragment create(int position, ArrayList<memoItem> list) {
+                            }
+                        }
+                    }
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+
+    public static PlayingFragment create(int position, ConcurrentHashMap<Integer, memoItem> list) {
         PlayingFragment fragment = new PlayingFragment();
         CurrentPosition = position;
         txt = list;
+
         return fragment;
 
     }
@@ -51,8 +89,11 @@ public class PlayingFragment extends Fragment {
             }
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         return view;
+
     }
 
 

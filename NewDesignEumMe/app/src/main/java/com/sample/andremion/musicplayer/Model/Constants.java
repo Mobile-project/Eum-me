@@ -83,7 +83,7 @@ public class Constants {
 
     public static String getCurrentTime() {
         Date day = new Date();
-        SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault());
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         return String.valueOf(date.format(day));
     }
 
@@ -105,12 +105,12 @@ public class Constants {
         long hours = duration / 3600;
         long minutes = (duration - hours * 3600) / 60;
         long seconds = duration - (hours * 3600 + minutes * 60);
-        return hours + ":" + minutes + ":" + seconds;
+        return String.format("%02d:%02d:%02d",hours, minutes, seconds);
     }
 
     // yyyy/MM/dd 형식으로 date 변환
     public static String dateTypeConvert(long date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         return sdf.format(date).toString();
     }
 
