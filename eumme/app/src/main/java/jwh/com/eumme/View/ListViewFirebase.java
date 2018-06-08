@@ -1,6 +1,7 @@
 package jwh.com.eumme.View;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.jhw.Eumme.ver.R;
 
@@ -39,6 +41,7 @@ public class ListViewFirebase extends AppCompatActivity{
     public android.widget.ListView listviewFB = null;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    public ProgressDialog progressDialog;
 
 
     List list;
@@ -143,10 +146,14 @@ public class ListViewFirebase extends AppCompatActivity{
 
 
     public void downLoad(String fileName, int idx){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("uploading...");
+        progressDialog.show();
+        progressDialog.onStart();
         Log.d(tag, "다운받을 파일 : " + fileName);
         StorageReference storageRef = storage.getReference();
         StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName);
-
+        Log.d(tag, "파베에 파일 위치 : " + "users/" + Constants.getUserUid() + "/Recording/" + fileName);
         File localFile=null;
         try{
             localFile = File.createTempFile("temp", ".mp4", Environment.getExternalStorageDirectory());
@@ -173,14 +180,23 @@ public class ListViewFirebase extends AppCompatActivity{
 
 
                 adapterFB.notifyDataSetChanged();
-
+                progressDialog.dismiss();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 Log.d(tag, "다운로드 실패");
+                progressDialog.dismiss();
                 // Handle any errors
+            }
+        }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Log.d(tag, "on progress");
+                double progress = (100.0 * taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
+                //dialog에 진행률을 퍼센트로 출력해 준다
+                progressDialog.setMessage("Downloaded " + ((int)progress) + "% ...");
             }
         });
         localFile.delete();
