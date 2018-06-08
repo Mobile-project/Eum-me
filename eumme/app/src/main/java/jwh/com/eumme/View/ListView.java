@@ -25,7 +25,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -33,7 +32,6 @@ import com.google.firebase.storage.UploadTask;
 import com.jhw.Eumme.ver.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +45,8 @@ import jwh.com.eumme.Presenter.ListViewAdapter;
 ///////////************//////////////////
 // 메모 없는 녹음파일은 업로드해도 표시안댐//
 // 그래서 메모없으면 ""으로 넣었다. //////
+// 업로드한 파일, 다운로드한 파일들 가지고 있기////
+//
 ///////////************//////////////////
 
 
@@ -158,7 +158,7 @@ public class ListView extends AppCompatActivity{
             }
         });
 
-//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        listviewFB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView parent, View v, int position, long id) {
 //                // get item
@@ -248,14 +248,6 @@ public class ListView extends AppCompatActivity{
 
 
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -389,8 +381,8 @@ public class ListView extends AppCompatActivity{
 //
 //                        myList.remove(index);
 //                        adapter.notifyDataSetChanged();
-//                        listview.invalidateViews();
-//                        listview.refreshDrawableState();
+//                        listviewFB.invalidateViews();
+//                        listviewFB.refreshDrawableState();
 //                    }
 //                });
                 /////////////////////////
@@ -549,100 +541,7 @@ public class ListView extends AppCompatActivity{
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////
-    ///////////////////////FIRE BASE DOWNLOAD/////////////////////
-    //////////////////////////////////////////////////////////////
 
-
-    public void downLoad(String fileName, int idx){
-        Log.d(tag, "다운받을 파일 : " + fileName);
-        StorageReference storageRef = storage.getReference();
-        StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName);
-
-        File localFile=null;
-        try{
-            localFile = File.createTempFile("temp", ".mp4", Environment.getExternalStorageDirectory());
-
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-
-
-        final File finalLocalFile = localFile;
-        final String finalFileName = fileName;
-        final int finalIdx = idx;
-        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-                Log.d(tag, "다운로드 완료");
-                Log.d(tag, "파일 위치 : " + finalLocalFile.getPath());
-                moveFile(finalLocalFile, finalFileName);
-//                moveFile(finalLocalFile, finalFileName);
-                adapter.deleteItem(finalIdx);
-
-
-///////////////////////////////////////////////////
-                adapter = new ListViewAdapter() ;
-                listview.setAdapter(adapter);
-                String rootSD = Environment.getExternalStorageDirectory().toString();
-                rootSD+="/ZEum_me";
-                file = new File(rootSD);
-                list = file.listFiles();
-
-                // 파일 이름들 추가
-                for(int i=0;i<list.length;i++){
-                    myList.add(list[i].getName());
-                    myListDate.add(list[i].lastModified());
-                }
-                for(int i=0;i<list.length;i++){
-                    String fileName = list[i].getName().toString();
-                    Log.d(tag, "정상additem : " + fileName);
-                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_play),        // 플레이버튼
-                            fileName,                                                                   // 녹음 파일 이름
-                            Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
-                            Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
-                            false,                                                                    // 일단 false
-                            true
-                    );
-                }
-//                List<String> a = findFileOnlyInFireBase();
-                // 웹에만 있는애들 널값으로 어댑터에 추가
-//                for(int i=0;i<a.size();i++){
-//                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),
-//                            R.drawable.btn_play),
-//                            a.get(i),"",
-//                            "",
-//                            true);
-//                }
-
-                adapter.notifyDataSetChanged();
-
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(tag, "다운로드 실패");
-                // Handle any errors
-            }
-        });
-    }
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    public void moveFile(File from,String name) {
-//        File file = new File("D:\\Test.java");
-        File file = from;
-        File file2 = new File(Constants.getFilePath()+"/"+name);//이동
-
-        if(file.exists()) {
-            Log.d(tag, "이동 완료");
-            file.renameTo(file2);	//변경
-        }
-    }
 
 
 

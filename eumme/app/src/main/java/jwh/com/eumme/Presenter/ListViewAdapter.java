@@ -180,6 +180,9 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.get(position).setUploaded(tf);
     }
 
+    public void modifyIsDownloded(int position, boolean tf){
+        listViewItemList.get(position).setDownloaded(tf);
+    }
 
     public boolean ischecked(int idx){
         return this.listViewItemList.get(idx).isUploaded();

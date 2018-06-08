@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //////////////////////
 
 //                adapterFB = new ListViewAdapter() ;
-//                listview.setAdapter(adapterFB);
+//                listviewFB.setAdapter(adapterFB);
 //                String rootSD = Environment.getExternalStorageDirectory().toString();
 //                rootSD+="/ZEum_me";
 //                file = new File(rootSD);
