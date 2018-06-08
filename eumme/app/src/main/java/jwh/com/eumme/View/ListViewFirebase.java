@@ -20,7 +20,7 @@ import jwh.com.eumme.Presenter.ListViewAdapter;
 public class ListViewFirebase extends AppCompatActivity{
     String tag = "myListviewfirebase";
 
-    public ListViewAdapter adapter = null;
+    public ListViewAdapter adapterFB = null;
     public android.widget.ListView listview = null;
 
 
@@ -33,16 +33,16 @@ public class ListViewFirebase extends AppCompatActivity{
         Log.d(tag, "size: " + set.size());
 
 
-        adapter = new ListViewAdapter();
+        adapterFB = new ListViewAdapter();
         listview = findViewById(R.id.listview1);
         if(listview==null){
             Log.d(tag, "listview is null");
         }
-        listview.setAdapter(adapter);
+        listview.setAdapter(adapterFB);
 
         Iterator<String> filename = set.iterator();
         while(filename.hasNext()){
-            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.cow),
+            adapterFB.addItem(ContextCompat.getDrawable(this,R.drawable.cow),
                     filename.next(),
                     null,
                     null,

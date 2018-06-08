@@ -325,18 +325,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //                Log.d(tag, "파베에만 있는 : " + a.size());
 //                for(int i=0;i<a.size();i++){
 //                    Log.d(tag, "결과로 나온애들 ?? : " + a.get(i));
-//                    if(!adapter.isContain(a.get(i))){
+//                    if(!adapterFB.isContain(a.get(i))){
 //                        Log.d(tag, "비정상additem : "+a.get(i));
-//                        adapter.addItem(null, a.get(i),"","",true);          // 어댑터에 아이템추가
+//                        adapterFB.addItem(null, a.get(i),"","",true);          // 어댑터에 아이템추가
 //
 //                    }
 //                }
-//                adapter.notifyDataSetChanged();
-//                Log.d(tag, "어댑터 길이 : " + adapter.getCount());
+//                adapterFB.notifyDataSetChanged();
+//                Log.d(tag, "어댑터 길이 : " + adapterFB.getCount());
             //////////////////////
 
-//                adapter = new ListViewAdapter() ;
-//                listview.setAdapter(adapter);
+//                adapterFB = new ListViewAdapter() ;
+//                listview.setAdapter(adapterFB);
 //                String rootSD = Environment.getExternalStorageDirectory().toString();
 //                rootSD+="/ZEum_me";
 //                file = new File(rootSD);
@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //                for(int i=0;i<list.length;i++){
 //                    String fileName = list[i].getName().toString();
 //                    Log.d(tag, "정상additem : " + fileName);
-//                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_play),        // 플레이버튼
+//                    adapterFB.addItem(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_play),        // 플레이버튼
 //                            fileName,                                                                   // 녹음 파일 이름
 //                            Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
 //                            Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
@@ -358,14 +358,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //                    );
 //                }
 //                for(int i=0;i<a.size();i++){
-//                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),
+//                    adapterFB.addItem(ContextCompat.getDrawable(getApplicationContext(),
 //                            R.drawable.btn_play),
 //                            a.get(i),"",
 //                            "",
 //                            true);
 //                }
 
-//                adapter.notifyDataSetChanged();
+//                adapterFB.notifyDataSetChanged();
 
 //            }
 
