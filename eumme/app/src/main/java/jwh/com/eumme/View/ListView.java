@@ -25,7 +25,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -36,8 +35,6 @@ import com.jhw.Eumme.ver.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import jwh.com.eumme.Model.Constants;
@@ -53,16 +50,13 @@ import jwh.com.eumme.Presenter.ListViewAdapter;
 ///////////************//////////////////
 
 
-public class ListView extends AppCompatActivity{
+public class ListView extends AppCompatActivity {
     private File file;
     private List myList;
     private List myListDate;
     String tag = "myListViewActivity";
 
-
-
-    public HashSet<String> uploadedList = new HashSet<String>();
-
+//    public HashSet<String> uploadedList = new HashSet<String>();
 
     //////////////////////////////////////////////////////////////
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -74,15 +68,15 @@ public class ListView extends AppCompatActivity{
     private Uri filePath;
 
     public ProgressDialog progressDialog;
-    public int index=0;
+    public int index = 0;
 
     public ListViewAdapter adapter;
-    public android.widget.ListView listview ;
+    public android.widget.ListView listview;
 
     File list[];
     //////////////////////////////////////////////////////////////
 
-    String newName="";
+    String newName = "";
     public DBHelper dbHelper;
 
     ////////////////////////////////////////////////////////////////////////
@@ -94,43 +88,36 @@ public class ListView extends AppCompatActivity{
     ////////////////////////////////////////////////////////////////////////
 
 
-    // 데이터에 한번만 접근하고 싶을떄
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view);
-
+        /////////////다운로드 테스트용////
+//        downLoad("fu2.mp4");
+        /////////////////////////////
 
 //        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 : " + uploadedList.size());
 
         myList = new ArrayList();
         myListDate = new ArrayList();
         String rootSD = Environment.getExternalStorageDirectory().toString();
-        rootSD+="/ZEum_me";
-        Log.d(tag,rootSD);
-        Log.d(tag,"after rootSD");
+        rootSD += "/ZEum_me";
+        Log.d(tag, rootSD);
+        Log.d(tag, "after rootSD");
 
         file = new File(rootSD);
         list = file.listFiles();
-        //   Log.d(tag,"after file list[] : " + list.length);
-
 
         // 파일 이름들 추가
-        try {
-            for (int i = 0; i < list.length; i++) {
-                myList.add(list[i].getName());
-                myListDate.add(list[i].lastModified());
-            }
-            Log.d(tag, "after myList add");
-        }
-        catch (RuntimeException e){
-            e.printStackTrace();
+        for (int i = 0; i < list.length; i++) {
+            myList.add(list[i].getName());
+            myListDate.add(list[i].lastModified());
         }
 
-        Log.d(tag,"after myList add");
+        Log.d(tag, "after myList add");
 
         // Adapter 생성
-        adapter = new ListViewAdapter() ;
+        adapter = new ListViewAdapter();
 
         dbHelper = new DBHelper(this);
         dbHelper.open(); // 디비오픈
@@ -138,24 +125,19 @@ public class ListView extends AppCompatActivity{
         // 리스트뷰 참조 및 Adapter달기
         listview = (android.widget.ListView) findViewById(R.id.listview1);
         listview.setAdapter(adapter);
-        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 141: " + uploadedList.size());
+//        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 141: " + uploadedList.size());
 
         // 아이템 추가
-        // 테스트 필요
-        try {
-            for (int i = 0; i < list.length; i++) {
-                Log.d(tag, "rootSD : " + rootSD);
-                String fileName = list[i].getName().toString();
-                adapter.addItem(ContextCompat.getDrawable(this, R.drawable.btn_play),        // 플레이버튼
-                        fileName,                                                                   // 녹음 파일 이름
-                        Constants.getPlayTime(rootSD + "/" + fileName),                           // 녹음파일 재생시간
-                        Constants.getCreatedTime(list[i])// 녹음파일 마지막 수정시간
-
-                );
-            }
-        }
-        catch (RuntimeException e){
-            e.printStackTrace();
+        for (int i = 0; i < list.length; i++) {
+            String fileName = list[i].getName().toString();
+            Log.d(tag, "정상additem : " + fileName);
+            adapter.addItem(ContextCompat.getDrawable(this, R.drawable.btn_play),        // 플레이버튼
+                    fileName,                                                                   // 녹음 파일 이름
+                    Constants.getPlayTime(rootSD + "/" + fileName),                           // 녹음파일 재생시간
+                    Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
+                    false,                                                                    // 일단 false
+                    true
+            );
         }
 
 
@@ -172,7 +154,7 @@ public class ListView extends AppCompatActivity{
                 //ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
                 // TODO Auto-generated method stub
                 //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
-                Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -191,14 +173,14 @@ public class ListView extends AppCompatActivity{
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "longlong : " + myList.get(position).toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "longlong : " + myList.get(position).toString(), Toast.LENGTH_SHORT).show();
 
                 Log.d(tag, "item long click listener");
-//                upLoad(myList.get(position).toString());          // 업로드
                 return false;
             }
         });
 
+        // 컨텍스트 메뉴 등록
         registerForContextMenu(listview);
 
         ////////////////////////////////////////////////////////////////////////
@@ -220,22 +202,21 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "leng : " + dataSnapshot.getChildrenCount());
                 Log.d(tag, "dataSnapshot.getKey() : " + dataSnapshot.getKey()); // 파일 네임
 
-                Iterator iterator = uploadedList.iterator();
-                while (iterator.hasNext()) {
-                    Log.d(tag, "getUploadList() : " + iterator.next());
-                }
+//                Iterator iterator = uploadedList.iterator();
+//                while (iterator.hasNext()) {
+//                    Log.d(tag, "getUploadList() : " + iterator.next());
+//                }
 
 
-                for( DataSnapshot snapshot : dataSnapshot.getChildren() ) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     Log.d(tag, "key ; " + key);                 // 이건 애트리뷰트
 
-                    for(DataSnapshot snapbaby : snapshot.getChildren()){
+                    for (DataSnapshot snapbaby : snapshot.getChildren()) {
                         Log.d(tag, "snap baby : " + snapbaby.getValue());
                     }
                 }
             }
-
 
 
             @Override
@@ -257,67 +238,7 @@ public class ListView extends AppCompatActivity{
         ////////////////////////////////////////////////////////////////////////
 
 
-        ///////////////////////////////////////////////////////////////
-        ////////////////////// READ FROM FIREBASE /////////////////////
-        ///////////////////////////////////////////////////////////////
-        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(tag, "시발 개수 : " + dataSnapshot.getChildrenCount());
-                for( DataSnapshot ds : dataSnapshot.getChildren()){
-                    Log.d(tag, "시발getkey : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
-                    uploadedList.add(ds.getKey()+".mp4");
-//                    uploadedList.add(ds.getKey().toString()+".mp4");
-                    Log.d(tag, "시발 이제는 이만큼 : " + uploadedList.size());
-//                    Log.d(tag, "시발getvalue : " + ds.getValue());
-
-                }
-                //////////////////////
-                // 다 돌아서 뭐있는지 알았으니까
-                // 리스트 뷰 업데이트 (notifyDataSetChange();)
-                for(String temp : uploadedList){
-                    if(myList.indexOf(temp)!=-1){
-                        adapter.modifyIsUploded(myList.indexOf(temp),true);
-                    } else{
-                        // 웹상에만 있는애들은 일로 들어온다.
-                        String fileName = temp;
-                        Log.d(tag, "웹에만 있는애들 : " + temp);
-//                        downLoad(temp);
-                    }
-
-                    Log.d(tag, "index : " + myList.indexOf(temp));
-                    Log.d(tag, "name : " + temp);
-                }
-                adapter.notifyDataSetChanged();
-
-
-                //////////////////////
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        List<String> a = findFileOnlyInFireBase();
-        for(int i=0;i<a.size();i++){
-            Log.d(tag, "결과로 나온애들 ?? : " + a.get(i));
-            adapter.addItem(null, a.get(i),null,null);
-        }
-
-
-
     }
-
-
-
-
-
-
-
-
-
 
 
     //////////////////////////////////////////////////////////////
@@ -343,35 +264,35 @@ public class ListView extends AppCompatActivity{
         //AdapterContextMenuInfo
         //AdapterView가 onCreateContextMenu할때의 추가적인 menu 정보를 관리하는 클래스
         //ContextMenu로 등록된 AdapterView(여기서는 Listview)의 선택된 항목에 대한 정보를 관리하는 클래스
-        AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        index= info.position; //AdapterView안에서 ContextMenu를 보여주는 항목의 위치
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        index = info.position; //AdapterView안에서 ContextMenu를 보여주는 항목의 위치
         String fileName = myList.get(index).toString();
         //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
-        switch( item.getItemId() ){
+        switch (item.getItemId()) {
             case R.id.changeName:
-                Toast.makeText(this, myList.get(index)+" Change Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, myList.get(index) + " Change Name", Toast.LENGTH_SHORT).show();
                 // 이름 새로 받아야함
 //                ((MainActivity)MainActivity.mContext).dbHelper.noName(myList.get(index).toString(), newName);
                 setNewName("");
-                customDialog(index);
-                if(!newName.equals("")){
-                    Log.d(tag, "이프문에 들어왔다.");
-                    nameChange(myList.get(index).toString(), newName);
-                    myList.remove(index);
-                    adapter.notifyDataSetChanged();
-                } else{
-                    Log.d(tag, "엘스문이다.");
-                }
+                customDialog(index);    // 이름 받는 다이얼로그
+
+//                if(!newName.equals("")){
+////                    Log.d(tag, "이프문에 들어왔다.");
+////                    nameChange(myList.get(index).toString(), newName);      // 이름 변경
+////                    adapter.nameChange(index, newName+".mp4");
+////                    adapter.notifyDataSetChanged();
+//                } else{
+//                    Log.d(tag, "엘스문이다.");
+//
+//                }
 
                 // 파일 이름 바꾸는 함수
                 break;
             case R.id.upload:
-                if(!adapter.ischecked(index)){
+                if (adapter.ischecked(index)) {
                     // 체크안되어있으면(업로드 안되어있으면 다운로드)
-                    Log.d(tag, "체크안되어있으면(업로드 안되어있으면 다운로드)");
+                    Log.d(tag, "체크안되어있으면(업로드 되어있으면 다운로드)");
 //                    downLoad(myList.get(index).toString());
-                    downLoad("fu2.mp4");
-                    upLoad(fileName);
 
                 } else {
 
@@ -380,12 +301,12 @@ public class ListView extends AppCompatActivity{
                     upLoad(myList.get(index).toString());
                     String uid = Constants.getUserUid();
 
-                    RecordingMataData meta = dbHelper.getResult(fileName);
-                    List<memoItem> itemList = meta.getMemoItemList();
+                    RecordingMataData meta = dbHelper.getResult(fileName);  // 디비에서 데이터 다뽑아옴
+                    List<memoItem> itemList = meta.getMemoItemList();       // 디비에서온 데이터 담을 리스트
 
-                    String fn = myList.get(index).toString();
+                    String fn = myList.get(index).toString();               // 파일이름
                     // .mp4에서 . 안되서 . 전까지만 이름으로 저장.
-                    fn = fn.substring(0, fn.lastIndexOf('.'));
+                    fn = fn.substring(0, fn.lastIndexOf('.'));          // 파일 이름 자름
 
                     Log.d(tag, "len : " + itemList.size());
                     Log.d(tag, "올라갈파일이름 : " + fn);
@@ -419,8 +340,6 @@ public class ListView extends AppCompatActivity{
                 }
 
 
-
-
 //                databaseReference.child(uid).child(fn).child("memo").push().setValue(m);
 //                databaseReference.child(uid).child(fn).child("memoTime").push().setValue(mt);
 //                databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(mi);
@@ -428,10 +347,10 @@ public class ListView extends AppCompatActivity{
 
                 break;
             case R.id.delete:
-                Toast.makeText(this, myList.get(index)+" Delete", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, myList.get(index) + " Delete", Toast.LENGTH_SHORT).show();
                 dbHelper.delete(myList.get(index).toString());
-                File file = new File(Constants.getFilePath()+"/"+myList.get(index).toString());
-                Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
+                File file = new File(Constants.getFilePath() + "/" + myList.get(index).toString());
+                Log.d(tag, "delete : " + Constants.getFilePath() + "/" + myList.get(index).toString());
                 ///////////////////////////////////////////////
                 /////// 여기 안하면 리스트 제대로 업데이트 안댐//////////
                 myList.remove(index);
@@ -461,7 +380,9 @@ public class ListView extends AppCompatActivity{
                 break;
         }
         return true;
-    };
+    }
+
+    ;
 
 
 //    //ListView의 아이템 하나가 클릭되는 것을 감지하는 Listener객체 생성 (Button의 OnClickListener와 같은 역할)
@@ -483,39 +404,38 @@ public class ListView extends AppCompatActivity{
 //    };
 
 
+    public void nameChange(String preName, String newName) {
+        Log.d(tag, "in name change : " + Constants.getFilePath() + "/" + preName);
+        Log.d(tag, "in name change : " + Constants.getFilePath() + "/" + newName + ".mp4");
+        File filePre = new File(Constants.getFilePath() + "/", preName);
+        File fileNow = new File(Constants.getFilePath() + "/", newName + ".mp4");
 
-
-
-    public void nameChange(String preName, String newName){
-        Log.d(tag, "in name change : " +Constants.getFilePath()+"/"+ preName);
-        Log.d(tag, "in name change : " + Constants.getFilePath()+"/" +newName+".mp4");
-        File filePre = new File(Constants.getFilePath()+"/", preName);
-        File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
-
-        if(filePre.renameTo(fileNow)){
-            Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
-        }else{
+        if (filePre.renameTo(fileNow)) {
+            Toast.makeText(getApplicationContext(), "변경 성공 : " + newName + ".mp4", Toast.LENGTH_SHORT).show();
+        } else {
             Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
-
+        Log.d("namedbtest", "바뀌기 전 이름 : " + myList.get(index).toString() + " 바꾸고 싶은 이름 : " + newName + ".mp4");
+        Log.d("namedbtest", "디비로 가버렷!!");
+        dbHelper.reName(myList.get(index).toString(), newName + ".mp4");
+        Log.d("namedbtest", "바뀐 파일 이름으로  디비 업데이트 완료 안되면 자살");
     }
 
 
-
-    public void customDialog(final int index){
+    public void customDialog(final int index) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final String[] ret = {""};
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("Input your name");
-        alert.setMessage("Plz, input yourname");
+        alert.setTitle("Change File Name");
+        alert.setMessage("Plz, input new file name");
 
 
         final EditText name = new EditText(this);
         alert.setView(name);
 
-        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }
@@ -527,7 +447,6 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "셋 전 : " + ret[0]);
                 setNewName(ret[0]);
                 nameChange(myList.get(index).toString(), ret[0]);
-                dbHelper.reName(myList.get(index).toString(),ret[0]);
             }
         });
 
@@ -535,15 +454,13 @@ public class ListView extends AppCompatActivity{
 
     }
 
-    public void setNewName(String t){
+    public void setNewName(String t) {
         this.newName = t;
     }
 
-    public String getNewName(String t){
+    public String getNewName(String t) {
         return this.newName;
     }
-
-
 
 
     //////////////////////////////////////////////////////////////
@@ -589,12 +506,6 @@ public class ListView extends AppCompatActivity{
                 progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
                 Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
 
-                ////////////////// 업로드 성공한후 체크표시 해줌/////////////
-                uploadedList.add(myList.get(index).toString());
-//                uploadedList.add(myList.get(index).toString());                                                                       // 업로드한 파일 목록 추가
-                adapter.modifyIsUploded(index, true);
-                adapter.notifyDataSetChanged();
-                /////////////////////////////////////////////////////
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -616,59 +527,24 @@ public class ListView extends AppCompatActivity{
     ///////////////////////FIRE BASE DOWNLOAD/////////////////////
     //////////////////////////////////////////////////////////////
 
-//    public void downLoad(String fileName){
-//        Log.d(tag, "fileNAme in download: " + fileName);
-//        // Create a reference to a file from a Google Cloud Storage URI
-//        // 저기/내 uid/recording
-//
-//        StorageReference storageRef = storage.getReferenceFromUrl("gs://eumme-c2ce7.appspot.com/");
-//
-////
-////        islandRef=storageRef.child("users").child(Constants.getUserUid()).child("Recording");
-////        islandRef = storageRef.child(fileName);
-////        File localFile=null;
-////        fileName = fileName.substring(0, fileName.indexOf('.'));
-////        Log.d(tag, "자른이름 : " + fileName);
-////        try{
-////            localFile = File.createTempFile("tempFile", "mp4");
-////            Log.d(tag, "로컬 파일 생성");
-////        } catch(IOException e){
-////            Log.d(tag, "로컬 파일생성 캐치");
-////            e.printStackTrace();
-////        }
-////
-//
-//        storageRef.child("users/"+Constants.getUserUid()+"/Recording/"+fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Log.d(tag, "다운로드 완료");
-//                // Got the download URL for 'users/me/profile.png'
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                Log.d(tag, "다운로드 실패");
-//                // Handle any errors
-//            }
-//        });
-//
-//    }
 
-    public void downLoad(String fileName){
+    public void downLoad(String fileName, int idx) {
+        Log.d(tag, "다운받을 파일 : " + fileName);
         StorageReference storageRef = storage.getReference();
         StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName);
 
-        File localFile=null;
-        try{
+        File localFile = null;
+        try {
             localFile = File.createTempFile("temp", ".mp4", Environment.getExternalStorageDirectory());
 
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         final File finalLocalFile = localFile;
         final String finalFileName = fileName;
+        final int finalIdx = idx;
         islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -677,6 +553,45 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "파일 위치 : " + finalLocalFile.getPath());
                 moveFile(finalLocalFile, finalFileName);
 //                moveFile(finalLocalFile, finalFileName);
+                adapter.deleteItem(finalIdx);
+
+
+///////////////////////////////////////////////////
+                adapter = new ListViewAdapter();
+                listview.setAdapter(adapter);
+                String rootSD = Environment.getExternalStorageDirectory().toString();
+                rootSD += "/ZEum_me";
+                file = new File(rootSD);
+                list = file.listFiles();
+
+                // 파일 이름들 추가
+                for (int i = 0; i < list.length; i++) {
+                    myList.add(list[i].getName());
+                    myListDate.add(list[i].lastModified());
+                }
+                for (int i = 0; i < list.length; i++) {
+                    String fileName = list[i].getName().toString();
+                    Log.d(tag, "정상additem : " + fileName);
+                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_play),        // 플레이버튼
+                            fileName,                                                                   // 녹음 파일 이름
+                            Constants.getPlayTime(rootSD + "/" + fileName),                           // 녹음파일 재생시간
+                            Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
+                            false,                                                                    // 일단 false
+                            true
+                    );
+                }
+//                List<String> a = findFileOnlyInFireBase();
+                // 웹에만 있는애들 널값으로 어댑터에 추가
+//                for(int i=0;i<a.size();i++){
+//                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),
+//                            R.drawable.btn_play),
+//                            a.get(i),"",
+//                            "",
+//                            true);
+//                }
+
+                adapter.notifyDataSetChanged();
+
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -691,14 +606,14 @@ public class ListView extends AppCompatActivity{
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    public void moveFile(File from,String name) {
+    public void moveFile(File from, String name) {
 //        File file = new File("D:\\Test.java");
         File file = from;
-        File file2 = new File(Constants.getFilePath()+"/"+name);//이동
+        File file2 = new File(Constants.getFilePath() + "/" + name);//이동
 
-        if(file.exists()) {
+        if (file.exists()) {
             Log.d(tag, "이동 완료");
-            file.renameTo(file2);	//변경
+            file.renameTo(file2);    //변경
         }
     }
 
@@ -707,23 +622,21 @@ public class ListView extends AppCompatActivity{
 
 
 
-
-    public List<String> findFileOnlyInFireBase(){
-        List<String> ret = new ArrayList<String>();
-
-        for(String iter : uploadedList){
-            // 업로드한 파일이 로컬에 없다면
-            if(!myList.contains(iter)){
-                Log.d(tag, "웹에만 있는애들 : " + iter);
-                ret.add(iter);
-            } else{
-                Log.d(tag, "둘다 있는애들 : " + iter);
-            }
-        }
-
-        return ret;
-    }
-
-
+//    public List<String> findFileOnlyInFireBase(){
+//        List<String> ret = new ArrayList<String>();
+//
+//        for(String iter : uploadedList){
+//            // 업로드한 파일이 로컬에 없다면
+//            if(!myList.contains(iter)){
+//                Log.d(tag, "웹에만 있는애들 : " + iter);
+//                ret.add(iter);
+//            } else{
+//                Log.d(tag, "둘다 있는애들 : " + iter);
+//            }
+//        }
+//
+//        return ret;
+//    }
 
 }
+

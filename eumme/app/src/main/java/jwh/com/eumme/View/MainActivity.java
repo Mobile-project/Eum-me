@@ -13,12 +13,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +30,20 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.jhw.Eumme.ver.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jwh.com.eumme.Model.Constants;
@@ -41,11 +52,11 @@ import jwh.com.eumme.Model.RecordeService;
 import jwh.com.eumme.Model.memoItem;
 import jwh.com.eumme.Presenter.BackPressCloseHandler;
 import jwh.com.eumme.Presenter.FlagSingleton;
-import jwh.com.eumme.Presenter.PlayViewPagerAdapter;
 import jwh.com.eumme.Presenter.RecordViewPagerAdapter;
 import jwh.com.eumme.Presenter.RecordingSingleton;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    String tag = "mymainactivity";
 
     //////////구글용
     FirebaseAuth mFirebaseAuth;
@@ -57,8 +68,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String mPhotoUrl;
     ////////////
 
+    //////////////////////////////////////////////////
+    //////////// FIREBASE REFERENCE///////////////////
+    //////////////////////////////////////////////////
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    String tag = "mymainactivity";
+    // Create a storage reference from our app
+    //참조를 만들려면 FirebaseStorage 싱글톤 인스턴스를
+    // 사용하고 이 인스턴스의 getReference() 메소드를 호출합니다.
+    StorageReference storageRef = storage.getReference();
+    ////////////////////////////////////////////////////////////////////////
+    //////////////////////Reaf Time Database////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();     // 읽기 작업용?
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    public HashSet<String> uploadedList = new HashSet<String>();
+
 
     public static Context mContext;
 
@@ -79,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     int playTime = 0;               // 몇초짜리인지
     ConcurrentHashMap<Integer,memoItem> memoItemList;
-
     private BackPressCloseHandler backPressCloseHandler;
 
     // 메모정보들
@@ -89,9 +115,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mContext = this;
     }
 
+    private static final int MY_PERMISSION_STORAGE = 1111;
+
+
     /////////////////////////////////////
-    public String fileName="";          // 기본이름
-    public String newFileName="";       // 바꾼이름
+    public String fileName = "";          // 기본이름
+    public String newFileName = "";       // 바꾼이름
+
     /////////////////////////////////////
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -147,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
             // usernameTextView.setText(mUsername);
 
-            // Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
             // ImageView photoImageView = (ImageView) findViewById(R.id.photo_imageview);
         }
@@ -168,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 if (!isRecording) {
+                    RecordingSingleton.getInstance();
                     isRecording = true; //녹음중이라는 표시
                     chronometer.setBase(SystemClock.elapsedRealtime()); //타이머 설정
                     chronometer.start();
@@ -192,6 +223,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     fileName = Constants.getPreFileName();          // 기본 이름.
 
                     customDialog();                           // 새 파일 이름 받아오기
+
+//     * _id              INTEGER     무시하는 프라이머리 키
+//     * file_name        TEXT        녹음 파일 이름
+//     * memo             TEXT        메모 내용
+//     * memo_time        TEXT        메모한 시간
+//     * memo_index       INTEGER     몇번째 메모인지
 
                 }
             }
@@ -230,26 +267,136 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (!isRecording) {
-                    Intent intent = new Intent(getApplicationContext(), jwh.com.eumme.View.ListView.class);
-                    startActivity(intent);
-                } else
-                    Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                PopupMenu p = new PopupMenu(getApplicationContext(), v); // anchor : 팝업을 띄울 기준될 위젯
+                getMenuInflater().inflate(R.menu.options_menu, p.getMenu());
+                // 이벤트 처리
+                p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String id = item.getTitle().toString();
+                        if (id.equals("Fire Base")) {
+                            if(!isRecording){
+                                Intent intent = new Intent(getApplicationContext(), ListViewFirebase.class);
+                                intent.putExtra("set", uploadedList);
+                                startActivity(intent);
+                            } else
+                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                        }
+                        if (id.equals("Recording")) {
+                            if (!isRecording) {
+                                Intent intent = new Intent(getApplicationContext(), ListView.class);
+                                startActivity(intent);
+                            } else
+                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                        }
+                        return false;
+                    }
+                });
+                p.show(); // 메뉴를 띄우기
             }
         });
 
+
+        ///////////////////////////////////////////////////////////////
+        ////////////////////// READ FROM FIREBASE /////////////////////
+        ///////////////////////////////////////////////////////////////
+        // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
+        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(tag, "시발 개수 : " + dataSnapshot.getChildrenCount());
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Log.d(tag, "시발getkey : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
+                    if (!uploadedList.contains(ds.getKey())) {
+                        uploadedList.add(ds.getKey() + ".mp4");
+                    }
+                    uploadedList.add(ds.getKey().toString() + ".mp4");
+                    Log.d(tag, "시발 이제는 이만큼 : " + uploadedList.size());
+                    Log.d(tag, "시발getvalue : " + ds.getValue());
+
+                }
+            }
+
+//                    Log.d(tag, "index : " + myList.indexOf(temp));
+//                    Log.d(tag, "name : " + temp);
+//                }
+
+//                List<String> a = findFileOnlyInFireBase();
+//                Log.d(tag, "파베에만 있는 : " + a.size());
+//                for(int i=0;i<a.size();i++){
+//                    Log.d(tag, "결과로 나온애들 ?? : " + a.get(i));
+//                    if(!adapter.isContain(a.get(i))){
+//                        Log.d(tag, "비정상additem : "+a.get(i));
+//                        adapter.addItem(null, a.get(i),"","",true);          // 어댑터에 아이템추가
+//
+//                    }
+//                }
+//                adapter.notifyDataSetChanged();
+//                Log.d(tag, "어댑터 길이 : " + adapter.getCount());
+            //////////////////////
+
+//                adapter = new ListViewAdapter() ;
+//                listview.setAdapter(adapter);
+//                String rootSD = Environment.getExternalStorageDirectory().toString();
+//                rootSD+="/ZEum_me";
+//                file = new File(rootSD);
+//                list = file.listFiles();
+
+            // 파일 이름들 추가
+//                for(int i=0;i<list.length;i++){
+//                    myList.add(list[i].getName());
+//                    myListDate.add(list[i].lastModified());
+//                }
+//                for(int i=0;i<list.length;i++){
+//                    String fileName = list[i].getName().toString();
+//                    Log.d(tag, "정상additem : " + fileName);
+//                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_play),        // 플레이버튼
+//                            fileName,                                                                   // 녹음 파일 이름
+//                            Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
+//                            Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
+//                            false                                                                    // 일단 false
+//                    );
+//                }
+//                for(int i=0;i<a.size();i++){
+//                    adapter.addItem(ContextCompat.getDrawable(getApplicationContext(),
+//                            R.drawable.btn_play),
+//                            a.get(i),"",
+//                            "",
+//                            true);
+//                }
+
+//                adapter.notifyDataSetChanged();
+
+//            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    // option에 누르면 나오는 옵션메뉴
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
     }
 
     // 퍼미션 허가하는 함수
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
-            // Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            Log.d(tag, "Permission Granted");
         }
+
         @Override
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-            //  Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -269,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     //////////////////////////////////////////////
     ////////////// 이름 변경 다이얼로그 ///////////////
     //////////////////////////////////////////////
-    public void customDialog(){
+    public void customDialog() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -279,29 +426,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         final EditText name = new EditText(this);
         alert.setView(name);
         alert.setCancelable(false);
-
-        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                PlayViewPagerAdapter.check = false;
                 addMemoItemListToDB(fileName);
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
-
-
             }
         });
 
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                PlayViewPagerAdapter.check = true;
                 newFileName = name.getText().toString();
                 Log.d(tag, "new name : " + newFileName);
                 nameChange(Constants.getPreFileName(), newFileName);
-                addMemoItemListToDB(newFileName+".mp4");
-                Intent in = new Intent(getApplicationContext(),MainActivity.class);
+                addMemoItemListToDB(newFileName + ".mp4");
+                Intent in = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(in);
-
                 finish();
             }
         });
@@ -312,20 +450,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     //////////////////////////////////////////////
     //////////////// 이름 변경 /////////////////////
     //////////////////////////////////////////////
-    public void nameChange(String preName, String newName){
-        Log.d(tag, "in name change preName : " +preName);
-        Log.d(tag, "in name change newName : " +newName);
-        File filePre = new File(Constants.getFilePath()+"/", preName);
-        File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
-        if(filePre.exists()){
+    public void nameChange(String preName, String newName) {
+        Log.d(tag, "in name change preName : " + preName);
+        Log.d(tag, "in name change newName : " + newName);
+        File filePre = new File(Constants.getFilePath() + "/", preName);
+        File fileNow = new File(Constants.getFilePath() + "/", newName + ".mp4");
+        if (filePre.exists()) {
             Log.d(tag, "exists");
-        } else{
+        } else {
             Log.d(tag, "no exists");
         }
-        if(filePre.renameTo(fileNow)){
+        if (filePre.renameTo(fileNow)) {
             Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
 
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
@@ -333,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //        dbHelper.reName(preName, newName + ".mp4");
     }
 
-    public void addMemoItemListToDB(String filename){
+    public void addMemoItemListToDB(String filename) {
         // 메모 갯수만큼 돌면서 디비에 인서트
         memoItemList = RecordingSingleton.getInstance().getMemoItemList();
         if (memoItemList == null) {
@@ -346,8 +484,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
                 dbHelper.insert(filename, memo, createdTime, memoIndex);
             }
+            Log.d(tag, "메모아이템리스트 크기 " + memoItemList.size());
+            for (int i = 0; i < memoItemList.size(); i++) {
+                Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
+            }
+            RecordingSingleton.getInstance().setClear();
         }
-
     }
 }
+
 

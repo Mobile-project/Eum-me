@@ -29,9 +29,7 @@
         android:gravity="center_vertical"
         android:text="New Text"
         android:textColor="#EEEEEE"
-        android:textSize="18dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="66dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/text_view_play_time"
@@ -43,9 +41,7 @@
         android:layout_weight="1"
         android:text="playtime"
         android:textColor="#EEEEEE"
-        android:textSize="16dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="66dp" />
+        android:textSize="16dp" />
 
 
     <!--</LinearLayout>-->
@@ -57,17 +53,15 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="38dp"
         android:text="date"
-        android:textAlignment="viewEnd"
-        android:layout_alignParentLeft="true"
-        android:gravity="end" />
+        android:textAlignment="viewEnd" />
 
     <ImageView
-        android:id="@+id/upload_check"
+        android:id="@+id/upload_download"
         android:layout_width="24dp"
         android:layout_height="18dp"
         android:layout_alignBottom="@+id/text_view_file_name"
         android:layout_alignParentEnd="true"
+        android:background="@color/fui_transparent"
         android:scaleType="centerInside"
-        android:src="@drawable/upload_check"
-        android:layout_alignParentRight="true" />
+        android:src="@drawable/upload_check" />
 </RelativeLayout>

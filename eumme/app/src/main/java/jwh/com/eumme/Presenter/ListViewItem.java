@@ -7,6 +7,7 @@ public class ListViewItem {
     String tag = "mylistviewitem";
     private Drawable iconDrawable ;
     private boolean isUploaded;
+    private boolean isDownloaded;
 
     private String fileName;
     private String descStr ;
@@ -52,4 +53,8 @@ public class ListViewItem {
     public void setUploaded(boolean uploaded) {
         isUploaded = uploaded;
     }
+
+    public boolean isDownloaded(){ return isDownloaded;}
+
+    public void setDownloaded(boolean downloaded){isDownloaded=downloaded;}
 }

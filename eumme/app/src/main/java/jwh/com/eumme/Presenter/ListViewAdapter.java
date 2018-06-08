@@ -35,7 +35,7 @@ public class ListViewAdapter extends BaseAdapter {
     TextView playTimeTextView;
     TextView dateTextView;
     RelativeLayout topContainer;
-    ImageView uploadCheck;
+    ImageView uploadDownload;
 
 
 
@@ -78,7 +78,7 @@ public class ListViewAdapter extends BaseAdapter {
         playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time);
         dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
         topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
-        uploadCheck = (ImageView) convertView.findViewById(R.id.upload_check);
+        uploadDownload = (ImageView) convertView.findViewById(R.id.upload_download);
 
 
 
@@ -86,12 +86,10 @@ public class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // 각 항목의 플레이 버튼 눌렀을떄
-                Log.d(tag, "play button click : " + pos);
                 Toast.makeText(context, "play button click : " + pos, Toast.LENGTH_SHORT).show();
                 //List<String> memos =
                 Intent intent = new Intent(context, PlayActivity.class);
                 Bundle bundle = new Bundle();
-                Log.d(tag, listViewItemList.get(pos).getFileName());
                 bundle.putString("fileName", listViewItemList.get(pos).getFileName());
                 bundle.putString("playTime", listViewItemList.get(pos).getPlayTime());
                 intent.putExtras(bundle);
@@ -119,48 +117,28 @@ public class ListViewAdapter extends BaseAdapter {
         final ListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
+        playButton.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getFileName());
-//        playtime = listViewItem.getPlayTime().replace(":", "");
+        playTimeTextView.setText(listViewItem.getPlayTime());
+        dateTextView.setText(listViewItem.getCreatedTime());
+
+        ///// 체크버튼 표시 결정//////
+        if (listViewItem.isUploaded() && listViewItem.isDownloaded()) { // TT
+            uploadDownload.setImageResource(R.drawable.cloud_green);
+        } else if(listViewItem.isUploaded() && !listViewItem.isDownloaded()){ // TF
+            uploadDownload.setImageResource(R.drawable.download_green);
+        } else if(!listViewItem.isUploaded() && listViewItem.isDownloaded()){ // FT
+            uploadDownload.setImageResource(R.drawable.upload_green);
+        } else{ // FF
+            uploadDownload.setImageResource(R.drawable.cloud_black);
+        }
+
+        //        playtime = listViewItem.getPlayTime().replace(":", "");
 //        duration = Integer.parseInt(playtime);
 //        seconds = duration % 100;
 //        minutes = (duration - seconds) % 100;
 //        hours = (duration / 10000);
 //        playTimeTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-        playTimeTextView.setText(listViewItem.getPlayTime());
-        dateTextView.setText(listViewItem.getCreatedTime());
-
-        ///// 체크버튼 표시할지 말지결정//////
-        if(listViewItem.isUploaded()){
-            uploadCheck.setVisibility(View.VISIBLE);
-        } else uploadCheck.setVisibility(View.INVISIBLE);
-
-//        fileNameContainer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String fileName = listViewItem.getFileName(); // 현재 누른 파일 이름
-//
-//                Toast.makeText(context, "file name click : " + fileName, Toast.LENGTH_SHORT).show();
-//
-//
-//                //
-////                Log.d(tag, "test : " + ((MainActivity)MainActivity.mContext).getA());
-//                //
-//
-//                // 컨텍스트를 통해 액티비티에 접근
-//                // dbHelper.getResult로 메모목록 가져옴
-//                metaData = ((MainActivity)MainActivity.mContext).dbHelper.getResult(fileName);
-//                Log.d(tag, "metadata test : " + metaData.getCreatedTime());
-//                int len = metaData.getMemoItem().size();
-//                Log.d(tag, "len : " + len);
-//                for(int i=0;i<len;i++){
-//                    Log.d(tag, metaData.getMemoItem().get(i).getFileName() + " " +
-//                    metaData.getMemoItem().get(i).getMemo() + " " +
-//                    metaData.getMemoItem().get(i).getMemoIndex() + " " +
-//                    metaData.getPlayTime() + " " +
-//                    metaData.getCreatedTime());
-//                }
-//            }
-//        });
 
 
         return convertView;
@@ -179,13 +157,14 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String playTime, String createdTime) {
+    public void addItem(Drawable icon, String title, String playTime, String createdTime, boolean uploadTF, boolean downloadTF) {
         ListViewItem item = new ListViewItem();
         item.setIcon(icon);
         item.setFileName(title);
         item.setPlayTime(String.valueOf(playTime));
         item.setCreatedTime(createdTime);
-
+        item.setUploaded(uploadTF);
+        item.setDownloaded(downloadTF);
 //        Log.d(tag, "playtime : "+playTime);
 //        Log.d(tag, "addItem : playtime : " + playTime);
 //        Log.d(tag, "addItem : cratedTime : " + ((MainActivity)MainActivity.mContext).dbHelper.getCreatedTime(title));
@@ -204,6 +183,20 @@ public class ListViewAdapter extends BaseAdapter {
 
     public boolean ischecked(int idx){
         return this.listViewItemList.get(idx).isUploaded();
+    }
+
+    public boolean isContain(String name){
+        return listViewItemList.contains(name);
+    }
+
+    public int getPosition(String name){
+        return listViewItemList.indexOf(name);
+    }
+
+    public void nameChange(int idx, String newName){
+        Log.d(tag, "pre name : " + listViewItemList.get(idx).getFileName());
+        listViewItemList.get(idx).setFileName(newName);
+        Log.d(tag, "new name : " + listViewItemList.get(idx).getFileName());
     }
 
 }
