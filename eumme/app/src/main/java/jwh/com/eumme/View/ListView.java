@@ -276,6 +276,8 @@ public class ListView extends AppCompatActivity {
                 setNewName("");
                 customDialog(index);    // 이름 받는 다이얼로그
 
+
+
 //                if(!newName.equals("")){
 ////                    Log.d(tag, "이프문에 들어왔다.");
 ////                    nameChange(myList.get(index).toString(), newName);      // 이름 변경
@@ -378,6 +380,7 @@ public class ListView extends AppCompatActivity {
 
 
                 break;
+
         }
         return true;
     }
@@ -447,6 +450,8 @@ public class ListView extends AppCompatActivity {
                 Log.d(tag, "셋 전 : " + ret[0]);
                 setNewName(ret[0]);
                 nameChange(myList.get(index).toString(), ret[0]);
+                adapter.nameChange(index, newName+".mp4");
+                adapter.notifyDataSetChanged();
             }
         });
 
