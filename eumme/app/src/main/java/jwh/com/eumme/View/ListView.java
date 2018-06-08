@@ -99,10 +99,9 @@ public class ListView extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view);
-        downLoad("fu2.mp4");
 
 
-        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 : " + uploadedList.size());
+//        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 : " + uploadedList.size());
 
         myList = new ArrayList();
         myListDate = new ArrayList();
@@ -372,6 +371,7 @@ public class ListView extends AppCompatActivity{
                     Log.d(tag, "체크안되어있으면(업로드 안되어있으면 다운로드)");
 //                    downLoad(myList.get(index).toString());
                     downLoad("fu2.mp4");
+                    upLoad(fileName);
 
                 } else {
 

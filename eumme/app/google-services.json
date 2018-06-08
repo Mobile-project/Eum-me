@@ -8,119 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:645232511549:android:f6c06a3775a76197",
-        "android_client_info": {
-          "package_name": "com.jhw.Eumme"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAKLoLlJADXrDCXBoeIwf__aaqf6_YzcCo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:645232511549:android:1fb54cc9ed391769",
-        "android_client_info": {
-          "package_name": "com.sample.andremion.musicplayer"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "645232511549-r2jvj4i8a5tkml5taiemqh7v9o0kdqfn.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sample.andremion.musicplayer",
-            "certificate_hash": "0479bc370c983ba3b954f01e619127e1ca01623e"
-          }
-        },
-        {
-          "client_id": "645232511549-mm3smkfpnnep9m5jlemhe88rqe7kgpo5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sample.andremion.musicplayer",
-            "certificate_hash": "031706e2ee7b9aa41ba521d8bb04b125ca327ebc"
-          }
-        },
-        {
-          "client_id": "645232511549-vi6t401vklpsbve8ibsl74bo2g6mrrnd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sample.andremion.musicplayer",
-            "certificate_hash": "224d88b2c9f7abde3a6ef3fd70b5a534378421fd"
-          }
-        },
-        {
-          "client_id": "645232511549-g1rq5kaucd1tbsjppk72jlcibm3gip22.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sample.andremion.musicplayer",
-            "certificate_hash": "a162ce9b91eb49b1fc6dd264113e8ae71af86e04"
-          }
-        },
-        {
-          "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAKLoLlJADXrDCXBoeIwf__aaqf6_YzcCo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "645232511549-i8bv69bcuqrfsdel0tbsnqoe33u3ovol.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:645232511549:android:8de5423a9919d88f",
         "android_client_info": {
           "package_name": "jwh.com.eumme"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "645232511549-njtgmfim2jq1k6mskqik25t8ierg85fm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jwh.com.eumme",
+            "certificate_hash": "224d88b2c9f7abde3a6ef3fd70b5a534378421fd"
+          }
+        },
         {
           "client_id": "645232511549-b4c5vmuarjhf7s0fkvhfsb1diorjju2o.apps.googleusercontent.com",
           "client_type": 1,

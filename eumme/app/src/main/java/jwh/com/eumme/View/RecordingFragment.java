@@ -15,7 +15,7 @@ import jwh.com.eumme.Presenter.RecordingSingleton;
 
 
 public class RecordingFragment extends Fragment  {
-    private  String txt;
+    private  String txt="";
     private EditText editText;
     String tag = "mymainactivity";
     private static int CurrentPosition;

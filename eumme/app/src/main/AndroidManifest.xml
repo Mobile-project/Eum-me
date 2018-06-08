@@ -32,7 +32,7 @@
         <activity android:name="jwh.com.eumme.View.ListView"/>
         <activity android:name="jwh.com.eumme.View.PlayActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name="jwh.com.eumme.View.EmailSignInActivity"/>
+        <!--<activity android:name="jwh.com.eumme.View.EmailSignInActivity"/>-->
         <activity android:name="jwh.com.eumme.View.ModifyActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
