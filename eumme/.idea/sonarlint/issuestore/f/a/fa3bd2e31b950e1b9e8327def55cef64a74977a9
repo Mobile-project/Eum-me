@@ -1,0 +1,9 @@
+
+usquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ä¼¹×ÿÿÿÿÿ
+Ksquid:S1444"*Make this "public static mode" field final(º°¥Ãûÿÿÿÿ8á©›þ½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ß˜—Æøÿÿÿÿ8á©›þ½,
+£squid:S1319"†The type of the "stringList" object should be an interface such as "ConcurrentMap" rather than the implementation "ConcurrentHashMap".(“ÑÓ8á©›þ½,
+ˆ"squid:ClassVariableVisibilityCheck"PMake mode a static final constant or non-public and provide accessors if needed.(º°¥Ãûÿÿÿÿ8á©›þ½,
+|squid:S1488"`Immediately return this expression instead of assigning it to the temporary variable "fragment".(»ëœ»8á©›þ½,
+Gsquid:S1444"+Make this "public static check" field final(ê½Žœ8á©›þ½,
+„"squid:ClassVariableVisibilityCheck"QMake check a static final constant or non-public and provide accessors if needed.(ê½Žœ8á©›þ½,

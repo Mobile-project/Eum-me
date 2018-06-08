@@ -1,0 +1,28 @@
+
+jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Æ›¹8ìžüý½,
+Xsquid:S2589"7Remove this expression which always evaluates to "true"(ù¨¡ÿÿÿÿÿ8ìžüý½,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(£°´‘8ìžüý½,
+Gsquid:S1075"&Remove this hard-coded path-delimiter.(½¶‡­úÿÿÿÿ8ìžüý½,
+Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èÐ»ýÿÿÿÿ8ìžüý½,
+Š"squid:ClassVariableVisibilityCheck"WMake newFileName a static final constant or non-public and provide accessors if needed.(ÿ¯ºê8ìžüý½,
+squid:S1319"|The type of the "deniedPermissions" object should be an interface such as "List" rather than the implementation "ArrayList".(‰™¾ÿÿÿÿÿ8ìžüý½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¶¨ àùÿÿÿÿ8ìžüý½,
+|squid:S1450"[Remove the "buttonRecord" field and declare it as a local variable in the relevant methods.(†ö®Íÿÿÿÿÿ8ìžüý½,
+Œ"squid:ClassVariableVisibilityCheck"TMake mContext a static final constant or non-public and provide accessors if needed.(Ê®âÿÿÿÿÿ8ìžüý½,
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(™Î«þÿÿÿÿ8ìžüý½,
+‡"squid:ClassVariableVisibilityCheck"TMake fileName a static final constant or non-public and provide accessors if needed.(öÔôš8ìžüý½,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¹ŽÝç8ìžüý½,
+lsquid:CallToDeprecatedMethod"?Remove this use of "setOnPageChangeListener"; it is deprecated.(ÈÀ®˜8ìžüý½,
+ysquid:S1450"XRemove the "viewPager" field and declare it as a local variable in the relevant methods.(åÙ¬Ïûÿÿÿÿ8ìžüý½,
+Asquid:S3010"%Remove this assignment of "mContext".(±¼©Â8ìžüý½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(±á§¦üÿÿÿÿ8ìžüý½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ïù¦ýÿÿÿÿ8ìžüý½,
+qsquid:S1450"URemove the "option" field and declare it as a local variable in the relevant methods.(žâ¤Ý8ìžüý½,
+Ksquid:S00108")Either remove or fill this block of code.(à«÷Àýÿÿÿÿ8ìžüý½,
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ø´´øÿÿÿÿ8ìžüý½,
+Osquid:S1444".Make this "public static mContext" field final(Ê®âÿÿÿÿÿ8ìžüý½,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(õâø8ìžüý½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(™¸¥ýÿÿÿÿ8ìžüý½,
+squid:S1450"eRemove the "recordViewPagerAdapter" field and declare it as a local variable in the relevant methods.(™Û»á8ìžüý½,
+Gsquid:S1075"&Remove this hard-coded path-delimiter.(æ°ÛÕÿÿÿÿÿ8ìžüý½,
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8æÎ‚þ½,

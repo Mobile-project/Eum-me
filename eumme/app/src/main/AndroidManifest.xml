@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jhw.Eumme.ver">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/cow"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name="jwh.com.eumme.View.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+        </activity>
+        <activity android:name="jwh.com.eumme.View.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity android:name="jwh.com.eumme.View.SignInActivity" />
+
+
+        <service android:name="jwh.com.eumme.Model.RecordeService"/>
+        <activity android:name="jwh.com.eumme.View.ListView"/>
+        <activity android:name="jwh.com.eumme.View.PlayActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name="jwh.com.eumme.View.EmailSignInActivity"/>
+        <activity android:name="jwh.com.eumme.View.ModifyActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+    </application>
+
+</manifest>
