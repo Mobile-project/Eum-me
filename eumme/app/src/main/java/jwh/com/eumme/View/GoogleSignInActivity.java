@@ -178,18 +178,20 @@ public class GoogleSignInActivity extends BaseActivity implements
         hideProgressDialog();
         if (user != null) {
 
-            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));        // 로그인 한번하고 내 구글 아이디 적어주는 부분
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));        // 로그인 한번하고 내 키값 보여주는 곳
+//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));        // 로그인 한번하고 내 구글 아이디 적어주는 부분
+//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));        // 로그인 한번하고 내 키값 보여주는 곳
+
+            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getDisplayName()));    // 로그인 후 이름 보여주기
+            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getEmail()));        // 로그인 후 아이디 보여주기
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
 
 
             //////////            //////////            //////////
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
             //////////            //////////            //////////
 
         } else {

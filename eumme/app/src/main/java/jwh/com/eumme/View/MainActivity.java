@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                         // 이전 화면으로 가버림
                         // 로그아웃댐
-                        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                        Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (mFirebaseUser == null) {
             Toast.makeText(this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, SignInActivity.class);
+            Intent intent = new Intent(this, GoogleSignInActivity.class);
             startActivity(intent);
             finish();
         } else {

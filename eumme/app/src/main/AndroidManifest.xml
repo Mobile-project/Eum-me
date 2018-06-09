@@ -36,6 +36,7 @@
         <activity android:name="jwh.com.eumme.View.ModifyActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name="jwh.com.eumme.View.ListViewFirebase"/>
+        <activity android:name="jwh.com.eumme.View.GoogleSignInActivity"/>
 
     </application>
 

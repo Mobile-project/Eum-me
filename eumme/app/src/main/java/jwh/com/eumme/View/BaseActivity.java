@@ -17,7 +17,7 @@ public class BaseActivity extends AppCompatActivity {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
 //            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setMessage("hihi");
+            mProgressDialog.setMessage("please wait ...");
             mProgressDialog.setIndeterminate(true);
         }
 

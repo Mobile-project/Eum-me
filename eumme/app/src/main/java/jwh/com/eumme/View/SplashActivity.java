@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        startActivity( new Intent(this, SignInActivity.class));
+        startActivity( new Intent(this, GoogleSignInActivity.class));
         finish();
     }
 }
