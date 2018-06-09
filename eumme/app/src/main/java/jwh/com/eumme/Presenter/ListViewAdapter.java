@@ -203,4 +203,11 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
 
+    public String getPlaytime(int index){
+        return String.valueOf(listViewItemList.get(index).getPlayTime());
+    }
+
+    public String getCreatedTime(int index){
+        return String.valueOf(listViewItemList.get(index).getCreatedTime());
+    }
 }

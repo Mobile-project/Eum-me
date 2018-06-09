@@ -27,8 +27,7 @@ import com.jhw.Eumme.ver.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 
 import jwh.com.eumme.Model.Constants;
@@ -51,11 +50,10 @@ public class ListViewFirebase extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view);
         Intent intent = getIntent();
-        HashSet<String> set = (HashSet<String>) intent.getSerializableExtra("set");
+        HashMap<String, List<String>> set = (HashMap<String, List<String>>) intent.getSerializableExtra("set");
         Log.d(tag, "size: " + set.size());
 
         list = new ArrayList();     // 업로드된 파일 이름 담는 배열
-
 
         adapterFB = new ListViewAdapter();
         listviewFB = findViewById(R.id.listview1);
@@ -64,17 +62,42 @@ public class ListViewFirebase extends AppCompatActivity{
         }
         listviewFB.setAdapter(adapterFB);
 
-        Iterator<String> filename = set.iterator();
-        while(filename.hasNext()){
-            String t = filename.next();
-            list.add(t);    // 업로드된 파일이름 리스트에 추가
+        for( String key : set.keySet() ){
+            Log.d(tag, "key : "+ key);
+            for(String value : set.get(key)){
+                Log.d(tag, "values : " + value);
+            }
+        }
+
+        for(String fileName : set.keySet()){
+            String t = fileName;
+            list.add(fileName);
+            List<String> temp = new ArrayList<>();
+            for(String value : set.get(fileName)){
+                temp.add(value);
+            }
             adapterFB.addItem(ContextCompat.getDrawable(this,R.drawable.cow),
                     t,
-                    null,
-                    null,
+                    temp.get(1),
+                    temp.get(0),
                     true,
                     false);
+
         }
+
+
+
+//        Iterator<String> filename = set.iterator();
+//        while(filename.hasNext()){
+//            String t = filename.next();
+//            list.add(t);    // 업로드된 파일이름 리스트에 추가
+//            adapterFB.addItem(ContextCompat.getDrawable(this,R.drawable.cow),
+//                    t,
+//                    null,
+//                    null,
+//                    true,
+//                    false);
+//        }
 
 
         listviewFB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,9 +116,6 @@ public class ListViewFirebase extends AppCompatActivity{
         });
 
         registerForContextMenu(listviewFB);
-
-
-
     }
 
     //Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
@@ -215,5 +235,13 @@ public class ListViewFirebase extends AppCompatActivity{
             file.renameTo(file2);	//변경
 
         }
+    }
+
+
+    public void delete(String filename, int idx){
+        StorageReference storageRef = storage.getReference();
+
+        StorageReference desertRef = storageRef.child("images/desert.jpg");
+
     }
 }

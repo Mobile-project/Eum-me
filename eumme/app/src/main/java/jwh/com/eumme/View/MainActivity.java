@@ -43,7 +43,8 @@ import com.jhw.Eumme.ver.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jwh.com.eumme.Model.Constants;
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
-    public HashSet<String> uploadedList = new HashSet<String>();
+//    public HashSet<String> uploadedList = new HashSet<String>();
+    public HashMap<String, List<String>> uploadedList = new HashMap<>();
 
 
     public static Context mContext;
@@ -273,23 +275,44 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        String id = item.getTitle().toString();
-                        if (id.equals("Fire Base")) {
-                            if(!isRecording){
-                                Intent intent = new Intent(getApplicationContext(), ListViewFirebase.class);
-                                intent.putExtra("set", uploadedList);
-                                startActivity(intent);
-                            } else
-                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                        int id = item.getItemId();
+                        switch(id){
+                            case R.id.Firebase:
+                                if(!isRecording){
+                                    Intent intent = new Intent(getApplicationContext(), ListViewFirebase.class);
+                                    intent.putExtra("set", uploadedList);
+                                    startActivity(intent);
+                                } else
+                                    Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.Recording_List:
+                                if (!isRecording) {
+                                    Intent intent = new Intent(getApplicationContext(), ListView.class);
+                                    startActivity(intent);
+                                } else
+                                    Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                                break;
+
                         }
-                        if (id.equals("Recording")) {
-                            if (!isRecording) {
-                                Intent intent = new Intent(getApplicationContext(), ListView.class);
-                                startActivity(intent);
-                            } else
-                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
-                        }
-                        return false;
+                        return true;
+//                        String id = item.getTitle().toString();
+//                        if (id.equals("Fire Base")) {
+//                            if(!isRecording){
+//                                Intent intent = new Intent(getApplicationContext(), ListViewFirebase.class);
+//                                intent.putExtra("set", uploadedList);
+//                                startActivity(intent);
+//                            } else
+//                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+//                        }
+//                        if (id.equals("Local")) {
+//                            if (!isRecording) {
+//                                Intent intent = new Intent(getApplicationContext(), ListView.class);
+//                                startActivity(intent);
+//                            } else
+//                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+//                        }
+//                        return false;
                     }
                 });
                 p.show(); // 메뉴를 띄우기
@@ -304,70 +327,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(tag, "시발 개수 : " + dataSnapshot.getChildrenCount());
+                Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Log.d(tag, "시발getkey : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
-                    if (!uploadedList.contains(ds.getKey())) {
-                        uploadedList.add(ds.getKey() + ".mp4");
+                    Log.d(tag, "file name : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
+
+                    List<String> listtemp= new ArrayList<>();
+
+                    for(DataSnapshot snapbaby : ds.getChildren()){
+
+                        if(snapbaby.getKey().equals("createdTime")){
+                            Log.d(tag, "createdtime 추가 : "+ snapbaby.getValue());
+                            listtemp.add(snapbaby.getValue().toString());
+                        }
+                        if(snapbaby.getKey().equals("playTime")){
+                            Log.d(tag, "playtime 추가 : "+ snapbaby.getValue());
+                            listtemp.add(snapbaby.getValue().toString());
+                        }
+//                        Log.d(tag, "snap baby key : " + snapbaby.getKey());
+//                        Log.d(tag, "snap baby value : " + snapbaby.getValue());
                     }
-                    uploadedList.add(ds.getKey().toString() + ".mp4");
-                    Log.d(tag, "시발 이제는 이만큼 : " + uploadedList.size());
-                    Log.d(tag, "시발getvalue : " + ds.getValue());
+                    uploadedList.put(ds.getKey(), listtemp);
+//                    if (!uploadedList.contains(ds.getKey())) {
+//                        uploadedList.add(ds.getKey() + ".mp4");
+//                    }
+//                    uploadedList.add(ds.getKey().toString() + ".mp4");
+                    Log.d(tag, "getvalue : " + ds.getValue());
 
                 }
             }
 
-//                    Log.d(tag, "index : " + myList.indexOf(temp));
-//                    Log.d(tag, "name : " + temp);
-//                }
-
-//                List<String> a = findFileOnlyInFireBase();
-//                Log.d(tag, "파베에만 있는 : " + a.size());
-//                for(int i=0;i<a.size();i++){
-//                    Log.d(tag, "결과로 나온애들 ?? : " + a.get(i));
-//                    if(!adapterFB.isContain(a.get(i))){
-//                        Log.d(tag, "비정상additem : "+a.get(i));
-//                        adapterFB.addItem(null, a.get(i),"","",true);          // 어댑터에 아이템추가
-//
-//                    }
-//                }
-//                adapterFB.notifyDataSetChanged();
-//                Log.d(tag, "어댑터 길이 : " + adapterFB.getCount());
-            //////////////////////
-
-//                adapterFB = new ListViewAdapter() ;
-//                listviewFB.setAdapter(adapterFB);
-//                String rootSD = Environment.getExternalStorageDirectory().toString();
-//                rootSD+="/ZEum_me";
-//                file = new File(rootSD);
-//                list = file.listFiles();
-
-            // 파일 이름들 추가
-//                for(int i=0;i<list.length;i++){
-//                    myList.add(list[i].getName());
-//                    myListDate.add(list[i].lastModified());
-//                }
-//                for(int i=0;i<list.length;i++){
-//                    String fileName = list[i].getName().toString();
-//                    Log.d(tag, "정상additem : " + fileName);
-//                    adapterFB.addItem(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_play),        // 플레이버튼
-//                            fileName,                                                                   // 녹음 파일 이름
-//                            Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
-//                            Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
-//                            false                                                                    // 일단 false
-//                    );
-//                }
-//                for(int i=0;i<a.size();i++){
-//                    adapterFB.addItem(ContextCompat.getDrawable(getApplicationContext(),
-//                            R.drawable.btn_play),
-//                            a.get(i),"",
-//                            "",
-//                            true);
-//                }
-
-//                adapterFB.notifyDataSetChanged();
-
-//            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -377,6 +365,58 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(tag, "resuem REsume");
+        ///////////////////////////////////////////////////////////////
+        ////////////////////// READ FROM FIREBASE /////////////////////
+        ///////////////////////////////////////////////////////////////
+        // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
+        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Log.d(tag, "file name : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
+
+                    List<String> listtemp= new ArrayList<>();
+
+                    for(DataSnapshot snapbaby : ds.getChildren()){
+
+                        if(snapbaby.getKey().equals("createdTime")){
+                            Log.d(tag, "createdtime 추가 : "+ snapbaby.getValue());
+                            listtemp.add(snapbaby.getValue().toString());
+                        }
+                        if(snapbaby.getKey().equals("playTime")){
+                            Log.d(tag, "playtime 추가 : "+ snapbaby.getValue());
+                            listtemp.add(snapbaby.getValue().toString());
+                        }
+//                        Log.d(tag, "snap baby key : " + snapbaby.getKey());
+//                        Log.d(tag, "snap baby value : " + snapbaby.getValue());
+                    }
+                    uploadedList.put(ds.getKey(), listtemp);
+//                    if (!uploadedList.contains(ds.getKey())) {
+//                        uploadedList.add(ds.getKey() + ".mp4");
+//                    }
+//                    uploadedList.add(ds.getKey().toString() + ".mp4");
+                    Log.d(tag, "getvalue : " + ds.getValue());
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
     // option에 누르면 나오는 옵션메뉴
     @Override

@@ -33,7 +33,9 @@ import com.jhw.Eumme.ver.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jwh.com.eumme.Model.Constants;
 import jwh.com.eumme.Model.DBHelper;
@@ -299,7 +301,6 @@ public class ListView extends AppCompatActivity{
                 if(adapter.ischecked(index)){
                     // 체크안되어있으면(업로드 안되어있으면 다운로드)
                     Log.d(tag, "체크안되어있으면(업로드 되어있으면 다운로드)");
-//                    downLoad(myList.get(index).toString());
 
                 } else {
 
@@ -321,40 +322,53 @@ public class ListView extends AppCompatActivity{
                     String memo = "";                // 메모내용
                     String memotime = "";             // 메모타임
                     String memoindex = "";            // 메모인덱스
+                    String playtime = String.valueOf(adapter.getPlaytime(index));
+                    String createdtime = String.valueOf(adapter.getCreatedTime(index));
+
+
+                    Map<String, Object> taskMap = new HashMap<String, Object>();
+
+                    List memolist = new ArrayList<>();
+                    List memotimelist = new ArrayList<>();
+                    List memoindexlist = new ArrayList<>();
 
                     if (len > 0) {  //  메모가 있다
                         for (int i = 0; i < len; i++) {
 
-                            Log.d(tag, "test in for : " + itemList.get(i).getMemo());
-                            Log.d(tag, "test in for : " + itemList.get(i).getMemoTime());
-                            Log.d(tag, "test in for : " + itemList.get(i).getMemoIndex());
+                            Log.d(tag, "test in for memo: " + itemList.get(i).getMemo());
+                            Log.d(tag, "test in for memotime: " + itemList.get(i).getMemoTime());
+                            Log.d(tag, "test in for memoindex: " + itemList.get(i).getMemoIndex());
 
                             memo = itemList.get(i).getMemo();
                             memotime = itemList.get(i).getMemoTime();
                             memoindex = String.valueOf(itemList.get(i).getMemoIndex());
 
-                            databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
-                            databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
-                            databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+                            memolist.add(memo);
+                            memotimelist.add(memotime);
+                            memoindexlist.add(memoindex);
 
-                            Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memo").push().setValue(memo));
-                            Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime));
-                            Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex));
+
                         }
                     } else { // 메모가 없다.
-                        databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
-                        databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
-                        databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+
+//                        databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
+//                        databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
+//                        databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+                        memolist.add("");
+                        memotimelist.add("");
+                        memoindexlist.add("");
                     }
 
+                    taskMap.put("memo", memolist);
+                    taskMap.put("memoTime", memotimelist);
+                    taskMap.put("memoIndex", memoindexlist);
+                    databaseReference.child(uid).child(fn).child("playTime").setValue(playtime);
+                    databaseReference.child(uid).child(fn).child("createdTime").setValue(createdtime);
+
+                    databaseReference.child(uid).child(fn).updateChildren(taskMap);
+
+
                 }
-
-
-
-
-//                databaseReference.child(uid).child(fn).child("memo").push().setValue(m);
-//                databaseReference.child(uid).child(fn).child("memoTime").push().setValue(mt);
-//                databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(mi);
                 Log.d(tag, "after push");
 
                 break;

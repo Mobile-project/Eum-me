@@ -114,10 +114,16 @@ public class Constants {
         return sdf.format(date).toString();
     }
 
+    // 2018-06-09 형식
+    public static String dateTypeConvert2(long date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date).toString();
+    }
+
     // 파라미터 : 파일
     // 파일의 마지막 수정일을 yyyy/MM/dd 형태로 바꿔서 리턴
     public static String getCreatedTime(File file){
-        return dateTypeConvert(file.lastModified());
+        return dateTypeConvert2(file.lastModified());
     }
 
 
