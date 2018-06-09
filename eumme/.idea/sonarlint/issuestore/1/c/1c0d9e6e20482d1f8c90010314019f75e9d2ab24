@@ -1,15 +1,15 @@
 
-usquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ú›´ëşÿÿÿÿ
-osquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(ÊáÈê8ıÇŸş½,
-tsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(²ÅÙ»ûÿÿÿÿ8ıÇŸş½,
-tsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(Ö³è›úÿÿÿÿ8ıÇŸş½,
-tsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(ÙØó¸úÿÿÿÿ8ıÇŸş½,
-lsquid:S1192"PUse already-defined constant 'folderName' instead of duplicating its value here.(öÚß8ıÇŸş½,
-Rsquid:S1444"1Make this "public static preFileName" field final(ß¾Û§úÿÿÿÿ8ıÇŸş½,
-"squid:ClassVariableVisibilityCheck"WMake preFileName a static final constant or non-public and provide accessors if needed.(ß¾Û§úÿÿÿÿ8ıÇŸş½,
-[squid:S1118":Add a private constructor to hide the implicit public one.(“³±ûÿÿÿÿ8ıÇŸş½,
-wsquid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÊáÈê8ıÇŸş½,
-|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(²ÅÙ»ûÿÿÿÿ8ıÇŸş½,
-|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ö³è›úÿÿÿÿ8ıÇŸş½,
-|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÙØó¸úÿÿÿÿ8ıÇŸş½,
-\squid:S1858"@"format" returns a string, there's no need to call "toString()".(½àâ˜8ıÇŸş½,
+osquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(ÊáÈê8¹›¤ÿ½,
+tsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(²ÅÙ»ûÿÿÿÿ8¹›¤ÿ½,
+tsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(Ö³è›úÿÿÿÿ8¹›¤ÿ½,
+tsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(ÙØó¸úÿÿÿÿ8¹›¤ÿ½,
+lsquid:S1192"PUse already-defined constant 'folderName' instead of duplicating its value here.(öÚß8¹›¤ÿ½,
+Rsquid:S1444"1Make this "public static preFileName" field final(ß¾Û§úÿÿÿÿ8¹›¤ÿ½,
+"squid:ClassVariableVisibilityCheck"WMake preFileName a static final constant or non-public and provide accessors if needed.(ß¾Û§úÿÿÿÿ8¹›¤ÿ½,
+[squid:S1118":Add a private constructor to hide the implicit public one.(“³±ûÿÿÿÿ8¹›¤ÿ½,
+wsquid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÊáÈê8¹›¤ÿ½,
+|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(²ÅÙ»ûÿÿÿÿ8¹›¤ÿ½,
+|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ö³è›úÿÿÿÿ8¹›¤ÿ½,
+|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÙØó¸úÿÿÿÿ8¹›¤ÿ½,
+\squid:S1858"@"format" returns a string, there's no need to call "toString()".(½àâ˜8¹›¤ÿ½,
+|squid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ú›´ëşÿÿÿÿ8¹›¤ÿ½,

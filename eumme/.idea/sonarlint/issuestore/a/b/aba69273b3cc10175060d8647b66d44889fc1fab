@@ -1,5 +1,5 @@
 
-psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä
-bsquid:S2142"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Ï‹“þ½,
-Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8Ï‹“þ½,
-osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(äŽÊãøÿÿÿÿ8Ï‹“þ½,
+bsquid:S2142"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8¸Ìï„¾,
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8¸Ìï„¾,
+Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8¸Ìï„¾,
+osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(äŽÊãøÿÿÿÿ8¸Ìï„¾,

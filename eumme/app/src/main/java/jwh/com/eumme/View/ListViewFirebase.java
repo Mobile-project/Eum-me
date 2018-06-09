@@ -87,7 +87,6 @@ public class ListViewFirebase extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // get item
                 //ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
-                // TODO Auto-generated method stub
                 //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
 //                Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
             }
@@ -102,7 +101,6 @@ public class ListViewFirebase extends AppCompatActivity{
     //Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        // TODO Auto-generated method stub
         //res폴더의 menu플더안에 xml로 MenuItem추가하기.
         //mainmenu.xml 파일을 java 객체로 인플레이트(inflate)해서 menu객체에 추가
         getMenuInflater().inflate(R.menu.recording_file_context_menu_fb, menu);
@@ -146,6 +144,8 @@ public class ListViewFirebase extends AppCompatActivity{
 
 
     public void downLoad(String fileName, int idx){
+        //TODO 파베에 있는 파일들 중 이름에 빈칸이있으면 다운이 안댐.
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("uploading...");
         progressDialog.show();

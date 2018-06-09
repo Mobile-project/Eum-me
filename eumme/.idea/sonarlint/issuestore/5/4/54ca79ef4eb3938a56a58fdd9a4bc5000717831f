@@ -1,7 +1,15 @@
 
-psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä
-Esquid:S1481")Remove this unused "user" local variable.(—ÓÛ8Ê®‡ş½,
-Nsquid:S1481"-Remove this unused "response" local variable.(«œÛÅıÿÿÿÿ8Ê®‡ş½,
-]squid:S1854"<Remove this useless assignment to local variable "response".(«œÛÅıÿÿÿÿ8Ê®‡ş½,
-Tsquid:S1854"8Remove this useless assignment to local variable "user".(—ÓÛ8Ê®‡ş½,
-osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Ğø„üÿÿÿÿ8Ê®‡ş½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ú„¸Üùÿÿÿÿ8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÁØì‰şÿÿÿÿ8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(º»Ü´şÿÿÿÿ8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(îıôœûÿÿÿÿ8üÓµ…¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(íí®Ç8üÓµ…¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(åùñ›8üÓµ…¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ğ•×Ê8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Û´æîşÿÿÿÿ8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(©ŸÜüÿÿÿÿ8üÓµ…¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ŞŸÃş8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(µ‹şûÿÿÿÿ8üÓµ…¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ËÀ–8üÓµ…¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8üÓµ…¾,
+8squid:S1220""Move this file to a named package.8üÓµ…¾,

@@ -1,6 +1,6 @@
 
-psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä
-usquid:S3008"ZRename this field "CurrentPosition" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯8ùış½,
-nsquid:S1450"RRemove the "txt" field and declare it as a local variable in the relevant methods.(ş²Æü8ùış½,
-Ksquid:S00108")Either remove or fill this block of code.(ÉÀ¦…ûÿÿÿÿ8ùış½,
-Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ùış½,
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8‹Æ¿„¾,
+Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8‹Æ¿„¾,
+Ksquid:S00108")Either remove or fill this block of code.(ÉÀ¦…ûÿÿÿÿ8‹Æ¿„¾,
+ssquid:S1450"RRemove the "txt" field and declare it as a local variable in the relevant methods.(Ó«Ùùÿÿÿÿ8‹Æ¿„¾,
+usquid:S3008"ZRename this field "CurrentPosition" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯8‹Æ¿„¾,

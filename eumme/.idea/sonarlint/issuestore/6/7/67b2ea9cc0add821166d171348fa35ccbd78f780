@@ -1,43 +1,43 @@
 
-psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä
-Gsquid:S1659"&Declare "Cminutes" on a separate line.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-Esquid:S1659"$Declare "Chours" on a separate line.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-Hsquid:S1659"'Declare "realCtime" on a separate line.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-Hsquid:S1659"'Declare "Cduration" on a separate line.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-Dsquid:S1659"#Declare "CTime" on a separate line.(›¿–£şÿÿÿÿ8—úŒş½,
-ksquid:S1192"ODefine a constant instead of duplicating this literal "%02d:%02d:%02d" 4 times.(¿¿§ş8—úŒş½,
-psquid:S1192"ODefine a constant instead of duplicating this literal "ë²„íŠ¼ ëª¨ë“œ " 3 times.(ú­éÿÿÿÿÿ8—úŒş½,
-xsquid:S1450"WRemove the "fileName" field and declare it as a local variable in the relevant methods.(¬¨µ˜şÿÿÿÿ8—úŒş½,
-xsquid:S1450"WRemove the "playTime" field and declare it as a local variable in the relevant methods.(äÖƒ¹ÿÿÿÿÿ8—úŒş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ø‹Ø¨ÿÿÿÿÿ8—úŒş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‚‚Ÿ8—úŒş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¥¹–8—úŒş½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8—úŒş½,
-Rsquid:S2696"6Make the enclosing method "static" or remove this set.(Ó¿¶¼8—úŒş½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8—úŒş½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8—úŒş½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(·‡©—şÿÿÿÿ8—úŒş½,
-`squid:HiddenFieldCheck"9Rename "hours" which hides the field declared at line 47.(†ÃÖ¾8—úŒş½,
-bsquid:HiddenFieldCheck";Rename "minutes" which hides the field declared at line 46.(Ø×¡÷8—úŒş½,
-bsquid:HiddenFieldCheck";Rename "seconds" which hides the field declared at line 45.(û¾Àƒ8—úŒş½,
-`squid:HiddenFieldCheck"9Rename "hours" which hides the field declared at line 47.(†ÃÖ¾8—úŒş½,
-bsquid:HiddenFieldCheck";Rename "minutes" which hides the field declared at line 46.(Ø×¡÷8—úŒş½,
-bsquid:HiddenFieldCheck";Rename "seconds" which hides the field declared at line 45.(°³Æœ8—úŒş½,
-`squid:HiddenFieldCheck"9Rename "hours" which hides the field declared at line 47.(†ÃÖ¾8—úŒş½,
-bsquid:HiddenFieldCheck";Rename "minutes" which hides the field declared at line 46.(Ø×¡÷8—úŒş½,
-bsquid:HiddenFieldCheck";Rename "seconds" which hides the field declared at line 45.(°³Æœ8—úŒş½,
-Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èĞ»ıÿÿÿÿ8—úŒş½,
-qsquid:CallToDeprecatedMethod"?Remove this use of "setOnPageChangeListener"; it is deprecated.(ôÕ«äúÿÿÿÿ8—úŒş½,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ø´´øÿÿÿÿ8—úŒş½,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(™Î«şÿÿÿÿ8—úŒş½,
-Isquid:S1185"(Remove this method to simply inherit it.(èüù±ùÿÿÿÿ8—úŒş½,
-Dsquid:S1185"(Remove this method to simply inherit it.(ÍÙ÷¢8—úŒş½,
-usquid:S00116"SRename this field "Cseconds" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-usquid:S00116"SRename this field "Cminutes" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-ssquid:S00116"QRename this field "Chours" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-vsquid:S00116"TRename this field "Cduration" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8—úŒş½,
-xsquid:S00116"VRename this field "Preposition" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†¡Ó˜úÿÿÿÿ8—úŒş½,
-rsquid:S00116"PRename this field "CTime" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¿–£şÿÿÿÿ8—úŒş½,
-lsquid:S1858"K"fileName" is already a string, there's no need to call "toString()" on it.(Ûø¥÷ıÿÿÿÿ8—úŒş½,
-lsquid:S1858"K"playTime" is already a string, there's no need to call "toString()" on it.(™ÅÄ¦ıÿÿÿÿ8—úŒş½,
-osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Ü‡™æûÿÿÿÿ8—úŒş½,
+bsquid:HiddenFieldCheck";Rename "seconds" which hides the field declared at line 46.(û¾Àƒ8ğ¼«ÿ½,
+Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èĞ»ıÿÿÿÿ8ğ¼«ÿ½,
+bsquid:HiddenFieldCheck";Rename "minutes" which hides the field declared at line 47.(Ø×¡÷8ğ¼«ÿ½,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(Ó¿¶¼8ğ¼«ÿ½,
+ssquid:S00116"QRename this field "Chours" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+Esquid:S1659"$Declare "Chours" on a separate line.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+`squid:HiddenFieldCheck"9Rename "hours" which hides the field declared at line 48.(†ÃÖ¾8ğ¼«ÿ½,
+Gsquid:S1659"&Declare "Cminutes" on a separate line.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+bsquid:HiddenFieldCheck";Rename "seconds" which hides the field declared at line 46.(°³Æœ8ğ¼«ÿ½,
+Hsquid:S1659"'Declare "Cduration" on a separate line.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+psquid:S1192"ODefine a constant instead of duplicating this literal "ë²„íŠ¼ ëª¨ë“œ " 3 times.(ú­éÿÿÿÿÿ8ğ¼«ÿ½,
+osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Ü‡™æûÿÿÿÿ8ğ¼«ÿ½,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8ğ¼«ÿ½,
+usquid:S00116"SRename this field "Cminutes" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+xsquid:S1450"WRemove the "fileName" field and declare it as a local variable in the relevant methods.(¬¨µ˜şÿÿÿÿ8ğ¼«ÿ½,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‚‚Ÿ8ğ¼«ÿ½,
+Dsquid:S1185"(Remove this method to simply inherit it.(ÍÙ÷¢8ğ¼«ÿ½,
+Dsquid:S1659"#Declare "CTime" on a separate line.(›¿–£şÿÿÿÿ8ğ¼«ÿ½,
+bsquid:HiddenFieldCheck";Rename "minutes" which hides the field declared at line 47.(Ø×¡÷8ğ¼«ÿ½,
+bsquid:HiddenFieldCheck";Rename "seconds" which hides the field declared at line 46.(°³Æœ8ğ¼«ÿ½,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8ğ¼«ÿ½,
+Isquid:S1185"(Remove this method to simply inherit it.(èüù±ùÿÿÿÿ8ğ¼«ÿ½,
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8ğ¼«ÿ½,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8ğ¼«ÿ½,
+`squid:HiddenFieldCheck"9Rename "hours" which hides the field declared at line 48.(†ÃÖ¾8ğ¼«ÿ½,
+ksquid:S1192"ODefine a constant instead of duplicating this literal "%02d:%02d:%02d" 4 times.(¿¿§ş8ğ¼«ÿ½,
+xsquid:S1450"WRemove the "playTime" field and declare it as a local variable in the relevant methods.(äÖƒ¹ÿÿÿÿÿ8ğ¼«ÿ½,
+bsquid:HiddenFieldCheck";Rename "minutes" which hides the field declared at line 47.(Ø×¡÷8ğ¼«ÿ½,
+qsquid:CallToDeprecatedMethod"?Remove this use of "setOnPageChangeListener"; it is deprecated.(ôÕ«äúÿÿÿÿ8ğ¼«ÿ½,
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ø´´øÿÿÿÿ8ğ¼«ÿ½,
+xsquid:S00116"VRename this field "Preposition" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†¡Ó˜úÿÿÿÿ8ğ¼«ÿ½,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(·‡©—şÿÿÿÿ8ğ¼«ÿ½,
+usquid:S00116"SRename this field "Cseconds" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¥¹–8ğ¼«ÿ½,
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(™Î«şÿÿÿÿ8ğ¼«ÿ½,
+`squid:HiddenFieldCheck"9Rename "hours" which hides the field declared at line 48.(†ÃÖ¾8ğ¼«ÿ½,
+vsquid:S00116"TRename this field "Cduration" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+Hsquid:S1659"'Declare "realCtime" on a separate line.(«‡¾•ÿÿÿÿÿ8ğ¼«ÿ½,
+rsquid:S00116"PRename this field "CTime" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¿–£şÿÿÿÿ8ğ¼«ÿ½,
+lsquid:S1858"K"playTime" is already a string, there's no need to call "toString()" on it.(™ÅÄ¦ıÿÿÿÿ8ğ¼«ÿ½,
+lsquid:S1858"K"fileName" is already a string, there's no need to call "toString()" on it.(Ûø¥÷ıÿÿÿÿ8ğ¼«ÿ½,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ø‹Ø¨ÿÿÿÿÿ8ğ¼«ÿ½,

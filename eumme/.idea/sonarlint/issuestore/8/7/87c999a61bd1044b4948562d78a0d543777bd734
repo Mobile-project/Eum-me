@@ -1,85 +1,65 @@
 
-psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä
-Psquid:EmptyStatementUsageCheck"Remove this empty statement.(ôŸìúÿÿÿÿ8¾¾Šş½,
-Z"squid:SwitchLastCaseIsDefaultCheck""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8¾¾Šş½,
-Tsquid:S1197"8Move the array designator from the variable to the type.(êâ­§8¾¾Šş½,
-Gsquid:S1075"&Remove this hard-coded path-delimiter.(Â±ë«şÿÿÿÿ8¾¾Šş½,
-Gsquid:S1075"&Remove this hard-coded path-delimiter.(½¶‡­úÿÿÿÿ8¾¾Šş½,
-Gsquid:S1075"&Remove this hard-coded path-delimiter.(æ°ÛÕÿÿÿÿÿ8¾¾Šş½,
-Gsquid:S1075"&Remove this hard-coded path-delimiter.(³íÄıÿÿÿÿ8¾¾Šş½,
-Bsquid:S1075"&Remove this hard-coded path-delimiter.(Å‡–‚8¾¾Šş½,
-Bsquid:S1075"&Remove this hard-coded path-delimiter.(äÖÂ§8¾¾Šş½,
-ksquid:S1192"ODefine a constant instead of duplicating this literal "test in for : " 3 times.(ÚôíĞ8¾¾Šş½,
-usquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÄáÛß8¾¾Šş½,
-zsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(í™‚úÿÿÿÿ8¾¾Šş½,
-osquid:S1450"SRemove the "file" field and declare it as a local variable in the relevant methods.(ïÛú8¾¾Šş½,
-xsquid:S1450"WRemove the "filePath" field and declare it as a local variable in the relevant methods.(É÷²øÿÿÿÿ8¾¾Šş½,
-jsquid:S4042"IUse "java.nio.Files#delete" here for better messages on error conditions.(²Œ­ûÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(…©ÿÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(öÍ„áùÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(›®¶8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‡ùĞæ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(öÍ„áùÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‘©ú¥8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(…éŠŞ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(âçÿî8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ÿü¹í8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¶¡şşúÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ñ×ˆ¶8¾¾Šş½,
-fsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÿÛ®_8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(æ¶ü8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÖŞëşÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(«‡àÇ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ƒ™üÌÿÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ìÂ´¾8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Œï¡8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÈÛùŞ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ıäŠÿÿÿÿÿ8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ğ•†8¾¾Šş½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ªÊĞ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ùû‹âøÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‹Ã¶¹ùÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ı €±ûÿÿÿÿ8¾¾Šş½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(í¯³úùÿÿÿÿ8¾¾Šş½,
-squid:S1319"tThe type of the "uploadedList" object should be an interface such as "Set" rather than the implementation "HashSet".(ÄáÛß8¾¾Šş½,
-dsquid:HiddenFieldCheck"8Rename "file" which hides the field declared at line 57.(Â±ë«şÿÿÿÿ8¾¾Šş½,
-gsquid:HiddenFieldCheck";Rename "storage" which hides the field declared at line 68.(¨°Õüûÿÿÿÿ8¾¾Šş½,
-esquid:HiddenFieldCheck">Rename "storageRef" which hides the field declared at line 73.(é—õ¸8¾¾Šş½,
-_squid:HiddenFieldCheck"8Rename "file" which hides the field declared at line 57.(Å‡–‚8¾¾Šş½,
-dsquid:HiddenFieldCheck">Rename "storageRef" which hides the field declared at line 73.(Å–ƒV8¾¾Šş½,
-_squid:HiddenFieldCheck"8Rename "file" which hides the field declared at line 57.(‰ºŸØ8¾¾Šş½,
-‹"squid:ClassVariableVisibilityCheck"XMake uploadedList a static final constant or non-public and provide accessors if needed.(ÄáÛß8¾¾Šş½,
-’"squid:ClassVariableVisibilityCheck"ZMake progressDialog a static final constant or non-public and provide accessors if needed.(ğ²±ûÿÿÿÿ8¾¾Šş½,
-‰"squid:ClassVariableVisibilityCheck"QMake index a static final constant or non-public and provide accessors if needed.(©ëóùÿÿÿÿ8¾¾Šş½,
-†"squid:ClassVariableVisibilityCheck"SMake adapter a static final constant or non-public and provide accessors if needed.(Ï‚©ˆ8¾¾Šş½,
-‡"squid:ClassVariableVisibilityCheck"TMake listview a static final constant or non-public and provide accessors if needed.(Áèªç8¾¾Šş½,
-Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èĞ»ıÿÿÿÿ8¾¾Šş½,
-Ssquid:S1135"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿ8¾¾Šş½,
-Nsquid:S1135"2Complete the task associated to this TODO comment.(¬­ü©8¾¾Šş½,
-Ssquid:S1135"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿ8¾¾Šş½,
-Ssquid:S1135"2Complete the task associated to this TODO comment.(àøö×ûÿÿÿÿ8¾¾Šş½,
-Isquid:S1481"-Remove this unused "fileName" local variable.(„Š’ï8¾¾Šş½,
-ssquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(¨Œşÿÿÿÿ8¾¾Šş½,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(»†ãˆıÿÿÿÿ8¾¾Šş½,
-squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÍâÔÇ8¾¾Šş½,
-œsquid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ßªŞ8¾¾Šş½,
-squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Ş‰8¾¾Šş½,
-squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Ş‰8¾¾Šş½,
-squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ƒ‹Î÷8¾¾Šş½,
-Xsquid:S1854"<Remove this useless assignment to local variable "fileName".(„Š’ï8¾¾Šş½,
-ssquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÂÿÆˆøÿÿÿÿ8¾¾Šş½,
-]squid:S1858"A"getName" returns a string, there's no need to call "toString()".(Ø–’È8¾¾Šş½,
-Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¾¾Šş½,
-Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¾¾Šş½,
-Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¾¾Šş½,
-3squid:S1700"Rename field "listview"(Áèªç8¾¾Šş½,
+‰"squid:ClassVariableVisibilityCheck"QMake index a static final constant or non-public and provide accessors if needed.(©ëóùÿÿÿÿ8¤ô¦ˆ¾,
+†"squid:ClassVariableVisibilityCheck"SMake adapter a static final constant or non-public and provide accessors if needed.(Ï‚©ˆ8¤ô¦ˆ¾,
+Tsquid:S1197"8Move the array designator from the variable to the type.(êâ­§8¤ô¦ˆ¾,
+ksquid:S1192"ODefine a constant instead of duplicating this literal "test in for : " 3 times.(ÚôíĞ8¤ô¦ˆ¾,
+fsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¶úì|8¤ô¦ˆ¾,
+xsquid:S1450"WRemove the "filePath" field and declare it as a local variable in the relevant methods.(É÷²øÿÿÿÿ8¤ô¦ˆ¾,
+fsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¾¶îj8¤ô¦ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(öÍ„áùÿÿÿÿ8¤ô¦ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¤ô¦ˆ¾,
+’"squid:ClassVariableVisibilityCheck"ZMake progressDialog a static final constant or non-public and provide accessors if needed.(ğ²±ûÿÿÿÿ8¤ô¦ˆ¾,
+osquid:S1450"SRemove the "file" field and declare it as a local variable in the relevant methods.(ïÛú8¤ô¦ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(áŠ ëøÿÿÿÿ8¤ô¦ˆ¾,
+]squid:S1858"A"getName" returns a string, there's no need to call "toString()".(Ø–’È8¤ô¦ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(º ¾¸8¤ô¦ˆ¾,
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8¤ô¦ˆ¾,
+lsquid:S1192"KDefine a constant instead of duplicating this literal "namedbtest" 3 times.(áÒìÿÿÿÿÿ8¤ô¦ˆ¾,
+Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èĞ»ıÿÿÿÿ8¤ô¦ˆ¾,
+jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(£ç¯ƒ8¤ô¦ˆ¾,
+3squid:S1700"Rename field "listview"(Áèªç8¤ô¦ˆ¾,
+‡"squid:ClassVariableVisibilityCheck"TMake listview a static final constant or non-public and provide accessors if needed.(Áèªç8¤ô¦ˆ¾,
+Gsquid:S1075"&Remove this hard-coded path-delimiter.(æ°ÛÕÿÿÿÿÿ8¤ô¦ˆ¾,
+Psquid:EmptyStatementUsageCheck"Remove this empty statement.(ôŸìúÿÿÿÿ8£Á§ˆ¾,
+Z"squid:SwitchLastCaseIsDefaultCheck""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8£Á§ˆ¾,
+Gsquid:S1075"&Remove this hard-coded path-delimiter.(Â±ë«şÿÿÿÿ8£Á§ˆ¾,
+Gsquid:S1075"&Remove this hard-coded path-delimiter.(½¶‡­úÿÿÿÿ8£Á§ˆ¾,
+Gsquid:S1075"&Remove this hard-coded path-delimiter.(³íÄıÿÿÿÿ8£Á§ˆ¾,
+Bsquid:S1075"&Remove this hard-coded path-delimiter.(Å‡–‚8£Á§ˆ¾,
+jsquid:S4042"IUse "java.nio.Files#delete" here for better messages on error conditions.(²Œ­ûÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ìÂ´¾8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(İş‘§8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‡ùĞæ8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(öÍ„áùÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Øš„£8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‘©ú¥8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(×šƒ¦8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¶¡şşúÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Á¤˜Œ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(—¿ÈÄ8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ñ×ˆ¶8£Á§ˆ¾,
+fsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÿÛ®_8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(æ¶ü8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÖŞëşÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(«‡àÇ8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ƒ™üÌÿÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ìÂ´¾8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Œï¡8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(•Öèø8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(„ˆ’û8£Á§ˆ¾,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¾—á´øÿÿÿÿ8£Á§ˆ¾,
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(»˜¬Ö8£Á§ˆ¾,
+dsquid:HiddenFieldCheck"8Rename "file" which hides the field declared at line 54.(Â±ë«şÿÿÿÿ8£Á§ˆ¾,
+gsquid:HiddenFieldCheck";Rename "storage" which hides the field declared at line 62.(¨°Õüûÿÿÿÿ8£Á§ˆ¾,
+esquid:HiddenFieldCheck">Rename "storageRef" which hides the field declared at line 67.(é—õ¸8£Á§ˆ¾,
+_squid:HiddenFieldCheck"8Rename "file" which hides the field declared at line 54.(Å‡–‚8£Á§ˆ¾,
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(»†ãˆıÿÿÿÿ8£Á§ˆ¾,
+squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÍâÔÇ8£Á§ˆ¾,
+œsquid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ßªŞ8£Á§ˆ¾,
+squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Ş‰8£Á§ˆ¾,
+squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ƒ‹Î÷8£Á§ˆ¾,
+ssquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÂÿÆˆøÿÿÿÿ8£Á§ˆ¾,
 [
-squid:S899";Do something with the "boolean" value returned by "delete".(²Œ­ûÿÿÿÿ8¾¾Šş½,
-]
-squid:S899"=Do something with the "boolean" value returned by "renameTo".(ÿŞ”ƒøÿÿÿÿ8¾¾Šş½,
-jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(£ç¯ƒ8¾¾Šş½,
+squid:S899";Do something with the "boolean" value returned by "delete".(²Œ­ûÿÿÿÿ8£Á§ˆ¾,
