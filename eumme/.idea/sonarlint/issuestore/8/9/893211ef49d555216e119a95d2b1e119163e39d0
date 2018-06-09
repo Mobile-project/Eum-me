@@ -1,42 +1,0 @@
-
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8ñÉªÿ½,
-Csquid:S1185"(Remove this method to simply inherit it.(ºŠñ=8ñÉªÿ½,
-wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8ñÉªÿ½,
-Gsquid:S1659"&Declare "Cminutes" on a separate line.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‚Ž‚Ÿ8ñÉªÿ½,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(„é þÿÿÿÿ8ñÉªÿ½,
-usquid:S00116"SRename this field "Cseconds" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-ssquid:S00116"QRename this field "Chours" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-qsquid:CallToDeprecatedMethod"?Remove this use of "setOnPageChangeListener"; it is deprecated.(ôÕ«äúÿÿÿÿ8ñÉªÿ½,
-ksquid:S1192"ODefine a constant instead of duplicating this literal "%02d:%02d:%02d" 4 times.(¿¿§þ8ñÉªÿ½,
-xsquid:S1450"WRemove the "playTime" field and declare it as a local variable in the relevant methods.(äÖƒ¹ÿÿÿÿÿ8ñÉªÿ½,
-Ksquid:S00108")Either remove or fill this block of code.(à«÷Àýÿÿÿÿ8ñÉªÿ½,
-Dsquid:S1659"#Declare "CTime" on a separate line.(›¿–£þÿÿÿÿ8ñÉªÿ½,
-usquid:S00116"SRename this field "Cminutes" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-Rsquid:S2696"6Make the enclosing method "static" or remove this set.(Ó¿¶¼8ñÉªÿ½,
-Hsquid:S1659"'Declare "realCtime" on a separate line.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ø´´øÿÿÿÿ8ñÉªÿ½,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(™Î«þÿÿÿÿ8ñÉªÿ½,
-Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èÐ»ýÿÿÿÿ8ñÉªÿ½,
-Isquid:S1185"(Remove this method to simply inherit it.(èüù±ùÿÿÿÿ8ñÉªÿ½,
-vsquid:S00116"TRename this field "Cduration" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-”"squid:ClassVariableVisibilityCheck"\Make mCurrentPosition a static final constant or non-public and provide accessors if needed.(»‰™òÿÿÿÿÿ8ñÉªÿ½,
-Wsquid:S1444"6Make this "public static mCurrentPosition" field final(»‰™òÿÿÿÿÿ8ñÉªÿ½,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¥¹–8ñÉªÿ½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(·‡©—þÿÿÿÿ8ñÉªÿ½,
-jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ü‘ë8ñÉªÿ½,
-nsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ßìê¯8ñÉªÿ½,
-Hsquid:S1659"'Declare "Cduration" on a separate line.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8ñÉªÿ½,
-ksquid:HiddenFieldCheck"?Rename "createdTime" which hides the field declared at line 51.(æ¿ˆÍûÿÿÿÿ8ñÉªÿ½,
-rsquid:S00116"PRename this field "CTime" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¿–£þÿÿÿÿ8ñÉªÿ½,
-psquid:S1192"ODefine a constant instead of duplicating this literal "ë²„íŠ¼ ëª¨ë“œ " 3 times.(ú­éÿÿÿÿÿ8ñÉªÿ½,
-lsquid:S1858"K"fileName" is already a string, there's no need to call "toString()" on it.(Ûø¥÷ýÿÿÿÿ8ñÉªÿ½,
-Dsquid:S1185"(Remove this method to simply inherit it.(ÍÙ÷¢8ñÉªÿ½,
-‰"squid:ClassVariableVisibilityCheck"VMake modifyMode a static final constant or non-public and provide accessors if needed.(ÙžÎ†8ñÉªÿ½,
-lsquid:S1858"K"playTime" is already a string, there's no need to call "toString()" on it.(™ÅÄ¦ýÿÿÿÿ8ñÉªÿ½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(Øœ•¢ÿÿÿÿÿ8ñÉªÿ½,
-Lsquid:S1444"0Make this "public static modifyMode" field final(ÙžÎ†8ñÉªÿ½,
-Wsquid:S2696"6Make the enclosing method "static" or remove this set.(ÛÔˆŽúÿÿÿÿ8ñÉªÿ½,
-Rsquid:S1068"1Remove this unused "checkPosition" private field.(Íž€ºÿÿÿÿÿ8ñÉªÿ½,
-Esquid:S1659"$Declare "Chours" on a separate line.(«‡¾•ÿÿÿÿÿ8ñÉªÿ½,

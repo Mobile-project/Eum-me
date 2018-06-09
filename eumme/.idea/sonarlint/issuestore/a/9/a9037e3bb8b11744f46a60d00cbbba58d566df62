@@ -1,42 +1,0 @@
-
-‡"squid:ClassVariableVisibilityCheck"TMake fileName a static final constant or non-public and provide accessors if needed.(öÔôš8ÛÁ•‡¾,
-|squid:S1450"[Remove the "buttonRecord" field and declare it as a local variable in the relevant methods.(†ö®Íÿÿÿÿÿ8ÛÁ•‡¾,
-Osquid:S1444".Make this "public static mContext" field final(Ê®âÿÿÿÿÿ8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8ÛÁ•‡¾,
-Š"squid:ClassVariableVisibilityCheck"WMake newFileName a static final constant or non-public and provide accessors if needed.(ÿ¯ºê8ÛÁ•‡¾,
-lsquid:CallToDeprecatedMethod"?Remove this use of "setOnPageChangeListener"; it is deprecated.(ÈÀ®˜8ÛÁ•‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¢ßÁ“8ÛÁ•‡¾,
-ssquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 31 to the 15 allowed.(¨Œşÿÿÿÿ8ÛÁ•‡¾,
-Xsquid:S2589"7Remove this expression which always evaluates to "true"(ù¨¡ÿÿÿÿÿ8ÛÁ•‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ß ·œ8ÛÁ•‡¾,
-usquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÄáÛß8ÛÁ•‡¾,
-squid:S1319"|The type of the "deniedPermissions" object should be an interface such as "List" rather than the implementation "ArrayList".(‰™¾ÿÿÿÿÿ8ÛÁ•‡¾,
-ysquid:S1450"XRemove the "viewPager" field and declare it as a local variable in the relevant methods.(åÙ¬Ïûÿÿÿÿ8ÛÁ•‡¾,
-Gsquid:S1075"&Remove this hard-coded path-delimiter.(½¶‡­úÿÿÿÿ8ÛÁ•‡¾,
-squid:S1450"eRemove the "recordViewPagerAdapter" field and declare it as a local variable in the relevant methods.(™Û»á8ÛÁ•‡¾,
-Œ"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èĞ»ıÿÿÿÿ8ÛÁ•‡¾,
-asquid:S1858"@"getKey" returns a string, there's no need to call "toString()".(×îöıÿÿÿÿ8ÛÁ•‡¾,
-jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Æ›¹8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(™¸¥ıÿÿÿÿ8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éõüÿÿÿÿ8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(æ‡“èûÿÿÿÿ8ÛÁ•‡¾,
-qsquid:S1450"URemove the "option" field and declare it as a local variable in the relevant methods.(â¤İ8ÛÁ•‡¾,
-Œ"squid:ClassVariableVisibilityCheck"TMake mContext a static final constant or non-public and provide accessors if needed.(Ê®âÿÿÿÿÿ8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8ÛÁ•‡¾,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(™Î«şÿÿÿÿ8ÛÁ•‡¾,
-Asquid:S3010"%Remove this assignment of "mContext".(±¼©Â8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ïù¦ıÿÿÿÿ8ÛÁ•‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(—ÂŞ…8ÛÁ•‡¾,
-‹"squid:ClassVariableVisibilityCheck"XMake uploadedList a static final constant or non-public and provide accessors if needed.(ÄáÛß8ÛÁ•‡¾,
-Zsquid:S1068"9Remove this unused "MY_PERMISSION_STORAGE" private field.(Í£òíüÿÿÿÿ8ÛÁ•‡¾,
-Ksquid:S00108")Either remove or fill this block of code.(à«÷Àıÿÿÿÿ8ÛÁ•‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(£°´‘8ÛÁ•‡¾,
-Gsquid:S1075"&Remove this hard-coded path-delimiter.(æ°ÛÕÿÿÿÿÿ8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(±á§¦üÿÿÿÿ8ÛÁ•‡¾,
-squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Ş‰8ÛÁ•‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8ÛÁ•‡¾,
-wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8ÛÁ•‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(õâø8ÛÁ•‡¾,
-squid:S1319"tThe type of the "uploadedList" object should be an interface such as "Set" rather than the implementation "HashSet".(ÄáÛß8ÛÁ•‡¾,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ø´´øÿÿÿÿ8ÛÁ•‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(³¹©€8ÛÁ•‡¾,

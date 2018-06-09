@@ -1,22 +1,0 @@
-
-dsquid:S2259"HA "NullPointerException" could be thrown; "listviewFB" is nullable here.(¨èæí8ýé¡ˆ¾,
-ˆ"squid:ClassVariableVisibilityCheck"UMake adapterFB a static final constant or non-public and provide accessors if needed.( ó„ª8ýé¡ˆ¾,
-U
-squid:S899";Do something with the "boolean" value returned by "delete".(±œÛ!8ýé¡ˆ¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ìÂ´¾8ýé¡ˆ¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(²«ìüúÿÿÿÿ8ýé¡ˆ¾,
-Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ýé¡ˆ¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(öÍ„áùÿÿÿÿ8ýé¡ˆ¾,
-osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ª­éáûÿÿÿÿ8ýé¡ˆ¾,
-Bsquid:S1075"&Remove this hard-coded path-delimiter.(äÖÂ§8ýé¡ˆ¾,
-wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²®°ä8ýé¡ˆ¾,
-’"squid:ClassVariableVisibilityCheck"ZMake progressDialog a static final constant or non-public and provide accessors if needed.(ð²±ûÿÿÿÿ8ýé¡ˆ¾,
-Ssquid:S1135"2Complete the task associated to this TODO comment.(—ÃŸòÿÿÿÿÿ8¥ £ˆ¾,
-dsquid:S4042"IUse "java.nio.Files#delete" here for better messages on error conditions.(±œÛ!8ýé¡ˆ¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(í¯³úùÿÿÿÿ8ýé¡ˆ¾,
-Z"squid:SwitchLastCaseIsDefaultCheck""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8ýé¡ˆ¾,
-]
-squid:S899"=Do something with the "boolean" value returned by "renameTo".(ÿÞ”ƒøÿÿÿÿ8ýé¡ˆ¾,
-Psquid:EmptyStatementUsageCheck"Remove this empty statement.(ôŸŽìúÿÿÿÿ8ýé¡ˆ¾,
-ˆ"squid:ClassVariableVisibilityCheck"VMake listviewFB a static final constant or non-public and provide accessors if needed.(‡îÖ8ýé¡ˆ¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ý €±ûÿÿÿÿ8ýé¡ˆ¾,

@@ -1,15 +1,0 @@
-
-Dsquid:S1068"(Remove this unused "file" private field.(ïÛú8Å¼¸‡¾,
-Qsquid:S2175"5A "ArrayList<ListViewItem>" cannot contain a "String"(Âáœ8Å¼¸‡¾,
-Msquid:S1068",Remove this unused "mContext" private field.(»úÅ¾øÿÿÿÿ8Å¼¸‡¾,
-Fsquid:S1659"%Declare "minutes" on a separate line.(‰Æµ³øÿÿÿÿ8Å¼¸‡¾,
-¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(òî½„ùÿÿÿÿ8Å¼¸‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(æ—¢£8Å¼¸‡¾,
-gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(®ƒ÷8Å¼¸‡¾,
-zsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(´ıßšúÿÿÿÿ8Å¼¸‡¾,
-fsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(÷ê(8Å¼¸‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(×ñèÇûÿÿÿÿ8Å¼¸‡¾,
-Dsquid:S1659"#Declare "hours" on a separate line.(‰Æµ³øÿÿÿÿ8Å¼¸‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ëéó‚øÿÿÿÿ8Å¼¸‡¾,
-lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(È¬”­ıÿÿÿÿ8Å¼¸‡¾,
-|squid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ä¼¹×ÿÿÿÿÿ8Å¼¸‡¾,
