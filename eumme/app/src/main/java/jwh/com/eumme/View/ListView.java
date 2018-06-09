@@ -92,7 +92,7 @@ public class ListView extends AppCompatActivity{
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     //////////////////검색////////////////
-    private EditText editSearch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +150,7 @@ public class ListView extends AppCompatActivity{
 
 
 
-        editSearch = findViewById(R.id.editSearch);
+       final EditText editSearch = findViewById(R.id.editSearch);
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }

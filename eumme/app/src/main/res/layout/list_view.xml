@@ -17,7 +17,9 @@
             android:id="@+id/editSearch"
             android:singleLine="true"
             android:imeOptions="actionSearch"
-            android:hint="검색어를 입력하세요"/>
+            android:cursorVisible="false"
+            android:hint="검색어를 입력하세요"
+          />
         <ListView
             android:id="@+id/listview1"
             android:layout_width="match_parent"
