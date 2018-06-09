@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -41,6 +43,7 @@ import jwh.com.eumme.Model.DBHelper;
 import jwh.com.eumme.Model.RecordingMataData;
 import jwh.com.eumme.Model.memoItem;
 import jwh.com.eumme.Presenter.ListViewAdapter;
+import jwh.com.eumme.Presenter.ListViewItem;
 import jwh.com.eumme.R;
 
 
@@ -88,7 +91,8 @@ public class ListView extends AppCompatActivity{
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
-
+    //////////////////검색////////////////
+    private EditText editSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +139,7 @@ public class ListView extends AppCompatActivity{
         for(int i=0;i<list.length;i++){
             String fileName = list[i].getName().toString();
             Log.d(tag, "정상additem : " + fileName);
-            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),        // 플레이버튼
+            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.folder),        // 플레이버튼
                     fileName,                                                                   // 녹음 파일 이름
                     Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
                     Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
@@ -143,6 +147,24 @@ public class ListView extends AppCompatActivity{
                     true
             );
         }
+
+
+
+        editSearch = findViewById(R.id.editSearch);
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = editSearch.getText().toString();
+                ((ListViewAdapter)listview.getAdapter()).getFilter().filter(text);
+            }
+
+        });
 
 
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
@@ -220,12 +242,8 @@ public class ListView extends AppCompatActivity{
                 }
             }
 
-
-
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
@@ -240,18 +258,7 @@ public class ListView extends AppCompatActivity{
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
     }
-
-
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -438,17 +445,14 @@ public class ListView extends AppCompatActivity{
         File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
 
         if(filePre.renameTo(fileNow)){
-            Toast.makeText(getApplicationContext(), "변경 성공 : "+newName + ".mp4", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(), "변경 성공 : "+newName + ".mp4", Toast.LENGTH_SHORT).show();
             adapter.nameChange(index, newName+".mp4");
             adapter.notifyDataSetChanged();
         }else{
-            Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
-
-        Log.d("namedbtest","바뀌기 전 이름 : "+myList.get(index).toString()+" 바꾸고 싶은 이름 : "+newName+".mp4");
-        Log.d("namedbtest","디비로 가버렷!!");
         dbHelper.reName(myList.get(index).toString(), newName+".mp4");
-        Log.d("namedbtest","바뀐 파일 이름으로  디비 업데이트 완료 안되면 자살");
+
     }
 
 
@@ -576,6 +580,7 @@ public class ListView extends AppCompatActivity{
 //
 //        return ret;
 //    }
+
 
 
 

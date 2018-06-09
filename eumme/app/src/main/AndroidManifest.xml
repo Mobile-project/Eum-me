@@ -29,13 +29,15 @@
 
 
         <service android:name="jwh.com.eumme.Model.RecordeService"/>
-        <activity android:name="jwh.com.eumme.View.ListView"/>
+        <activity android:name="jwh.com.eumme.View.ListView"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name="jwh.com.eumme.View.PlayActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <!--<activity android:name="jwh.com.eumme.View.EmailSignInActivity"/>-->
         <activity android:name="jwh.com.eumme.View.ModifyActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name="jwh.com.eumme.View.ListViewFirebase"/>
+        <activity android:name="jwh.com.eumme.View.ListViewFirebase"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name="jwh.com.eumme.View.GoogleSignInActivity"/>
 
     </application>

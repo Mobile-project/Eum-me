@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,9 +21,10 @@ import java.util.ArrayList;
 
 import jwh.com.eumme.Model.RecordingMataData;
 import jwh.com.eumme.R;
+import jwh.com.eumme.View.ListView;
 import jwh.com.eumme.View.PlayActivity;
 
-public class ListViewAdapter extends BaseAdapter {
+public class ListViewAdapter extends BaseAdapter implements Filterable {
     private File file;
     String tag = "myListView";
     String playtime;
@@ -38,11 +41,15 @@ public class ListViewAdapter extends BaseAdapter {
 
 
 
+
     private Context mContext;
     RecordingMataData metaData;
+    Filter listFilter;
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+    // 필터링된 결과 데이터를 저장하기 위한 ArrayList. 최초에는 전체 리스트 보유.
+    private ArrayList<ListViewItem> filteredItemList = listViewItemList;
 
     // ListViewAdapter의 생성자
     public ListViewAdapter() {
@@ -50,11 +57,10 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
 
-
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {
-        return listViewItemList.size();
+        return filteredItemList.size();
     }
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
@@ -78,7 +84,6 @@ public class ListViewAdapter extends BaseAdapter {
         dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
         topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
         uploadDownload = (ImageView) convertView.findViewById(R.id.upload_download);
-
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +118,7 @@ public class ListViewAdapter extends BaseAdapter {
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        final ListViewItem listViewItem = listViewItemList.get(position);
+        final ListViewItem listViewItem = filteredItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         playButton.setImageDrawable(listViewItem.getIcon());
@@ -124,11 +129,11 @@ public class ListViewAdapter extends BaseAdapter {
         ///// 체크버튼 표시 결정//////
         if (listViewItem.isUploaded() && listViewItem.isDownloaded()) { // TT
             uploadDownload.setImageResource(R.drawable.cloud_green);
-        } else if(listViewItem.isUploaded() && !listViewItem.isDownloaded()){ // TF
+        } else if (listViewItem.isUploaded() && !listViewItem.isDownloaded()) { // TF
             uploadDownload.setImageResource(R.drawable.download_green);
-        } else if(!listViewItem.isUploaded() && listViewItem.isDownloaded()){ // FT
+        } else if (!listViewItem.isUploaded() && listViewItem.isDownloaded()) { // FT
             uploadDownload.setImageResource(R.drawable.upload_green);
-        } else{ // FF
+        } else { // FF
             uploadDownload.setImageResource(R.drawable.cloud_black);
         }
 
@@ -152,7 +157,7 @@ public class ListViewAdapter extends BaseAdapter {
     // 지정한 위치(position)에 있는 데이터 리턴 : 필수 구현
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position);
+        return filteredItemList.get(position);
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
@@ -175,38 +180,86 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.remove(position);
     }
 
-    public void modifyIsUploded(int position, boolean tf){
+    public void modifyIsUploded(int position, boolean tf) {
         listViewItemList.get(position).setUploaded(tf);
     }
 
-    public void modifyIsDownloded(int position, boolean tf){
+    public void modifyIsDownloded(int position, boolean tf) {
         listViewItemList.get(position).setDownloaded(tf);
     }
 
-    public boolean ischecked(int idx){
+    public boolean ischecked(int idx) {
         return this.listViewItemList.get(idx).isUploaded();
     }
 
-    public boolean isContain(String name){
+    public boolean isContain(String name) {
         return listViewItemList.contains(name);
     }
 
-    public int getPosition(String name){
+    public int getPosition(String name) {
         return listViewItemList.indexOf(name);
     }
 
-    public void nameChange(int idx, String newName){
+    public void nameChange(int idx, String newName) {
         Log.d(tag, "pre name : " + listViewItemList.get(idx).getFileName());
         listViewItemList.get(idx).setFileName(newName);
         Log.d(tag, "new name : " + listViewItemList.get(idx).getFileName());
     }
 
 
-    public String getPlaytime(int index){
+    public String getPlaytime(int index) {
         return String.valueOf(listViewItemList.get(index).getPlayTime());
     }
 
-    public String getCreatedTime(int index){
+    public String getCreatedTime(int index) {
         return String.valueOf(listViewItemList.get(index).getCreatedTime());
     }
+
+    @Override
+    public Filter getFilter() {
+        if (listFilter == null) {
+            listFilter = new ListFilter();
+        }
+        return listFilter;
+    }
+
+    private class ListFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+
+            if (constraint == null || constraint.length() == 0) {
+                results.values = listViewItemList;
+                results.count = listViewItemList.size();
+            } else {
+                ArrayList<ListViewItem> itemList = new ArrayList<>();
+
+                for (ListViewItem item : listViewItemList) {
+                    if (item.getFileName().contains(constraint.toString())) {
+                        Log.d("searchTest","아이템이름 "+item.getFileName());
+                        itemList.add(item);
+                    }
+                }
+                results.values = itemList;
+                results.count = itemList.size();
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredItemList = (ArrayList<ListViewItem>) results.values;
+            // notify
+            if (results.count > 0) {
+                notifyDataSetChanged();
+            } else {
+                notifyDataSetInvalidated();
+            }
+
+
+        }
+    }
+
+
 }

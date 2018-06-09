@@ -12,7 +12,7 @@
         android:layout_height="50dip"
         android:scaleType="centerInside"
         android:layout_weight="1"
-        android:src="@drawable/btn_play"
+        android:src="@drawable/folder"
         android:layout_margin="5dp"
         />
 

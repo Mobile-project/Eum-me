@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
             // usernameTextView.setText(mUsername);
 
-            Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
             // ImageView photoImageView = (ImageView) findViewById(R.id.photo_imageview);
         }
