@@ -29,11 +29,11 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-       /* if (!mode) {
+        if (!mode) {
             return list.size();
         } else if (mode) {
-            return 100;
-        }*/
+            return 30;
+        }
         return list.size();
     }
 

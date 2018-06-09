@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -111,32 +112,6 @@ public class ModifyActivity extends AppCompatActivity {
         dbHelper.open();
         ConcurrentHashMap<Integer, memoItem> stringList = dbHelper.selectMemo(fileName);
 
-        /**
-         * createdTime and index set
-         * by bigeeuk
-         */
-        for (int i = 0; i < createdTime.length; i++) {
-            if (i == 0) createdTime[i] = 1;
-            else if (i == 1) createdTime[i] = 2;
-            else createdTime[i] = 0;
-        }
-        /**
-         * For Seekbar , Time Set
-         * by bigleeuk
-         */
-        for (int i = 0; i < stringList.size(); i++) {
-            CTime = stringList.get(i).getMemoTime();
-            Log.d("Ctime", "Ctime" + CTime);
-            realCtime = Integer.parseInt(CTime);
-            realCtime = -realCtime;
-            Log.d("realCtime", "realctime" + realCtime);
-            CTime = Integer.toString(realCtime);
-            Cseconds = (realCtime % 60);
-            Cminutes = realCtime - Cseconds;
-            Log.d("Ctime min and sec", "Ctime minutes and seconds" + Cminutes + ":" + Cseconds);
-            createdTime[i] = realCtime;
-        }
-
         viewpager = findViewById(R.id.view_pager1);
         PlayViewPagerAdapter viewPagerAdapter = new PlayViewPagerAdapter(getSupportFragmentManager(), stringList);
         viewpager.setAdapter(viewPagerAdapter);
@@ -156,13 +131,6 @@ public class ModifyActivity extends AppCompatActivity {
                     prePositon = position;
                 }
 
-                if (position == 0) {
-                    mediaPlayer.seekTo(0);
-                } else {
-                    mediaPlayer.seekTo(createdTime[position - 1] * 1000);
-                    checkPosition = position;
-                    Log.d("mill", "mills" + createdTime[position - 1] * 1000);
-                }
             }
 
             @Override
@@ -211,8 +179,8 @@ public class ModifyActivity extends AppCompatActivity {
         });
         mFileLengthTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 
-       /* final Button btn_modify = findViewById(R.id.btn_modify);
-        btn_modify.setText("Complete");
+       final Button btn_modify = findViewById(R.id.btn_modify);
+        btn_modify.setText("확인");
 
         btn_modify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +191,7 @@ public class ModifyActivity extends AppCompatActivity {
                 finish();
 
             }
-        });*/
+        });
     }
 
 

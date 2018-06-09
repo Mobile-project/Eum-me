@@ -48,17 +48,17 @@
             android:text="00:00"
             android:layout_alignParentRight="true" />
 
-        <!--<Button-->
-            <!--android:id="@+id/btn_modify"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--android:layout_toLeftOf="@id/btn_play"-->
-            <!--android:layout_alignBottom="@id/btn_play"-->
-            <!--android:gravity="right|center_vertical"-->
-            <!--android:paddingRight="20dp"-->
-            <!--android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
-            <!--/>-->
+        <Button
+            android:id="@+id/btn_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_toLeftOf="@id/btn_play"
+            android:layout_alignBottom="@id/btn_play"
+            android:gravity="right|center_vertical"
+            android:paddingRight="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            />
 
 
         <ImageButton

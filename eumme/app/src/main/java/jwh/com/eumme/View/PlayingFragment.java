@@ -2,6 +2,7 @@ package jwh.com.eumme.View;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import com.jhw.Eumme.ver.R;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jwh.com.eumme.Model.memoItem;
+import jwh.com.eumme.Presenter.FlagSingleton;
 import jwh.com.eumme.Presenter.PlayViewPagerAdapter;
+import jwh.com.eumme.Presenter.RecordingSingleton;
 
 
 public class PlayingFragment extends Fragment {
@@ -22,7 +25,7 @@ public class PlayingFragment extends Fragment {
     EditText editText;
     private static final String tag = "test";
 
-    /*@Override
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
@@ -35,19 +38,11 @@ public class PlayingFragment extends Fragment {
                         modifiedTxt = editText.getText().toString();
                         if (FlagSingleton.getInstance().getFlag()) {
                             //오른쪽으로 넘겻으면 저장하자
-                            memoItem newItem = new memoItem(modifiedTxt,txt.get(CurrentPosition-2).getMemoTime(),CurrentPosition-2);
-                            Log.d(tag,"저장하자 오른쪽으로 넘겻자나");
+                            memoItem newItem = new memoItem(modifiedTxt, "0", CurrentPosition - 2);
                             if (RecordingSingleton.getInstance().check(CurrentPosition - 2)) {
-                                Log.d(tag,"값이 있는 곳이네 그럼 덮어쓰자 ");
                                 RecordingSingleton.getInstance().reset(CurrentPosition - 2, modifiedTxt);
-                            }
-                            else{
-                                Log.d(tag,"값이 없는 곳이네 그럼 새로 추가하자");
-                                RecordingSingleton.getInstance().addToArray(CurrentPosition-2,newItem);
-                                Log.d(tag,"메모내용 "+RecordingSingleton.getInstance().getMemo(CurrentPosition-2));
-                                Log.d(tag,"메모 생성 시간 "+RecordingSingleton.getInstance().getTime(CurrentPosition-2));
-                                Log.d(tag,"메모 인덱스 "+RecordingSingleton.getInstance().getIndex(CurrentPosition-2));
-
+                            } else {
+                                RecordingSingleton.getInstance().addToArray(CurrentPosition - 2, newItem);
                             }
                         }
                     }
@@ -56,15 +51,13 @@ public class PlayingFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 
     public static PlayingFragment create(int position, ConcurrentHashMap<Integer, memoItem> list) {
         PlayingFragment fragment = new PlayingFragment();
         CurrentPosition = position;
         txt = list;
-
         return fragment;
-
     }
 
     @Override

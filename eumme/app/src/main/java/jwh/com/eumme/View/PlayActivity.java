@@ -1,5 +1,7 @@
 package jwh.com.eumme.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
@@ -11,8 +13,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,8 +36,7 @@ public class PlayActivity extends AppCompatActivity {
 
     String tag = "myplayactivity";
     String path = Environment.getExternalStorageDirectory().toString() + "/ZEum_me";
-    int pos;//재생 멈춘 시점
-    int Cseconds, Cminutes, Chours, realCtime, Cduration;
+    int Cseconds, Cminutes, realCtime;
     boolean isPlaying = false;
     private static int buttonMode = 1; // 1==pause 2==resume 3==replay
     ImageButton pauseButton;
@@ -42,11 +45,7 @@ public class PlayActivity extends AppCompatActivity {
     int Preposition = 0;
     String rPlaytime, CTime;
     ViewPager viewpager;
-    long realPlaytime;
-    long seconds;
-    long minutes;
-    long hours;
-    long duration;
+
     int[] createdTime = new int[100];
     private int mCurrentPosition;
     private TextView mCurrentProgressTextView = null;       // 시간 표시하는 곳
@@ -86,15 +85,14 @@ public class PlayActivity extends AppCompatActivity {
         fileName = bundle.getString("fileName");// 파일이름 꺼냄
         playTime = bundle.getString("playTime");
         rPlaytime = playTime.replace(":", "");
-        realPlaytime = Integer.parseInt(rPlaytime);
-        seconds = realPlaytime % 100;
-        //minutes = (realPlaytime - seconds) % 100;
-        hours = (realPlaytime / 10000);
-        minutes = (realPlaytime - (hours * 10000) - seconds) / 100;
-        minutes = (hours * 3600 + minutes);
-        duration = (minutes * 60) + seconds;
 
-        Log.d(tag, "file Fisrt : " + fileName + " playTime : " + playTime);
+        long realPlaytime = Integer.parseInt(rPlaytime);
+        long seconds = realPlaytime % 100;
+        //minutes = (realPlaytime - seconds) % 100;
+        long hours = (realPlaytime / 10000);
+        long minutes = (realPlaytime - (hours * 10000) - seconds) / 100;
+        minutes = (hours * 3600 + minutes);
+
         textViewFileName = findViewById(R.id.file_name);
         mFileLengthTextView = findViewById(R.id.file_length_text_view);
         mCurrentProgressTextView = findViewById(R.id.current_progress_text_view);
@@ -123,14 +121,11 @@ public class PlayActivity extends AppCompatActivity {
          */
         for (int i = 0; i < stringList.size(); i++) {
             CTime = stringList.get(i).getMemoTime();
-            Log.d("Ctime", "Ctime" + CTime);
             realCtime = Integer.parseInt(CTime);
             realCtime = -realCtime;
-            Log.d("realCtime", "realctime" + realCtime);
             CTime = Integer.toString(realCtime);
             Cseconds = (realCtime % 60);
             Cminutes = realCtime - Cseconds;
-            Log.d("Ctime min and sec", "Ctime minutes and seconds" + Cminutes + ":" + Cseconds);
             createdTime[i] = realCtime;
         }
 
@@ -211,25 +206,17 @@ public class PlayActivity extends AppCompatActivity {
         });
         mFileLengthTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 
-       /* final Button btn_modify = findViewById(R.id.btn_modify);
-        btn_modify.setText("Modify");
+        final Button btn_modify = findViewById(R.id.btn_modify);
+        btn_modify.setText("수정");
 
         btn_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //모드가 true면 100개 뿌리기 false면 list.size
-                PlayViewPagerAdapter.mode = true;
-                PlayViewPagerAdapter.check = false;
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("fileName", fileName);
-                bundle1.putString("playTime", playTime);
-                Intent in = new Intent(PlayActivity.this, ModifyActivity.class);
-                in.putExtras(bundle1);
-                startActivity(in);
-                finish();
+                notidialog();
+                pausePlaying();
             }
-        });*/
+        });
     }
 
     /**
@@ -402,6 +389,39 @@ public class PlayActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void notidialog() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("알림");
+        final TextView noti = new TextView(this);
+        noti.setText("수정시 메모와 녹음의 동기화가 해제됩니다.");
+        noti.setTextSize(20);
+        noti.setGravity(Gravity.CENTER);
+        alert.setView(noti);
+        alert.setCancelable(false);
+        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                PlayViewPagerAdapter.check = false;
+                resumePlaying();
+            }
+        });
+
+        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                PlayViewPagerAdapter.mode = true;
+                PlayViewPagerAdapter.check = false;
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("fileName", fileName);
+                bundle1.putString("playTime", playTime);
+                Intent in = new Intent(PlayActivity.this, ModifyActivity.class);
+                in.putExtras(bundle1);
+                startActivity(in);
+                finish();
+            }
+        });
+        alert.show();
     }
 
 }

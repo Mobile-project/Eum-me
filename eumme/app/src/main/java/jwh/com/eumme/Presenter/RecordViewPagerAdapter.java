@@ -18,7 +18,7 @@ public class RecordViewPagerAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public int getCount() {
-        return 100;
+        return 30;
     }
 
 }

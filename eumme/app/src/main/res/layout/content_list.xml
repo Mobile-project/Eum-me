@@ -28,7 +28,7 @@
             android:layout_height="50dp"
             android:layout_alignBottom="@+id/chronometer"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="20dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/record_button" />
@@ -41,7 +41,7 @@
             android:layout_below="@+id/chronometer"
             android:layout_centerHorizontal="true"
             android:paddingTop="10dp"
-            android:text="Tab the button to start recording"
+            android:text="버튼을 누르면 녹음이 시작됩니다"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <Button
@@ -56,15 +56,15 @@
 
         <ImageView
             android:id="@+id/options"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignBottom="@+id/logout_button"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:paddingRight="0dp"
-            android:src="@drawable/ic_more_vert_white_24dp" />
+            android:src="@drawable/list" />
 
     </RelativeLayout>
 

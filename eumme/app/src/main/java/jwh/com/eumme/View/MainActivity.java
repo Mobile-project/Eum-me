@@ -214,11 +214,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     Toast.makeText(getApplicationContext(), "녹음 중지", Toast.LENGTH_SHORT).show();
                     stopService(new Intent(getApplicationContext(), RecordeService.class));
-                    title.setText("Tab the Button to start recording");
+                    title.setText("버튼을 누르면 녹음이 시작됩니다");
 
                     // 끝난 시간
                     endTime = (int) System.currentTimeMillis();
-                    playTime = (int) (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
+                  //  playTime = (int) (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
 
                     fileName = Constants.getPreFileName();          // 기본 이름.
 
@@ -420,19 +420,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("New File Name");
+        alert.setTitle("파일 이름 입력");
 //        alert.setMessage("Plz, input yourname");
 
         final EditText name = new EditText(this);
         alert.setView(name);
         alert.setCancelable(false);
-        alert.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 addMemoItemListToDB(fileName);
+                Intent in = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(in);
+                finish();
             }
         });
 
-        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 newFileName = name.getText().toString();
                 Log.d(tag, "new name : " + newFileName);
@@ -451,20 +454,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     //////////////// 이름 변경 /////////////////////
     //////////////////////////////////////////////
     public void nameChange(String preName, String newName) {
-        Log.d(tag, "in name change preName : " + preName);
-        Log.d(tag, "in name change newName : " + newName);
+        //Log.d(tag, "in name change preName : " + preName);
+       // Log.d(tag, "in name change newName : " + newName);
         File filePre = new File(Constants.getFilePath() + "/", preName);
         File fileNow = new File(Constants.getFilePath() + "/", newName + ".mp4");
-        if (filePre.exists()) {
-            Log.d(tag, "exists");
-        } else {
-            Log.d(tag, "no exists");
-        }
+
         if (filePre.renameTo(fileNow)) {
-            Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
 
         } else {
-            Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -481,13 +480,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 String memo = memoItemList.get(i).getMemo();
                 int memoIndex = memoItemList.get(i).getMemoIndex();
                 String createdTime = memoItemList.get(i).getMemoTime();
-                Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
+                //Log.d(tag, "file name : " + filename + " memo : " + memo + " play time : " + playTime + " memo index : " + memoIndex + " created time : " + createdTime);
                 dbHelper.insert(filename, memo, createdTime, memoIndex);
             }
-            Log.d(tag, "메모아이템리스트 크기 " + memoItemList.size());
-            for (int i = 0; i < memoItemList.size(); i++) {
-                Log.d(tag, "Index 확인 : memo : " + memoItemList.get(i).getMemo() + " created time : " + memoItemList.get(i).getMemoTime() + " memo index : " + memoItemList.get(i).getMemoIndex());
-            }
+
             RecordingSingleton.getInstance().setClear();
         }
     }

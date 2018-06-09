@@ -337,6 +337,9 @@ public class ListView extends AppCompatActivity{
                             databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
                             databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
 
+                            Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memo").push().setValue(memo));
+                            Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime));
+                            Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex));
                         }
                     } else { // 메모가 없다.
                         databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
