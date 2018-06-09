@@ -188,7 +188,7 @@ public class ListView extends AppCompatActivity{
         ////////////////////////////////////////////////////////////////////////
 
         // message는 child의 이벤트를 수신합니다.
-        databaseReference.child(Constants.getUserUid()).addChildEventListener(new ChildEventListener() {
+        databaseReference.child(Constants.getUserName()+":"+Constants.getUserUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -362,11 +362,10 @@ public class ListView extends AppCompatActivity{
                     taskMap.put("memo", memolist);
                     taskMap.put("memoTime", memotimelist);
                     taskMap.put("memoIndex", memoindexlist);
-                    databaseReference.child(uid).child(fn).child("playTime").setValue(playtime);
-                    databaseReference.child(uid).child(fn).child("createdTime").setValue(createdtime);
 
-                    databaseReference.child(uid).child(fn).updateChildren(taskMap);
-
+                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).child("playTime").setValue(playtime);
+                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).child("createdTime").setValue(createdtime);
+                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).updateChildren(taskMap);
 
                 }
                 Log.d(tag, "after push");
@@ -510,7 +509,7 @@ public class ListView extends AppCompatActivity{
 //        StorageReference spaceRef = storageRef.child("images/space.jpg");                               // 무엇?
 
         Uri file = Uri.fromFile(new File(Constants.getFilePath() + "/" + fileName));            // 올라갈 파일을 객체로 가져옴
-        StorageReference Ref = storageRef.child("users").child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
+        StorageReference Ref = storageRef.child("users").child(Constants.getUserName()).child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
         uploadTask = Ref.putFile(file);                                                                 // 파일 올리는 태스크에 파일 장착
 
         // 상태바표시

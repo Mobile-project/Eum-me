@@ -147,6 +147,7 @@ public class ListViewFirebase extends AppCompatActivity{
                 break;
             case R.id.delete:
                 Toast.makeText(getApplicationContext(), "delete", Toast.LENGTH_SHORT).show();
+                delete(list.get(index).toString(),index);
                 break;
         }
         return true;
@@ -172,7 +173,7 @@ public class ListViewFirebase extends AppCompatActivity{
         progressDialog.onStart();
         Log.d(tag, "다운받을 파일 : " + fileName);
         StorageReference storageRef = storage.getReference();
-        StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName);
+        StorageReference islandRef = storageRef.child("users/" + Constants.getUserName() +":"+ Constants.getUserUid() + "/Recording/" + fileName);
         Log.d(tag, "파베에 파일 위치 : " + "users/" + Constants.getUserUid() + "/Recording/" + fileName);
         File localFile=null;
         try{
@@ -238,10 +239,25 @@ public class ListViewFirebase extends AppCompatActivity{
     }
 
 
-    public void delete(String filename, int idx){
+    public void delete(String fileName, int idx){
         StorageReference storageRef = storage.getReference();
+        StorageReference desertRef = storageRef.child("users/" + Constants.getUserName() +":"+ Constants.getUserUid() + "/Recording/" + fileName+".mp4");
 
-        StorageReference desertRef = storageRef.child("images/desert.jpg");
+        desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "삭제 완료", Toast.LENGTH_SHORT).show();
+                Log.d(tag, "삭제완료");
+                // File deleted successfully
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(getApplicationContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
+                Log.d(tag, "삭제실패");
 
+                // Uh-oh, an error occurred!
+            }
+        });
     }
 }
