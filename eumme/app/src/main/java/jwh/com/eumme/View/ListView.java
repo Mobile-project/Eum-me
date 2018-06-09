@@ -29,7 +29,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jhw.Eumme.ver.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ import jwh.com.eumme.Model.DBHelper;
 import jwh.com.eumme.Model.RecordingMataData;
 import jwh.com.eumme.Model.memoItem;
 import jwh.com.eumme.Presenter.ListViewAdapter;
+import jwh.com.eumme.R;
 
 
 ///////////************//////////////////
@@ -107,7 +107,9 @@ public class ListView extends AppCompatActivity{
         Log.d(tag,rootSD);
         Log.d(tag,"after rootSD");
 
+
         file = new File(rootSD);
+        file.mkdir();
         list = file.listFiles();
 
         // 파일 이름들 추가

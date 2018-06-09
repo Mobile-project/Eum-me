@@ -39,7 +39,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.jhw.Eumme.ver.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,6 +54,7 @@ import jwh.com.eumme.Presenter.BackPressCloseHandler;
 import jwh.com.eumme.Presenter.FlagSingleton;
 import jwh.com.eumme.Presenter.RecordViewPagerAdapter;
 import jwh.com.eumme.Presenter.RecordingSingleton;
+import jwh.com.eumme.R;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     String tag = "mymainactivity";

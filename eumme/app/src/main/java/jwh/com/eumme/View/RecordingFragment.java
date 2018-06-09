@@ -7,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.jhw.Eumme.ver.R;
-
 import jwh.com.eumme.Model.memoItem;
 import jwh.com.eumme.Presenter.FlagSingleton;
 import jwh.com.eumme.Presenter.RecordingSingleton;
+import jwh.com.eumme.R;
 
 
 public class RecordingFragment extends Fragment  {

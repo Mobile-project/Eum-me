@@ -14,12 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jhw.Eumme.ver.R;
-
 import java.io.File;
 import java.util.ArrayList;
 
 import jwh.com.eumme.Model.RecordingMataData;
+import jwh.com.eumme.R;
 import jwh.com.eumme.View.PlayActivity;
 
 public class ListViewAdapter extends BaseAdapter {

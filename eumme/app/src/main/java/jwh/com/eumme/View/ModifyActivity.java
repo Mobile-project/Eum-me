@@ -20,8 +20,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jhw.Eumme.ver.R;
-
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +29,7 @@ import jwh.com.eumme.Model.memoItem;
 import jwh.com.eumme.Presenter.FlagSingleton;
 import jwh.com.eumme.Presenter.PlayViewPagerAdapter;
 import jwh.com.eumme.Presenter.RecordingSingleton;
+import jwh.com.eumme.R;
 
 public class ModifyActivity extends AppCompatActivity {
 
