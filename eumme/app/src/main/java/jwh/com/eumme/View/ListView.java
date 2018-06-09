@@ -321,7 +321,8 @@ public class ListView extends AppCompatActivity{
                     String memo = "";                // 메모내용
                     String memotime = "";             // 메모타임
                     String memoindex = "";            // 메모인덱스
-
+//                    String playtime = String.valueOf(Constants.getPlayTime(Constants.getFilePath()+"/" + fn));
+                    String playtime = String.valueOf(adapter.getPlaytime(index));
                     if (len > 0) {  //  메모가 있다
                         for (int i = 0; i < len; i++) {
 
@@ -333,9 +334,12 @@ public class ListView extends AppCompatActivity{
                             memotime = itemList.get(i).getMemoTime();
                             memoindex = String.valueOf(itemList.get(i).getMemoIndex());
 
+
                             databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
                             databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
                             databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+                            databaseReference.child(uid).child(fn).child("playTime").push().setValue(playtime);
+                            Log.d(tag, "올라가는 파일 : " + fn  +" 플레이타임 : " + playtime);
 
                             Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memo").push().setValue(memo));
                             Log.d(tag," 나와야됨 "+ databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime));
@@ -345,6 +349,8 @@ public class ListView extends AppCompatActivity{
                         databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
                         databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
                         databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+                        databaseReference.child(uid).child(fn).child("playTime").push().setValue(playtime);
+                        Log.d(tag, "올라가는 파일 : " + fn  +" 플레이타임 : " + playtime);
                     }
 
                 }
@@ -546,21 +552,8 @@ public class ListView extends AppCompatActivity{
 
 
 
-//    public List<String> findFileOnlyInFireBase(){
-//        List<String> ret = new ArrayList<String>();
-//
-//        for(String iter : uploadedList){
-//            // 업로드한 파일이 로컬에 없다면
-//            if(!myList.contains(iter)){
-//                Log.d(tag, "웹에만 있는애들 : " + iter);
-//                ret.add(iter);
-//            } else{
-//                Log.d(tag, "둘다 있는애들 : " + iter);
-//            }
-//        }
-//
-//        return ret;
-//    }
+
+
 
 
 

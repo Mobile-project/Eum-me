@@ -202,5 +202,9 @@ public class ListViewAdapter extends BaseAdapter {
         Log.d(tag, "new name : " + listViewItemList.get(idx).getFileName());
     }
 
+    public String getPlaytime(int index){
+        return String.valueOf(listViewItemList.get(index).getPlayTime());
+    }
+
 
 }
