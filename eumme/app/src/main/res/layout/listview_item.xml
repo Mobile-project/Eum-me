@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    android:id="@+id/top_container">
+
+    <ImageView
+        android:id="@+id/btn_play"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:scaleType="centerInside"
+        android:layout_weight="1"
+        android:src="@drawable/btn_play"
+        android:layout_margin="5dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/text_view_file_name"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btn_play"
+        android:layout_marginStart="66dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="New Text"
+        android:textColor="#EEEEEE"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/text_view_play_time"
+        android:layout_width="261dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_play"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="66dp"
+        android:layout_weight="1"
+        android:text="playtime"
+        android:textColor="#EEEEEE"
+        android:textSize="16dp" />
+
+
+    <!--</LinearLayout>-->
+    <TextView
+        android:id="@+id/text_view_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
+        android:text="date"
+        android:textAlignment="viewEnd" />
+
+    <ImageView
+        android:id="@+id/upload_download"
+        android:layout_width="24dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/text_view_file_name"
+        android:layout_alignParentEnd="true"
+        android:background="@color/fui_transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/upload_check" />
+</RelativeLayout>
