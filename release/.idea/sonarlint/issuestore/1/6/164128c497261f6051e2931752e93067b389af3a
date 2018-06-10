@@ -1,0 +1,53 @@
+
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(±á§¦üÿÿÿÿ
+:squid:S3010"%Remove this assignment of "mContext".(±¼©Â
+…"squid:ClassVariableVisibilityCheck"TMake mContext a static final constant or non-public and provide accessors if needed.(Ê®âÿÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(è±øÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(î¼ÁÎùÿÿÿÿ
+›squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(™Î«þÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ß®ŸÍøÿÿÿÿ
+esquid:CallToDeprecatedMethod"?Remove this use of "setOnPageChangeListener"; it is deprecated.(ÈÀ®˜
+usquid:S1450"[Remove the "buttonRecord" field and declare it as a local variable in the relevant methods.(†ö®Íÿÿÿÿÿ
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÁÉÝ£
+‰squid:S1319"tThe type of the "uploadedList" object should be an interface such as "Map" rather than the implementation "HashMap".(œ ³³
+_squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¶úì|
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(œæóª
+Hsquid:S1444".Make this "public static mContext" field final(Ê®âÿÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(æèíÜþÿÿÿÿ
+ƒ"squid:ClassVariableVisibilityCheck"WMake newFileName a static final constant or non-public and provide accessors if needed.(ÿ¯ºê
+S"squid:SwitchLastCaseIsDefaultCheck""Add a default case to this switch.(Ò“ÿšùÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ
+jsquid:S1450"URemove the "option" field and declare it as a local variable in the relevant methods.(žâ¤Ý
+–squid:S1319"|The type of the "deniedPermissions" object should be an interface such as "List" rather than the implementation "ArrayList".(‰™¾ÿÿÿÿÿ
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(’™ëŽ
+esquid:S1301"KReplace this "switch" statement by "if" statements to increase readability.(Ò“ÿšùÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(™¸¥ýÿÿÿÿ
+=squid:S1481")Remove this unused "page" local variable.(¡½å
+
+›squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ø´´øÿÿÿÿ
+csquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(Æ›¹
+lsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ž¨Œþÿÿÿÿ
+„"squid:ClassVariableVisibilityCheck"XMake uploadedList a static final constant or non-public and provide accessors if needed.(œ ³³
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(„é þÿÿÿÿ
+@squid:S1075"&Remove this hard-coded path-delimiter.(æ°ÛÕÿÿÿÿÿ
+zsquid:S1450"eRemove the "recordViewPagerAdapter" field and declare it as a local variable in the relevant methods.(™Û»á
+psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(æ¾­õ
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÁÉÝ£
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ïù¦ýÿÿÿÿ
+…"squid:ClassVariableVisibilityCheck"TMake dbHelper a static final constant or non-public and provide accessors if needed.(»èÐ»ýÿÿÿÿ
+Dsquid:S00108")Either remove or fill this block of code.(à«÷Àýÿÿÿÿ
+@squid:S1068"+Remove this unused "endTime" private field.(ÇƒÀ§
+Lsquid:S1854"8Remove this useless assignment to local variable "page".(¡½å
+
+@squid:S1075"&Remove this hard-coded path-delimiter.(½¶‡­úÿÿÿÿ
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ø¦§
+_squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(å÷º
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ãµ™þùÿÿÿÿ
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(õâø
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(£°´‘
+–squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Þ‰
+`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Å·Á¾
+Ssquid:S1068"9Remove this unused "MY_PERMISSION_STORAGE" private field.(Í£òíüÿÿÿÿ
+€"squid:ClassVariableVisibilityCheck"TMake fileName a static final constant or non-public and provide accessors if needed.(öÔôš
+Qsquid:S2589"7Remove this expression which always evaluates to "true"(ù¨¡ÿÿÿÿÿ

@@ -30,7 +30,8 @@
 
         <activity android:name=".View.GoogleSignInActivity"/>
         <activity android:name=".View.BaseActivity"/>
-        <activity android:name=".View.ListView"/>
+        <activity android:name=".View.ListView"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".View.ModifyActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".View.PlayActivity"/>

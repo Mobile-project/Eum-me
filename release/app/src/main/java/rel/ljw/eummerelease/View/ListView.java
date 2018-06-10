@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -43,7 +45,7 @@ import rel.ljw.eummerelease.Model.memoItem;
 import rel.ljw.eummerelease.Presenter.ListViewAdapter;
 import rel.ljw.eummerelease.R;
 
-public class ListView extends AppCompatActivity {
+public class ListView extends AppCompatActivity{
     private File file;
     private List myList;
     private List myListDate;
@@ -79,6 +81,7 @@ public class ListView extends AppCompatActivity {
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
+    //////////////////검색////////////////
 
 
     @Override
@@ -136,6 +139,24 @@ public class ListView extends AppCompatActivity {
         }
 
 
+
+        final EditText editSearch = findViewById(R.id.editSearch);
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = editSearch.getText().toString();
+                ((ListViewAdapter)listview.getAdapter()).getFilter().filter(text);
+            }
+
+        });
+
+
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //ListView의 아이템 중 하나가 클릭될 때 호출되는 메소드
@@ -181,7 +202,7 @@ public class ListView extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////
 
         // message는 child의 이벤트를 수신합니다.
-        databaseReference.child(Constants.getUserUid()).addChildEventListener(new ChildEventListener() {
+        databaseReference.child(Constants.getUserName()+":"+Constants.getUserUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -211,12 +232,8 @@ public class ListView extends AppCompatActivity {
                 }
             }
 
-
-
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
@@ -231,18 +248,7 @@ public class ListView extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
     }
-
-
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -298,8 +304,8 @@ public class ListView extends AppCompatActivity {
                 } else {
 
 
-//                    Toast.makeText(this, myList.get(index) + " Upload", Toast.LENGTH_SHORT).show();
-                    upLoad(myList.get(index).toString());
+                    Toast.makeText(this, myList.get(index) + " Upload", Toast.LENGTH_SHORT).show();
+                    upLoad(myList.get(index).toString(), index);
                     String uid = Constants.getUserUid();
 
                     RecordingMataData meta = dbHelper.getResult(fileName);  // 디비에서 데이터 다뽑아옴
@@ -317,6 +323,7 @@ public class ListView extends AppCompatActivity {
                     String memoindex = "";            // 메모인덱스
                     String playtime = String.valueOf(adapter.getPlaytime(index));
                     String createdtime = String.valueOf(adapter.getCreatedTime(index));
+
 
                     Map<String, Object> taskMap = new HashMap<String, Object>();
 
@@ -355,9 +362,9 @@ public class ListView extends AppCompatActivity {
                     taskMap.put("memoTime", memotimelist);
                     taskMap.put("memoIndex", memoindexlist);
 
-                    databaseReference.child(uid).child(fn).child("playTime").setValue(playtime);
-                    databaseReference.child(uid).child(fn).child("createdTime").setValue(createdtime);
-                    databaseReference.child(uid).child(fn).updateChildren(taskMap);
+                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).child("playTime").setValue(playtime);
+                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).child("createdTime").setValue(createdtime);
+                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).updateChildren(taskMap);
 
                 }
                 Log.d(tag, "after push");
@@ -428,18 +435,17 @@ public class ListView extends AppCompatActivity {
         File fileNow = new File(Constants.getFilePath()+"/", newName+".mp4");
 
         if(filePre.renameTo(fileNow)){
-            Toast.makeText(getApplicationContext(), "변경 성공 : "+newName + ".mp4", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(getApplicationContext(), "변경 성공 : "+newName + ".mp4", Toast.LENGTH_SHORT).show();
             adapter.nameChange(index, newName+".mp4");
             adapter.notifyDataSetChanged();
         }else{
-            Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
-
-        Log.d("namedbtest","바뀌기 전 이름 : "+myList.get(index).toString()+" 바꾸고 싶은 이름 : "+newName+".mp4");
-        Log.d("namedbtest","디비로 가버렷!!");
         dbHelper.reName(myList.get(index).toString(), newName+".mp4");
-        Log.d("namedbtest","바뀐 파일 이름으로  디비 업데이트 완료 안되면 자살");
+
     }
+
+
 
     public void customDialog(final int index){
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -486,7 +492,7 @@ public class ListView extends AppCompatActivity {
     //////////////////////////////////////////////////////////////
     ///////////////////////FIRE BASE UPLOAD///////////////////////
     //////////////////////////////////////////////////////////////
-    public void upLoad(String fileName) {
+    public void upLoad(String fileName, int idx) {
         UploadTask uploadTask;
         filePath = Uri.parse(Constants.getFilePath() + "/" + fileName);                                 // 올라갈 파일 경로
         Log.d(tag, "filePath : " + filePath);
@@ -499,7 +505,7 @@ public class ListView extends AppCompatActivity {
 //        StorageReference spaceRef = storageRef.child("images/space.jpg");                               // 무엇?
 
         Uri file = Uri.fromFile(new File(Constants.getFilePath() + "/" + fileName));            // 올라갈 파일을 객체로 가져옴
-        StorageReference Ref = storageRef.child("users").child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
+        StorageReference Ref = storageRef.child("users").child(Constants.getUserName()).child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
         uploadTask = Ref.putFile(file);                                                                 // 파일 올리는 태스크에 파일 장착
 
         // 상태바표시
@@ -525,6 +531,7 @@ public class ListView extends AppCompatActivity {
                 Log.d(tag, "onSuccess");
                 progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
                 Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                adapter.setIsUpload(index, true);
 
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -542,28 +549,5 @@ public class ListView extends AppCompatActivity {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-//    public List<String> findFileOnlyInFireBase(){
-//        List<String> ret = new ArrayList<String>();
-//
-//        for(String iter : uploadedList){
-//            // 업로드한 파일이 로컬에 없다면
-//            if(!myList.contains(iter)){
-//                Log.d(tag, "웹에만 있는애들 : " + iter);
-//                ret.add(iter);
-//            } else{
-//                Log.d(tag, "둘다 있는애들 : " + iter);
-//            }
-//        }
-//
-//        return ret;
-//    }
-
 
 }

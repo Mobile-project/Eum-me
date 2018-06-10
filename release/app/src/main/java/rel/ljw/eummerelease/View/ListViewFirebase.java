@@ -8,11 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,7 +43,6 @@ public class ListViewFirebase extends AppCompatActivity {
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     public ProgressDialog progressDialog;
-
 
     List list;
 
@@ -82,10 +84,7 @@ public class ListViewFirebase extends AppCompatActivity {
                     temp.get(0),
                     true,
                     false);
-
         }
-
-
 
 //        Iterator<String> filename = set.iterator();
 //        while(filename.hasNext()){
@@ -98,7 +97,6 @@ public class ListViewFirebase extends AppCompatActivity {
 //                    true,
 //                    false);
 //        }
-
 
         listviewFB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //ListView의 아이템 중 하나가 클릭될 때 호출되는 메소드
@@ -113,6 +111,22 @@ public class ListViewFirebase extends AppCompatActivity {
                 //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
 //                Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
             }
+        });
+
+        final EditText editSearch = findViewById(R.id.editSearch);
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = editSearch.getText().toString();
+                ((ListViewAdapter)listviewFB.getAdapter()).getFilter().filter(text);
+            }
+
         });
 
         registerForContextMenu(listviewFB);
@@ -138,9 +152,6 @@ public class ListViewFirebase extends AppCompatActivity {
 //        String fileName = myList.get(index).toString();
         //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
         switch( item.getItemId() ){
-            case R.id.changeName:
-                Toast.makeText(getApplicationContext(), "changename", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.download:
                 Toast.makeText(getApplicationContext(), "download", Toast.LENGTH_SHORT).show();
                 downLoad(list.get(index).toString(), index);
@@ -250,6 +261,7 @@ public class ListViewFirebase extends AppCompatActivity {
                 Log.d(tag, "삭제완료");
                 list.remove(idx);
                 adapterFB.deleteItem(idx);
+                adapterFB.notifyDataSetChanged();
                 // File deleted successfully
             }
         }).addOnFailureListener(new OnFailureListener() {

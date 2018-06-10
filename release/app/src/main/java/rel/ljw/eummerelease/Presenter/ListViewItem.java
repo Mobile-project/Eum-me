@@ -57,4 +57,7 @@ public class ListViewItem {
     public boolean isDownloaded(){ return isDownloaded;}
 
     public void setDownloaded(boolean downloaded){isDownloaded=downloaded;}
+
+
+
 }
