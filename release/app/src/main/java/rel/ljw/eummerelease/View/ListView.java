@@ -362,10 +362,9 @@ public class ListView extends AppCompatActivity{
                     taskMap.put("memoTime", memotimelist);
                     taskMap.put("memoIndex", memoindexlist);
 
-                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).child("playTime").setValue(playtime);
-                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).child("createdTime").setValue(createdtime);
-                    databaseReference.child(Constants.getUserName()).child(uid).child(fn).updateChildren(taskMap);
-
+                    databaseReference.child(uid).child(fn).child("playTime").setValue(playtime);
+                    databaseReference.child(uid).child(fn).child("createdTime").setValue(createdtime);
+                    databaseReference.child(uid).child(fn).updateChildren(taskMap);
                 }
                 Log.d(tag, "after push");
 
@@ -505,7 +504,7 @@ public class ListView extends AppCompatActivity{
 //        StorageReference spaceRef = storageRef.child("images/space.jpg");                               // 무엇?
 
         Uri file = Uri.fromFile(new File(Constants.getFilePath() + "/" + fileName));            // 올라갈 파일을 객체로 가져옴
-        StorageReference Ref = storageRef.child("users").child(Constants.getUserName()).child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
+        StorageReference Ref = storageRef.child("users").child(Constants.getUserUid()).child("Recording/" + file.getLastPathSegment());// 파일 올라가는 위치
         uploadTask = Ref.putFile(file);                                                                 // 파일 올리는 태스크에 파일 장착
 
         // 상태바표시
@@ -532,6 +531,7 @@ public class ListView extends AppCompatActivity{
                 progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
                 Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
                 adapter.setIsUpload(index, true);
+
 
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

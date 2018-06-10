@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -35,6 +37,7 @@ import rel.ljw.eummerelease.Model.Constants;
 import rel.ljw.eummerelease.Presenter.ListViewAdapter;
 import rel.ljw.eummerelease.R;
 
+
 public class ListViewFirebase extends AppCompatActivity {
     String tag = "myListviewfirebase";
 
@@ -43,6 +46,10 @@ public class ListViewFirebase extends AppCompatActivity {
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     public ProgressDialog progressDialog;
+
+
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     List list;
 
@@ -154,7 +161,9 @@ public class ListViewFirebase extends AppCompatActivity {
         switch( item.getItemId() ){
             case R.id.download:
                 Toast.makeText(getApplicationContext(), "download", Toast.LENGTH_SHORT).show();
-                downLoad(list.get(index).toString(), index);
+                String filename = list.get(index).toString();
+                downLoad(filename, index);
+                deleteRealtimeDB(filename);
                 break;
             case R.id.delete:
                 Toast.makeText(getApplicationContext(), "delete", Toast.LENGTH_SHORT).show();
@@ -273,5 +282,13 @@ public class ListViewFirebase extends AppCompatActivity {
                 // Uh-oh, an error occurred!
             }
         });
+    }
+
+
+    public void deleteRealtimeDB(String fileName){
+
+        Log.d(tag, "delete in db  : " + fileName);
+        databaseReference.child(Constants.getUserUid()).child(fileName).setValue(null);
+
     }
 }
