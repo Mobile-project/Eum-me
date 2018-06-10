@@ -36,7 +36,8 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".View.PlayActivity"/>
         <service android:name=".Model.RecordeService"/>
-        <activity android:name=".View.ListViewFirebase"/>
+        <activity android:name=".View.ListViewFirebase"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
     </application>
 

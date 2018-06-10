@@ -531,8 +531,6 @@ public class ListView extends AppCompatActivity{
                 progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
                 Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
                 adapter.setIsUpload(index, true);
-
-
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -546,8 +544,4 @@ public class ListView extends AppCompatActivity{
             }
         });
     }
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-
 }
