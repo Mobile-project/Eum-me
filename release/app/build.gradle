@@ -6,8 +6,8 @@ android {
         applicationId "rel.ljw.eummerelease"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 11
-        versionName "2.0.2"
+        versionCode 12
+        versionName "2.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

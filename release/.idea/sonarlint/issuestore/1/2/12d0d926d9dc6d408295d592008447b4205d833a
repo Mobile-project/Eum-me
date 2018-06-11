@@ -1,10 +1,0 @@
-
-Dsquid:S1444"*Make this "public static mode" field final(º°¥Ãûÿÿÿÿ
-"squid:ClassVariableVisibilityCheck"PMake mode a static final constant or non-public and provide accessors if needed.(º°¥Ãûÿÿÿÿ
-@squid:S1444"+Make this "public static check" field final(ê½œ
-usquid:S1488"`Immediately return this expression instead of assigning it to the temporary variable "fragment".(»ëœ»
-psquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(›Şä£
-}"squid:ClassVariableVisibilityCheck"QMake check a static final constant or non-public and provide accessors if needed.(ê½œ
-Qsquid:S2589"7Remove this expression which always evaluates to "true"(©‰Ÿÿÿÿÿÿ
-œsquid:S1319"†The type of the "stringList" object should be an interface such as "ConcurrentMap" rather than the implementation "ConcurrentHashMap".(“ÑÓ
-Jsquid:S2209"5Change this instance-reference to a static reference.(»ëœ»

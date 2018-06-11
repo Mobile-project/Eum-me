@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <item android:id="@+id/Firebase"
-        android:title="집나간 음메"/>
+        android:title="내보낸 목록"/>
     <item android:id="@+id/Recording_List"
-        android:title="집에있는 음메"/>
+        android:title="음메 목록"/>
     <item android:id="@+id/Dev_info"
         android:title="개발자 정보"/>
 

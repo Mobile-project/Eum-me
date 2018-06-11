@@ -5,7 +5,7 @@
     <item android:id="@+id/changeName"
         android:title="이름 바꾸기"/>
     <item android:id="@+id/download"
-        android:title="데려오기"/>
+        android:title="가져오기"/>
     <item android:id="@+id/delete"
         android:title="삭제"/>
 </menu>
