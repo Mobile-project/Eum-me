@@ -50,7 +50,7 @@ public class EmailSignInActivity extends AppCompatActivity {
                 Constants.setUserUid(user.getUid());
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
-            
+
             } else {
                 // Sign in failed, check response for error code
                 // ...

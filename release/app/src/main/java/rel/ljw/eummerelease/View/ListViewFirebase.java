@@ -287,7 +287,7 @@ public class ListViewFirebase extends AppCompatActivity {
         //TODO 파베에 있는 파일들 중 이름에 빈칸이있으면 다운이 안댐.
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("uploading...");
+        progressDialog.setTitle("데려오는중...");
         progressDialog.show();
         progressDialog.onStart();
         Log.d(tag, "다운받을 파일 : " + fileName);

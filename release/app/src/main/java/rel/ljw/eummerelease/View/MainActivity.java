@@ -389,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         ////////////////////// READ FROM FIREBASE /////////////////////
         ///////////////////////////////////////////////////////////////
         // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
-       /* databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+       databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             }
         });
-*/
+
     }
 
 
