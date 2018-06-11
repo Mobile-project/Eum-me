@@ -155,7 +155,7 @@ public class ModifyActivity extends AppCompatActivity {
                     Log.d(tag, "버튼 모드 " + buttonMode);
                     //pause
                 } else if (buttonMode == 2) {
-                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause));
+                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_button));
                     Toast.makeText(getApplicationContext(), "다시 재생", Toast.LENGTH_SHORT).show();
                     resumePlaying();
                     buttonMode = 1;
@@ -166,7 +166,7 @@ public class ModifyActivity extends AppCompatActivity {
                     //seekbar초기화
                     startPlaying();
                     Toast.makeText(getApplicationContext(), "리플레이", Toast.LENGTH_SHORT).show();
-                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause));
+                    pauseButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_button));
                     Log.d(tag, "버튼 모드 " + buttonMode);
                     buttonMode = 1;
                 }
@@ -183,6 +183,7 @@ public class ModifyActivity extends AppCompatActivity {
                 PlayViewPagerAdapter.mode = false;
                 PlayViewPagerAdapter.check = false;
                 updateMemo();
+                stopPlaying();
                 finish();
 
             }

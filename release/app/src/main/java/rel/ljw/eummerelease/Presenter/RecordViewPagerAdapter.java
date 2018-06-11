@@ -2,11 +2,12 @@ package rel.ljw.eummerelease.Presenter;
 
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import rel.ljw.eummerelease.View.RecordingFragment;
 
-public class RecordViewPagerAdapter extends FragmentStatePagerAdapter {
+public class RecordViewPagerAdapter extends FragmentPagerAdapter {
     public RecordViewPagerAdapter(android.support.v4.app.FragmentManager fm)
     {
         super(fm);

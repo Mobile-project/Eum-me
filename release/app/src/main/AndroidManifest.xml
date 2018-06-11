@@ -8,8 +8,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/cow"
@@ -28,7 +26,7 @@
         <activity android:name=".View.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <activity android:name=".View.GoogleSignInActivity"/>
+        <!--<activity android:name=".View.GoogleSignInActivity"/>-->
         <activity android:name=".View.BaseActivity"/>
         <activity android:name=".View.ListView"
             android:windowSoftInputMode="stateAlwaysHidden"/>
@@ -38,6 +36,9 @@
         <service android:name=".Model.RecordeService"/>
         <activity android:name=".View.ListViewFirebase"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".View.InfoActivity"/>
+        <activity android:name=".View.EmailSignInActivity"/>
+
 
     </application>
 

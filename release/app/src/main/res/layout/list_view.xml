@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="25dp"
-    android:layout_marginHorizontal="10dp"
+    android:background="#484646"
     >
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:orientation="vertical">
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/editSearch"
             android:singleLine="true"
             android:imeOptions="actionSearch"

@@ -6,8 +6,8 @@ android {
         applicationId "rel.ljw.eummerelease"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 9
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.1'
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.github.medyo:android-about-page:1.2.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

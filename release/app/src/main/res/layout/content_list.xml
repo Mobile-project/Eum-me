@@ -65,7 +65,7 @@
             android:padding = "8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/cloud_green" />
+            android:src="@drawable/list" />
 
     </RelativeLayout>
 

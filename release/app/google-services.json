@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "1031386805680-vgij2edq53db2o5r4mfn74p99njvrscd.apps.googleusercontent.com",
+          "client_id": "1031386805680-1i8te3uu2qhhgh9mgfasv3urf1bmih69.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "rel.ljw.eummerelease",
@@ -23,12 +23,16 @@
           }
         },
         {
-          "client_id": "1031386805680-d41fv6ftfmef1d9sokc1aquud3omfvj8.apps.googleusercontent.com",
+          "client_id": "1031386805680-dm0oa592v9v2op6fnfihm8doandcueao.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "rel.ljw.eummerelease",
-            "certificate_hash": "a162ce9b91eb49b1fc6dd264113e8ae71af86e04"
+            "certificate_hash": "224d88b2c9f7abde3a6ef3fd70b5a534378421fd"
           }
+        },
+        {
+          "client_id": "1031386805680-vamgjnagaer548c85igdh93mckka2f71.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "1031386805680-netlgv9qf581lcfhp1tm8fnphknip1fa.apps.googleusercontent.com",
@@ -52,7 +56,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "1031386805680-netlgv9qf581lcfhp1tm8fnphknip1fa.apps.googleusercontent.com",
+              "client_id": "1031386805680-vamgjnagaer548c85igdh93mckka2f71.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

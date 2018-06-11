@@ -129,7 +129,7 @@ public class ListView extends AppCompatActivity{
         for(int i=0;i<list.length;i++){
             String fileName = list[i].getName().toString();
             Log.d(tag, "정상additem : " + fileName);
-            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.btn_play),        // 플레이버튼
+            adapter.addItem(ContextCompat.getDrawable(this,R.drawable.play_button),        // 플레이버튼
                     fileName,                                                                   // 녹음 파일 이름
                     Constants.getPlayTime(rootSD+"/"+fileName),                           // 녹음파일 재생시간
                     Constants.getCreatedTime(list[i]),                                           // 녹음파일 마지막 수정시간
@@ -278,7 +278,7 @@ public class ListView extends AppCompatActivity{
         //예제에서는 선택된 ListView의 항목(String 문자열) data와 해당 메뉴이름을 출력함
         switch( item.getItemId() ){
             case R.id.changeName:
-                Toast.makeText(this, myList.get(index)+" Change Name", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, myList.get(index)+" Change Name", Toast.LENGTH_SHORT).show();
                 // 이름 새로 받아야함
 //                ((MainActivity)MainActivity.mContext).dbHelper.noName(myList.get(index).toString(), newName);
                 setNewName("");
@@ -370,7 +370,7 @@ public class ListView extends AppCompatActivity{
 
                 break;
             case R.id.delete:
-                Toast.makeText(this, myList.get(index)+" Delete", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, myList.get(index)+"삭제", Toast.LENGTH_SHORT).show();
                 dbHelper.delete(myList.get(index).toString());
                 File file = new File(Constants.getFilePath()+"/"+myList.get(index).toString());
                 Log.d(tag, "delete : " + Constants.getFilePath()+"/"+myList.get(index).toString());
@@ -447,24 +447,24 @@ public class ListView extends AppCompatActivity{
 
 
     public void customDialog(final int index){
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         final String[] ret = {""};
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("Change File Name");
-        alert.setMessage("Plz, input new file name");
+        alert.setTitle("이름 바꾸기");
+        alert.setMessage("바꾸고 싶은 이름을 입력해주세요.");
 
 
         final EditText name = new EditText(this);
         alert.setView(name);
 
-        alert.setNegativeButton("Cancle",new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("취소",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }
         });
 
-        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 ret[0] = name.getText().toString();
                 Log.d(tag, "셋 전 : " + ret[0]);

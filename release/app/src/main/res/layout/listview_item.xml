@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="New Text"
-        android:textColor="#EEEEEE"
+        android:textColor="#fcfbf3"
         android:textSize="18dp" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_marginStart="66dp"
         android:layout_weight="1"
         android:text="playtime"
-        android:textColor="#EEEEEE"
+        android:textColor="#fcfbf3"
         android:textSize="16dp" />
 
 
@@ -53,15 +53,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="38dp"
         android:text="date"
+        android:textColor="#fcfbf3"
         android:textAlignment="viewEnd" />
 
-    <ImageView
-        android:id="@+id/upload_download"
-        android:layout_width="24dp"
-        android:layout_height="18dp"
-        android:layout_alignBottom="@+id/text_view_file_name"
-        android:layout_alignParentEnd="true"
-        android:background="@color/fui_transparent"
-        android:scaleType="centerInside"
-        android:src="@drawable/upload_check" />
+    <!--<ImageView-->
+    <!--android:id="@+id/upload_download"-->
+    <!--android:layout_width="24dp"-->
+    <!--android:layout_height="18dp"-->
+    <!--android:layout_alignBottom="@+id/text_view_file_name"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:background="@color/fui_transparent"-->
+    <!--android:scaleType="centerInside"-->
+    <!--android:src="@drawable/upload_check" />-->
 </RelativeLayout>

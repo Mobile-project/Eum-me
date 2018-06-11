@@ -81,14 +81,14 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time);
         dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
         topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
-        uploadDownload = (ImageView) convertView.findViewById(R.id.upload_download);
+        //uploadDownload = (ImageView) convertView.findViewById(R.id.upload_download);
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 각 항목의 플레이 버튼 눌렀을떄
-                Toast.makeText(context, "play button click : " + pos, Toast.LENGTH_SHORT).show();
+              // Toast.makeText(context, "play button click : " + pos, Toast.LENGTH_SHORT).show();
                 //List<String> memos =
                 Intent intent = new Intent(context, PlayActivity.class);
                 Bundle bundle = new Bundle();
@@ -126,15 +126,15 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
 
         ///// 체크버튼 표시 결정//////
         if (listViewItem.isUploaded() && listViewItem.isDownloaded()) { // TT
-            uploadDownload.setImageResource(R.drawable.cloud_green);
+            //uploadDownload.setImageResource(R.drawable.cloud_green);
             playButton.setClickable(false);
         } else if (listViewItem.isUploaded() && !listViewItem.isDownloaded()) { // TF
-            uploadDownload.setImageResource(R.drawable.download_green);
+            //uploadDownload.setImageResource(R.drawable.download_green);
             playButton.setClickable(false);
         } else if (!listViewItem.isUploaded() && listViewItem.isDownloaded()) { // FT
-            uploadDownload.setImageResource(R.drawable.upload_green);
+            //uploadDownload.setImageResource(R.drawable.upload_green);
         } else { // FF
-            uploadDownload.setImageResource(R.drawable.cloud_black);
+           // uploadDownload.setImageResource(R.drawable.cloud_black);
         }
 
         //        playtime = listViewItem.getPlayTime().replace(":", "");

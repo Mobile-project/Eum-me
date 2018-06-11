@@ -139,18 +139,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         viewPager = findViewById(R.id.view_pager);
         backPressCloseHandler = new BackPressCloseHandler(this);
         /////////구글용
-        findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
+      findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(MainActivity.this).setMessage("Signout ?").setPositiveButton("signout", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mFirebaseAuth.signOut();
-                        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                       // mFirebaseAuth.signOut();
+                       // Auth.GoogleSignInApi.signOut(mGoogleApiClient);
 
                         // 이전 화면으로 가버림
                         // 로그아웃댐
-                        Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+                        Intent intent = new Intent(MainActivity.this, EmailSignInActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+   /*     mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
             Toast.makeText(this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
@@ -179,13 +179,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // TextView usernameTextView = (TextView) findViewById(R.id.username_textview);
             // usernameTextView.setText(mUsername);
 
-            Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, mUsername + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
             // ImageView photoImageView = (ImageView) findViewById(R.id.photo_imageview);
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-
+*/
         // DBHelper 객체 생성
         dbHelper = new DBHelper(this);
         dbHelper.open();
@@ -223,7 +223,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     //  playTime = (int) (endTime - startTime) / 1000;                     // 몇초짜리인지 계산. 초 단위
 
                     fileName = Constants.getPreFileName();          // 기본 이름.
-                    Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
+
+                    EditText txt = fragment.getView().findViewById(R.id.memo_area);
+                    String term = txt.getText().toString();
+                    memoItem memoItem= new memoItem(term,String.valueOf(playTime),viewPager.getCurrentItem());
+                    RecordingSingleton.getInstance().addToArray(viewPager.getCurrentItem(),memoItem);
+
 
                     customDialog();                           // 새 파일 이름 받아오기
 
@@ -294,6 +300,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 } else
                                     Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
                                 break;
+                            case R.id.Dev_info:
+                                if (!isRecording) {
+                                    Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+                                    startActivity(intent);
+                                } else
+                                    Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
+                                break;
 
                         }
                         return true;
@@ -325,43 +338,43 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         ////////////////////// READ FROM FIREBASE /////////////////////
         ///////////////////////////////////////////////////////////////
         // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
-//        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    Log.d(tag, "file name : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
-//
-//                    List<String> listtemp= new ArrayList<>();
-//
-//                    for(DataSnapshot snapbaby : ds.getChildren()){
-//
-//                        if(snapbaby.getKey().equals("createdTime")){
-//                            Log.d(tag, "createdtime 추가 : "+ snapbaby.getValue());
-//                            listtemp.add(snapbaby.getValue().toString());
-//                        }
-//                        if(snapbaby.getKey().equals("playTime")){
-//                            Log.d(tag, "playtime 추가 : "+ snapbaby.getValue());
-//                            listtemp.add(snapbaby.getValue().toString());
-//                        }
-////                        Log.d(tag, "snap baby key : " + snapbaby.getKey());
-////                        Log.d(tag, "snap baby value : " + snapbaby.getValue());
+        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Log.d(tag, "file name : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
+
+                    List<String> listtemp= new ArrayList<>();
+
+                    for(DataSnapshot snapbaby : ds.getChildren()){
+
+                        if(snapbaby.getKey().equals("createdTime")){
+                            Log.d(tag, "createdtime 추가 : "+ snapbaby.getValue());
+                            listtemp.add(snapbaby.getValue().toString());
+                        }
+                        if(snapbaby.getKey().equals("playTime")){
+                            Log.d(tag, "playtime 추가 : "+ snapbaby.getValue());
+                            listtemp.add(snapbaby.getValue().toString());
+                        }
+//                        Log.d(tag, "snap baby key : " + snapbaby.getKey());
+//                        Log.d(tag, "snap baby value : " + snapbaby.getValue());
+                    }
+                    uploadedList.put(ds.getKey(), listtemp);
+//                    if (!uploadedList.contains(ds.getKey())) {
+//                        uploadedList.add(ds.getKey() + ".mp4");
 //                    }
-//                    uploadedList.put(ds.getKey(), listtemp);
-////                    if (!uploadedList.contains(ds.getKey())) {
-////                        uploadedList.add(ds.getKey() + ".mp4");
-////                    }
-////                    uploadedList.add(ds.getKey().toString() + ".mp4");
-//                    Log.d(tag, "getvalue : " + ds.getValue());
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+//                    uploadedList.add(ds.getKey().toString() + ".mp4");
+                    Log.d(tag, "getvalue : " + ds.getValue());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
     }
@@ -376,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         ////////////////////// READ FROM FIREBASE /////////////////////
         ///////////////////////////////////////////////////////////////
         // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
-        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+       /* databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
@@ -414,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             }
         });
-
+*/
     }
 
 
@@ -457,11 +470,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     ////////////// 이름 변경 다이얼로그 ///////////////
     //////////////////////////////////////////////
     public void customDialog() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("파일 이름 입력");
-//        alert.setMessage("Plz, input yourname");
+        alert.setMessage("저장하고 싶은 이름을 입력하세요");
 
         final EditText name = new EditText(this);
         alert.setView(name);
@@ -500,10 +513,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         File fileNow = new File(Constants.getFilePath() + "/", newName + ".mp4");
 
         if (filePre.renameTo(fileNow)) {
-             Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
+             //Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
 
         } else {
-             Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
 

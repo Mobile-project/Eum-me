@@ -20,8 +20,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -34,6 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import rel.ljw.eummerelease.Model.Constants;
+import rel.ljw.eummerelease.Model.DBHelper;
+import rel.ljw.eummerelease.Model.RecordingMataData;
+import rel.ljw.eummerelease.Model.memoItem;
 import rel.ljw.eummerelease.Presenter.ListViewAdapter;
 import rel.ljw.eummerelease.R;
 
@@ -53,6 +59,14 @@ public class ListViewFirebase extends AppCompatActivity {
 
     List list;
 
+    List memolist = new ArrayList();
+    List memoindexlist = new ArrayList();
+    List memotimelist = new ArrayList();
+
+    DBHelper mDBHelper;
+
+    List<RecordingMataData> metaList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +76,9 @@ public class ListViewFirebase extends AppCompatActivity {
         Log.d(tag, "size: " + set.size());
 
         list = new ArrayList();     // 업로드된 파일 이름 담는 배열
+
+        mDBHelper = new DBHelper(this);             /////////////////
+        mDBHelper.open();
 
         adapterFB = new ListViewAdapter();
         listviewFB = findViewById(R.id.listview1);
@@ -85,7 +102,7 @@ public class ListViewFirebase extends AppCompatActivity {
             for(String value : set.get(fileName)){
                 temp.add(value);
             }
-            adapterFB.addItem(ContextCompat.getDrawable(this,R.drawable.cow),
+            adapterFB.addItem(ContextCompat.getDrawable(this,R.drawable.play_button),
                     t,
                     temp.get(1),
                     temp.get(0),
@@ -139,6 +156,87 @@ public class ListViewFirebase extends AppCompatActivity {
         registerForContextMenu(listviewFB);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(tag, "resuem Resume");
+        ///////////////////////////////////////////////////////////////
+        ////////////////////// READ FROM FIREBASE /////////////////////
+        ///////////////////////////////////////////////////////////////
+        // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
+        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(tag, "파일 개수 : " + dataSnapshot.getChildrenCount());
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Log.d(tag, "file name : " + ds.getKey());                    // 업로드한 파일이름 뽑아오기
+
+                    List<String> memotemp = new ArrayList();
+                    List<String> memoindextemp = new ArrayList();
+                    List<String> memotimetemp = new ArrayList();
+
+                    for(DataSnapshot snapbaby : ds.getChildren()){
+
+                        if(snapbaby.getKey().equals("createdTime")){
+                            Log.d(tag, "createdtime 추가 : "+ snapbaby.getValue());
+//                            listtemp.add(snapbaby.getValue().toString());
+                        }
+                        if(snapbaby.getKey().equals("playTime")){
+                            Log.d(tag, "playtime 추가 : "+ snapbaby.getValue());
+//                            listtemp.add(snapbaby.getValue().toString());
+                        }
+                        if(snapbaby.getKey().equals("memo")){
+                            for(DataSnapshot baby : snapbaby.getChildren()){
+                                memotemp.add(baby.getValue().toString());
+                                Log.d(tag, "메모 추가 : " + baby.getValue());
+                            }
+                        }
+                        if(snapbaby.getKey().equals("memoIndex")){
+                            for(DataSnapshot baby : snapbaby.getChildren()){
+                                if(baby.getValue().toString().equals("")) {
+                                    memoindextemp.add("0");
+                                }
+                                else{
+                                    memoindextemp.add(baby.getValue().toString());
+                                }
+                                Log.d(tag, "메모인덱스 추가 : " + baby.getValue());
+                            }
+                        }
+                        if(snapbaby.getKey().equals("memoTime")){
+                            for(DataSnapshot baby : snapbaby.getChildren()){
+                                memotimetemp.add(baby.getValue().toString());
+                                Log.d(tag, "메모타임 추가 : " + baby.getValue());
+                            }
+                        }
+//                        Log.d(tag, "snap baby key : " + snapbaby.getKey());
+//                        Log.d(tag, "snap baby value : " + snapbaby.getValue());
+                    }
+
+                    List<memoItem> memoitemlisttemp = new ArrayList<>();
+                    int len = memotemp.size();
+
+                    for(int i=0;i<len; i++){
+                        memoItem itemtemp = new memoItem(memotemp.get(i), memotimetemp.get(i), Integer.parseInt(memoindextemp.get(i)));
+                        memoitemlisttemp.add(itemtemp);
+                    }
+
+                    RecordingMataData temp = new RecordingMataData(ds.getKey().toString(), memoitemlisttemp);
+                    metaList.add(new RecordingMataData(ds.getKey(), memoitemlisttemp));
+                    Log.d(tag, "getvalue : " + ds.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
     //Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -163,7 +261,8 @@ public class ListViewFirebase extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "download", Toast.LENGTH_SHORT).show();
                 String filename = list.get(index).toString();
                 downLoad(filename, index);
-                deleteRealtimeDB(filename);
+                insertToDB(filename);
+                /////////
                 break;
             case R.id.delete:
                 Toast.makeText(getApplicationContext(), "delete", Toast.LENGTH_SHORT).show();
@@ -193,8 +292,8 @@ public class ListViewFirebase extends AppCompatActivity {
         progressDialog.onStart();
         Log.d(tag, "다운받을 파일 : " + fileName);
         StorageReference storageRef = storage.getReference();
-        StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName);
-        Log.d(tag, "파베에 파일 위치 : " + "users/" + Constants.getUserUid() + "/Recording/" + fileName);
+        StorageReference islandRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName+".mp4");
+        Log.d(tag, "파베에 파일 위치 : " + "users/" + Constants.getUserUid() + "/Recording/" + fileName+".mp4");
         File localFile=null;
         try{
             localFile = File.createTempFile("temp", ".mp4", Environment.getExternalStorageDirectory());
@@ -249,7 +348,7 @@ public class ListViewFirebase extends AppCompatActivity {
     public void moveFile(File from, String name) {
 //        File file = new File("D:\\Test.java");
         File file = from;
-        File file2 = new File(Constants.getFilePath()+"/"+name);//이동
+        File file2 = new File(Constants.getFilePath()+"/"+name+".mp4");//이동
 
         if(file.exists()) {
             Log.d(tag, "이동 완료");
@@ -258,7 +357,7 @@ public class ListViewFirebase extends AppCompatActivity {
         }
     }
 
-    public void delete(String fileName, final int idx){
+    public void delete(final String fileName, final int idx){
         StorageReference storageRef = storage.getReference();
         StorageReference desertRef = storageRef.child("users/" + Constants.getUserUid() + "/Recording/" + fileName+".mp4");
         Log.d(tag, "delete : " + fileName);
@@ -271,6 +370,8 @@ public class ListViewFirebase extends AppCompatActivity {
                 list.remove(idx);
                 adapterFB.deleteItem(idx);
                 adapterFB.notifyDataSetChanged();
+                deleteRealtimeDB(fileName);
+
                 // File deleted successfully
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -284,11 +385,33 @@ public class ListViewFirebase extends AppCompatActivity {
         });
     }
 
-
     public void deleteRealtimeDB(String fileName){
 
         Log.d(tag, "delete in db  : " + fileName);
         databaseReference.child(Constants.getUserUid()).child(fileName).setValue(null);
 
     }
+
+    public void insertToDB(String fileName){
+        Log.d(tag, "insert to db : " + fileName);
+        int len = metaList.size();
+        for(int i=0;i<len; i++){
+            Log.d(tag, "filename test : " + metaList.get(i).getFileName());
+            if(metaList.get(i).getFileName().equals(fileName.toString())){
+                Log.d(tag, "file name : " + fileName);
+                List<memoItem> temp = metaList.get(i).getMemoItemList();
+                int len2 = temp.size();
+                Log.d(tag, "len 2 : " + len2);
+                for(int j=0;j<len2;j++){
+                    Log.d(tag, "memo : " + temp.get(j).getMemo());
+                    Log.d(tag, "time : " + temp.get(j).getMemoTime());
+                    Log.d(tag, "index : " + temp.get(j).getMemoIndex());
+                    mDBHelper.insert(fileName+".mp4", temp.get(j).getMemo(), temp.get(j).getMemoTime(), temp.get(j).getMemoIndex());
+                }
+            }
+        }
+    }
+
+
+
 }

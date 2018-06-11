@@ -2,6 +2,7 @@ package rel.ljw.eummerelease.Presenter;
 
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import rel.ljw.eummerelease.Model.memoItem;
 import rel.ljw.eummerelease.View.PlayingFragment;
 
-public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
+public class PlayViewPagerAdapter extends FragmentPagerAdapter {
 
     public static boolean check = false;
     public static boolean mode = false;
