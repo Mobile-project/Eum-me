@@ -509,7 +509,7 @@ public class ListView extends AppCompatActivity{
 
         // 상태바표시
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("방목 시키는중...");
+        progressDialog.setTitle("내보내는중...");
         progressDialog.show();
         progressDialog.onStart();
         Log.d(tag, "after uploading...");
