@@ -45,14 +45,8 @@ public class RecordingSingleton {
     }
 
     public boolean check(int index){
-
-        if(memoItemList.containsKey(index)){
-            //있으면 true
-            return true;
-        }
-        else
-            //없으면 false
-            return false;
+        //있으면 true 없으면 false
+        return memoItemList.containsKey(index);
     }
 
     public void reset(int index, String modifiedMemo){

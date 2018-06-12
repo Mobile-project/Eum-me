@@ -100,7 +100,6 @@ public class DBHelper {
     public void delete(String file_name) {
         mDB = mDBHelper.getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제
-//        db.execSQL("DELETE FROM RECORDINGMEMO WHERE item='" + item + "';");
         mDB.execSQL(String.format("DELETE FROM %s WHERE %s = '%s'",DBInfo.CreateDB._TABLENAME,DBInfo.CreateDB.FILE_NAME,file_name));
     }
 

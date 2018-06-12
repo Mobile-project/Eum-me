@@ -76,11 +76,11 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
 //        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.btn_play) ;
 //        LinearLayout fileNameContainer = (LinearLayout) convertView.findViewById(R.id.file_name_container);
-        playButton = (ImageView) convertView.findViewById(R.id.btn_play);
-        titleTextView = (TextView) convertView.findViewById(R.id.text_view_file_name);
-        playTimeTextView = (TextView) convertView.findViewById(R.id.text_view_play_time);
-        dateTextView = (TextView) convertView.findViewById(R.id.text_view_date);
-        topContainer = (RelativeLayout) convertView.findViewById(R.id.top_container);
+        playButton = convertView.findViewById(R.id.btn_play);
+        titleTextView = convertView.findViewById(R.id.text_view_file_name);
+        playTimeTextView = convertView.findViewById(R.id.text_view_play_time);
+        dateTextView = convertView.findViewById(R.id.text_view_date);
+        topContainer = convertView.findViewById(R.id.top_container);
         //uploadDownload = (ImageView) convertView.findViewById(R.id.upload_download);
 
 
@@ -99,20 +99,6 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
             }
         });
 
-//        playButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d(tag, "play button click : " + pos);
-//                Toast.makeText(context, "play button click : " + pos,Toast.LENGTH_SHORT).show();
-//
-//                Intent intent = new Intent(context, PlayActivity.class);
-//                Bundle bundle = new Bundle();
-//                Log.d(tag, listViewItemList.get(pos).getFileName());
-//                bundle.putString("fileName", listViewItemList.get(pos).getFileName());
-//                intent.putExtras(bundle);
-//                context.startActivity(intent);
-//            }
-//        });
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
@@ -136,13 +122,6 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         } else { // FF
            // uploadDownload.setImageResource(R.drawable.cloud_black);
         }
-
-        //        playtime = listViewItem.getPlayTime().replace(":", "");
-//        duration = Integer.parseInt(playtime);
-//        seconds = duration % 100;
-//        minutes = (duration - seconds) % 100;
-//        hours = (duration / 10000);
-//        playTimeTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 
 
         return convertView;

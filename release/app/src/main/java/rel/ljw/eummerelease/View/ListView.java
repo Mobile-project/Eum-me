@@ -51,9 +51,6 @@ public class ListView extends AppCompatActivity{
     private List myListDate;
     String tag = "myListViewActivity";
 
-//    public HashSet<String> uploadedList = new HashSet<String>();
-
-    //////////////////////////////////////////////////////////////
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     // Create a storage reference from our app
@@ -69,30 +66,21 @@ public class ListView extends AppCompatActivity{
     public android.widget.ListView listview ;
 
     File list[];
-    //////////////////////////////////////////////////////////////
+
 
     String newName="";
     public DBHelper dbHelper;
 
-    ////////////////////////////////////////////////////////////////////////
-    //////////////////////Reaf Time Database////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();     // 읽기 작업용?
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    //////////////////검색////////////////
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view);
-        /////////////다운로드 테스트용////
-//        downLoad("fu2.mp4");
-        /////////////////////////////
 
-//        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 : " + uploadedList.size());
 
         myList = new ArrayList();
         myListDate = new ArrayList();
@@ -121,10 +109,8 @@ public class ListView extends AppCompatActivity{
         dbHelper.open(); // 디비오픈
 
         // 리스트뷰 참조 및 Adapter달기
-        listview = (android.widget.ListView) findViewById(R.id.listview1);
+        listview = findViewById(R.id.listview1);
         listview.setAdapter(adapter);
-//        Log.d(tag, "지금 내가 시발 당장 가지고 있는거 141: " + uploadedList.size());
-
         // 아이템 추가
         for(int i=0;i<list.length;i++){
             String fileName = list[i].getName().toString();
@@ -173,16 +159,6 @@ public class ListView extends AppCompatActivity{
             }
         });
 
-//        listviewFB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView parent, View v, int position, long id) {
-//                // get item
-//                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
-//                Log.d(tag, "item click listener");
-//                Toast.makeText(getApplicationContext(), "item num : " + position, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }) ;
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -197,9 +173,6 @@ public class ListView extends AppCompatActivity{
         // 컨텍스트 메뉴 등록
         registerForContextMenu(listview);
 
-        ////////////////////////////////////////////////////////////////////////
-        //////////////////////Reaf Time Database////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
 
         // message는 child의 이벤트를 수신합니다.
         databaseReference.child(Constants.getUserName()+":"+Constants.getUserUid()).addChildEventListener(new ChildEventListener() {
@@ -216,10 +189,7 @@ public class ListView extends AppCompatActivity{
                 Log.d(tag, "leng : " + dataSnapshot.getChildrenCount());
                 Log.d(tag, "dataSnapshot.getKey() : " + dataSnapshot.getKey()); // 파일 네임
 
-//                Iterator iterator = uploadedList.iterator();
-//                while (iterator.hasNext()) {
-//                    Log.d(tag, "getUploadList() : " + iterator.next());
-//                }
+
 
 
                 for( DataSnapshot snapshot : dataSnapshot.getChildren() ) {
@@ -245,14 +215,10 @@ public class ListView extends AppCompatActivity{
 
             }
         });
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+
 
     }
 
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
 
 
     //Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
@@ -284,15 +250,7 @@ public class ListView extends AppCompatActivity{
                 setNewName("");
                 customDialog(index);    // 이름 받는 다이얼로그
 
-//                if(!newName.equals("")){
-////                    Log.d(tag, "이프문에 들어왔다.");
-////                    nameChange(myList.get(index).toString(), newName);      // 이름 변경
-////                    adapter.nameChange(index, newName+".mp4");
-////                    adapter.notifyDataSetChanged();
-//                } else{
-//                    Log.d(tag, "엘스문이다.");
-//
-//                }
+
 
                 // 파일 이름 바꾸는 함수
                 break;
@@ -350,9 +308,7 @@ public class ListView extends AppCompatActivity{
                         }
                     } else { // 메모가 없다.
 
-//                        databaseReference.child(uid).child(fn).child("memo").push().setValue(memo);
-//                        databaseReference.child(uid).child(fn).child("memoTime").push().setValue(memotime);
-//                        databaseReference.child(uid).child(fn).child("memoIndex").push().setValue(memoindex);
+
                         memolist.add("");
                         memotimelist.add("");
                         memoindexlist.add("");
@@ -384,26 +340,11 @@ public class ListView extends AppCompatActivity{
                 adapter.deleteItem(index);
                 adapter.notifyDataSetChanged();
 
-                /////////////////////////
-                // 바로 갱신 안댐 //////////
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        //reload content
-//
-//                        myList.remove(index);
-//                        adapter.notifyDataSetChanged();
-//                        listviewFB.invalidateViews();
-//                        listviewFB.refreshDrawableState();
-//                    }
-//                });
-                /////////////////////////
-                /////////////////////////
-
 
                 break;
         }
         return true;
-    };
+    }
 
 
 //    //ListView의 아이템 하나가 클릭되는 것을 감지하는 Listener객체 생성 (Button의 OnClickListener와 같은 역할)
@@ -422,10 +363,6 @@ public class ListView extends AppCompatActivity{
 //        }
 //
 //    };
-
-
-
-
 
     public void nameChange(String preName, String newName){
         Log.d(tag, "in name change : " +Constants.getFilePath()+"/"+ preName);
@@ -486,11 +423,6 @@ public class ListView extends AppCompatActivity{
     }
 
 
-
-
-    //////////////////////////////////////////////////////////////
-    ///////////////////////FIRE BASE UPLOAD///////////////////////
-    //////////////////////////////////////////////////////////////
     public void upLoad(String fileName, int idx) {
         UploadTask uploadTask;
         filePath = Uri.parse(Constants.getFilePath() + "/" + fileName);                                 // 올라갈 파일 경로

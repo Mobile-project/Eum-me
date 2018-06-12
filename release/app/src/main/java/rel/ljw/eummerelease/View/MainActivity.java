@@ -69,23 +69,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String mPhotoUrl;
     ////////////
 
-    //////////////////////////////////////////////////
-    //////////// FIREBASE REFERENCE///////////////////
-    //////////////////////////////////////////////////
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     // Create a storage reference from our app
     //참조를 만들려면 FirebaseStorage 싱글톤 인스턴스를
     // 사용하고 이 인스턴스의 getReference() 메소드를 호출합니다.
     StorageReference storageRef = storage.getReference();
-    ////////////////////////////////////////////////////////////////////////
-    //////////////////////Reaf Time Database////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();     // 읽기 작업용?
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-//    public HashSet<String> uploadedList = new HashSet<String>();
+
     public HashMap<String, List<String>> uploadedList = new HashMap<>();
 
 
@@ -133,9 +126,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.content_list);
 
         option = findViewById(R.id.options);
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        chronometer = findViewById(R.id.chronometer);
         title = findViewById(R.id.name);
-        buttonRecord = (ImageButton) findViewById(R.id.btn_record);
+        buttonRecord = findViewById(R.id.btn_record);
         viewPager = findViewById(R.id.view_pager);
         backPressCloseHandler = new BackPressCloseHandler(this);
         /////////구글용
@@ -233,12 +226,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     customDialog();                           // 새 파일 이름 받아오기
 
-//     * _id              INTEGER     무시하는 프라이머리 키
-//     * file_name        TEXT        녹음 파일 이름
-//     * memo             TEXT        메모 내용
-//     * memo_time        TEXT        메모한 시간
-//     * memo_index       INTEGER     몇번째 메모인지
-
                 }
             }
         });
@@ -310,23 +297,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                         }
                         return true;
-//                        String id = item.getTitle().toString();
-//                        if (id.equals("Fire Base")) {
-//                            if(!isRecording){
-//                                Intent intent = new Intent(getApplicationContext(), ListViewFirebase.class);
-//                                intent.putExtra("set", uploadedList);
-//                                startActivity(intent);
-//                            } else
-//                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
-//                        }
-//                        if (id.equals("Local")) {
-//                            if (!isRecording) {
-//                                Intent intent = new Intent(getApplicationContext(), ListView.class);
-//                                startActivity(intent);
-//                            } else
-//                                Toast.makeText(getApplicationContext(), "녹음을 중지시켜주세요", Toast.LENGTH_SHORT).show();
-//                        }
-//                        return false;
+
                     }
                 });
                 p.show(); // 메뉴를 띄우기
@@ -334,9 +305,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
 
-        ///////////////////////////////////////////////////////////////
-        ////////////////////// READ FROM FIREBASE /////////////////////
-        ///////////////////////////////////////////////////////////////
         // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
         databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -385,9 +353,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onResume() {
         super.onResume();
         Log.d(tag, "resuem Resume");
-        ///////////////////////////////////////////////////////////////
-        ////////////////////// READ FROM FIREBASE /////////////////////
-        ///////////////////////////////////////////////////////////////
+
         // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
        databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -463,12 +429,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(tag, "onConnectionFailed:" + connectionResult);
     }
-    ////////////////////////
 
-
-    //////////////////////////////////////////////
-    ////////////// 이름 변경 다이얼로그 ///////////////
-    //////////////////////////////////////////////
     public void customDialog() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -503,9 +464,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
 
-    //////////////////////////////////////////////
-    //////////////// 이름 변경 /////////////////////
-    //////////////////////////////////////////////
     public void nameChange(String preName, String newName) {
         //Log.d(tag, "in name change preName : " + preName);
         // Log.d(tag, "in name change newName : " + newName);
@@ -513,14 +471,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         File fileNow = new File(Constants.getFilePath() + "/", newName + ".mp4");
 
         if (filePre.renameTo(fileNow)) {
-             //Toast.makeText(getApplicationContext(), "변경 성공", Toast.LENGTH_SHORT).show();
 
         } else {
-            // Toast.makeText(getApplicationContext(), "변경 실패", Toast.LENGTH_SHORT).show();
         }
 
 
-//        dbHelper.reName(preName, newName + ".mp4");
     }
 
     public void addMemoItemListToDB(String filename) {

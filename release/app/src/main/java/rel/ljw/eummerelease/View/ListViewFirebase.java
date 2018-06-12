@@ -110,18 +110,6 @@ public class ListViewFirebase extends AppCompatActivity {
                     false);
         }
 
-//        Iterator<String> filename = set.iterator();
-//        while(filename.hasNext()){
-//            String t = filename.next();
-//            list.add(t);    // 업로드된 파일이름 리스트에 추가
-//            adapterFB.addItem(ContextCompat.getDrawable(this,R.drawable.cow),
-//                    t,
-//                    null,
-//                    null,
-//                    true,
-//                    false);
-//        }
-
         listviewFB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //ListView의 아이템 중 하나가 클릭될 때 호출되는 메소드
             //첫번째 파라미터 : 클릭된 아이템을 보여주고 있는 AdapterView 객체(여기서는 ListView객체)
@@ -130,10 +118,6 @@ public class ListViewFirebase extends AppCompatActivity {
             //네번재 파리미터 : 클릭된 아이템의 아이디(특별한 설정이 없다면 세번째 파라이터인 position과 같은 값)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // get item
-                //ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
-                //클릭된 아이템의 위치를 이용하여 데이터인 문자열을 Toast로 출력
-//                Toast.makeText(getApplicationContext(), myList.get(position).toString(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,9 +145,7 @@ public class ListViewFirebase extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(tag, "resuem Resume");
-        ///////////////////////////////////////////////////////////////
-        ////////////////////// READ FROM FIREBASE /////////////////////
-        ///////////////////////////////////////////////////////////////
+
         // 파베에서 데이터 읽어서 웹에 있는애들 가져옴.
         databaseReference.child(Constants.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -180,11 +162,9 @@ public class ListViewFirebase extends AppCompatActivity {
 
                         if(snapbaby.getKey().equals("createdTime")){
                             Log.d(tag, "createdtime 추가 : "+ snapbaby.getValue());
-//                            listtemp.add(snapbaby.getValue().toString());
                         }
                         if(snapbaby.getKey().equals("playTime")){
                             Log.d(tag, "playtime 추가 : "+ snapbaby.getValue());
-//                            listtemp.add(snapbaby.getValue().toString());
                         }
                         if(snapbaby.getKey().equals("memo")){
                             for(DataSnapshot baby : snapbaby.getChildren()){
@@ -209,8 +189,6 @@ public class ListViewFirebase extends AppCompatActivity {
                                 Log.d(tag, "메모타임 추가 : " + baby.getValue());
                             }
                         }
-//                        Log.d(tag, "snap baby key : " + snapbaby.getKey());
-//                        Log.d(tag, "snap baby value : " + snapbaby.getValue());
                     }
 
                     List<memoItem> memoitemlisttemp = new ArrayList<>();
@@ -234,7 +212,6 @@ public class ListViewFirebase extends AppCompatActivity {
         });
 
     }
-
 
 
     //Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
@@ -270,17 +247,7 @@ public class ListViewFirebase extends AppCompatActivity {
                 break;
         }
         return true;
-    };
-
-
-
-
-
-
-
-    //////////////////////////////////////////////////////////////
-    ///////////////////////FIRE BASE DOWNLOAD/////////////////////
-    //////////////////////////////////////////////////////////////
+    }
 
 
     public void downLoad(String fileName, int idx){
@@ -313,11 +280,7 @@ public class ListViewFirebase extends AppCompatActivity {
                 Log.d(tag, "다운로드 완료");
                 Log.d(tag, "파일 위치 : " + finalLocalFile.getPath());
                 moveFile(finalLocalFile, finalFileName);
-//                moveFile(finalLocalFile, finalFileName);
-//                adapterFB.deleteItem(finalIdx);
                 adapterFB.modifyIsDownloded(finalIdx, true);
-///////////////////////////////////////////////////
-
 
                 adapterFB.notifyDataSetChanged();
                 progressDialog.dismiss();

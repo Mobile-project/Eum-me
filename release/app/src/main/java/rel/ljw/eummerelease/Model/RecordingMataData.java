@@ -35,40 +35,5 @@ public class RecordingMataData {
         this.memoItemList = memoItemList;
     }
 
-    //
-//    List<memoItem> memoItem;
-////    memoItem[] memoItem;
-//    int playTime;
-//    String createdTime;
-//
-//
-//    public RecordingMataData(List<com.sample.andremion.musicplayer.Model.memoItem> memoItem, int playTime, String createdTime) {
-//        this.memoItem = memoItem;
-//        this.playTime = playTime;
-//        this.createdTime = createdTime;
-//    }
-//
-//    public List<com.sample.andremion.musicplayer.Model.memoItem> getMemoItem() {
-//        return memoItem;
-//    }
-//
-//    public void setMemoItem(List<com.sample.andremion.musicplayer.Model.memoItem> memoItem) {
-//        this.memoItem = memoItem;
-//    }
-//
-//    public int getPlayTime() {
-//        return playTime;
-//    }
-//
-//    public void setPlayTime(int playTime) {
-//        this.playTime = playTime;
-//    }
-//
-//    public String getCreatedTime() {
-//        return createdTime;
-//    }
-//
-//    public void setCreatedTime(String createdTime) {
-//        this.createdTime = createdTime;
-//    }
+
 }
