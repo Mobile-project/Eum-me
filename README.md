@@ -5,7 +5,7 @@
    the recording will skip to the point where the note was created 
 
 ### Screenshot 
-<img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_main.jpg" width="200" > <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_permission.png" width="200"> <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_permission2.png" width="200"> <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_list.jpg" width="200"> <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_playing.jpg" width="200">
+<img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_main.jpg" width="200" > <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_permission.png" width="200"> <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_list.jpg" width="200"> <img src = "https://github.com/Mobile-project/Eum-me/blob/master/Eumme_playing.jpg" width="200">
 
 
 
